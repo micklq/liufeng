@@ -23,7 +23,7 @@ public class EhCacheServiceTest extends BaseTest {
 	@Test  
     public void getTimestampTest() throws InterruptedException{  
         System.out.println("第一次调用：" + ehCacheTestService.getTimestamp("param"));
-        Thread.sleep(2000);
+        Thread.sleep(2000); 
         System.out.println("2秒之后调用：" + ehCacheTestService.getTimestamp("param"));
         Thread.sleep(10000);
         System.out.println("再过10秒之后调用：" + ehCacheTestService.getTimestamp("param"));
