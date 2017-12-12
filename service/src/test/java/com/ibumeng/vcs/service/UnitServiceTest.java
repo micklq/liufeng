@@ -102,7 +102,7 @@ public class UnitServiceTest extends BaseTest {
 				System.out.println("findAllByMappertestsMapperService==="+o.getId()+">>"+o.getName().toString());	
 				
 			}
-		}  //aa
+		}  
 		
 		List<Tests> tlist3 = testsService.queryAllByMapper();		
 		if(tlist3!=null && tlist3.size()>0 ){				
