@@ -9,12 +9,10 @@ import org.springframework.data.jpa.repository.Query;
 import com.ibumeng.vcs.model.entity.Permission;
 
 /**
- * Created by djyin on 7/19/2014.
+ * Created by mick on 12/19/2017.
  */
 @Resource(name = "permissionRepository")
 public interface PermissionRepository extends BaseRepository<Permission, Long> {
+
 	
-	public List<Permission> findByPid(Long pid);
-
-
 }

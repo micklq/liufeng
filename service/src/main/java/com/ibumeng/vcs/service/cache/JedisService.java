@@ -11,15 +11,15 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ibumeng.vcs.service.ReflectionService;
-
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Response;
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPipeline;
 import redis.clients.jedis.ShardedJedisPool;
+
 import com.ibumeng.vcs.base.NoRedis;
 import com.ibumeng.vcs.base.util.BeanUtils;
+import com.ibumeng.vcs.service.ReflectionService;
 
 @Service("jedisService")
 public class JedisService {
@@ -32,59 +32,103 @@ public class JedisService {
 	private static final double maxTime = 9999999999999d;
 
 	@Autowired
-	private ShardedJedisPool shardedJedisPool;
-
-	//@Value("${loginExpireTime}")    
+	protected ShardedJedisPool shardedJedisPool;
+	
 	private int loginExpireTime = 24*3600;  //默认登陆过期1天
 
 	public boolean setIfNotExists(String key) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			Long result = jedis.setnx(key, DEFAULT_INCR_VALUE);
 			jedis.expire(key, DEFAULT_EXPIRE_TIME);
 			if (result == 0) {
 				return false;
 			}
-		} finally {
+		}catch (Exception e) {
+			e.printStackTrace();			
+			return false;
+		}  finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 		return true;
 	}
 
 	public int incr(String key) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.incr(key).intValue();
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();			
+			return 0;
+		}finally {
+			shardedJedisPool.returnResource(jedis);
+		}
+	}
+	
+	public int decr(String key) {
+		ShardedJedis jedis = null;
+		try {
+			jedis = shardedJedisPool.getResource();
+			return jedis.decr(key).intValue();
+		} catch (Exception e) {
+			e.printStackTrace();			
+			return 0;
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
 	
 
 	public boolean keyExists(String key) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.exists(key);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();			
+			return false;
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
 	
 	
 	public String get(String key) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.get(key);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();			
+			return null;
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
 
 	public void set(String key, String value) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			jedis.set(key, value);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();			
+			
+		}finally {
+			shardedJedisPool.returnResource(jedis);
+		}
+	}
+	public void set(String key, String value, int seconds) {
+		ShardedJedis jedis = null;
+		try {
+			jedis = shardedJedisPool.getResource();
+			jedis.set(key, value);
+			jedis.expire(key, seconds);
+		} catch (Exception e) {
+			e.printStackTrace();				
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
@@ -95,28 +139,53 @@ public class JedisService {
 	 * @param value
 	 */
 	public void setAuthLoginCode(String key, String value) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			jedis.set(key, value);
 			jedis.expire(key, AUTHLOGINCODE_EXPIRE_TIME);
-		} finally { 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally { 
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
 
-	public void expire(String key,int expireAt){
-		ShardedJedis jedis = shardedJedisPool.getResource();
+	/**
+	 * 为给定key设置生存时间(秒)。当key过期时，它会被自动删除。 
+	 * @param key
+	 * 		缓存键
+	 * @param seconds
+	 * 		过期时间，单位：秒
+	 */
+	public void expire(String key,int seconds){
+		ShardedJedis jedis = null;
 		try {
-			jedis.expire(key, expireAt);
-		} finally { 
+			jedis = shardedJedisPool.getResource();
+			jedis.expire(key, seconds);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally { 
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
 	
+	/**
+	 * 为给定key设置生存时间(UNIX时间戳)。当key过期时，它会被自动删除。 
+	 * 
+	 * @param key
+	 * 		缓存键
+	 * @param unixTime
+	 * 		UNIX时间戳
+	 */
+	
 	public void expireAt(String key,Long unixTime){
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			jedis.expireAt(key, unixTime);
+		} catch (Exception e) {
+			e.printStackTrace();
 		} finally { 
 			shardedJedisPool.returnResource(jedis);
 		}
@@ -124,9 +193,13 @@ public class JedisService {
 
 
 	public long delete(String key) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.del(key);
+		} catch (Exception e) {
+			e.printStackTrace();			
+			return 0;
 		} finally {
 			shardedJedisPool.returnResource(jedis);
 		}
@@ -136,9 +209,13 @@ public class JedisService {
 	 * 从List中取出所有数据
 	 */
 	public List<String> getValuesFromList(String key) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.lrange(key, 0, -1);
+		} catch (Exception e) {
+			e.printStackTrace();			
+			return null;
 		} finally {
 			shardedJedisPool.returnResource(jedis);
 		}
@@ -148,10 +225,14 @@ public class JedisService {
 	 * 从List中取出所有数据指定范围的item
 	 */
 	public List<String> getValuesFromList(String key,long start,long end) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.lrange(key,start,end);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();			
+			return null;
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
@@ -162,29 +243,38 @@ public class JedisService {
 	 * 
 	 */
 	public void setValueToListHead(int listSize,String key,String ... value) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			jedis.lpush(key,value);
 			jedis.ltrim(key,0,listSize-1); //保留0到listSize的元素，删除其它元素
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();	
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
 	
 	public void setValueToList(String key,String ... value){
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			jedis.lpush(key,value);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();	
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
 	
 	public void setValueToListRear(String key,String ... value){
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			jedis.rpush(key,value);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();	
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
@@ -194,11 +284,15 @@ public class JedisService {
 	 * 
 	 */
 	public String setValueToListHeadAndGetLindexItem(int listSize,String key,String value,int lindex) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			jedis.lpush(key,value);
 			jedis.ltrim(key,0,listSize-1); //保留0到listSize的元素，删除其它元素
 			return jedis.lindex(key,lindex);
+		} catch (Exception e) {
+			e.printStackTrace();			
+			return null;
 		} finally {
 			shardedJedisPool.returnResource(jedis);
 		}
@@ -208,10 +302,14 @@ public class JedisService {
 	 * 获取指定key的SortedSet集合大小
 	 */
 	public long getSortedSetSizeFromShard(String key) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.zcard(key);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();			
+			return 0;
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
@@ -220,10 +318,14 @@ public class JedisService {
 	 * 获取指定key的Set集合大小
 	 */
 	public long getSetSizeFromShard(String key) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.scard(key);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();			
+			return 0;
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
@@ -232,10 +334,14 @@ public class JedisService {
 	 * 获取指定key的大于start的SortedSet集合 in shard,倒序
 	 */
 	public Set<String> getSortedSetFromShardByDesc(String key,long start) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.zrevrangeByScore(key,maxTime,start);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();			
+			return null;
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
@@ -244,9 +350,13 @@ public class JedisService {
 	 * 获取指定key的SortedSet集合 in shard,倒序
 	 */
 	public Set<String> getSortedSetFromShardByDesc(String key) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.zrevrange(key, 0, -1);
+		}catch (Exception e) {
+			e.printStackTrace();			
+			return null;
 		} finally {
 			shardedJedisPool.returnResource(jedis);
 		}
@@ -256,10 +366,14 @@ public class JedisService {
 	 * 获取指定key的SortedSet集合 in shard,倒序
 	 */
 	public Set<String> getSortedSetFromShardByDesc(String key,long start,long end) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.zrevrange(key,start,end);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();			
+			return null;
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
@@ -268,10 +382,14 @@ public class JedisService {
 	 * 获取指定key的Set集合
 	 */
 	public Set<String> getSetFromShard(String key) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.smembers(key);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();			
+			return null;
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
@@ -281,10 +399,14 @@ public class JedisService {
 	 * 获取指定key,score范围的SortedSet集合
 	 */
 	public Set<String> getSortedSetByScore(String key,Long min,Long max) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.zrangeByScore(key, min, max);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();			
+			return null;
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
@@ -294,10 +416,13 @@ public class JedisService {
 	 * 
 	 */
 	public void setValueToSortedSetInShard(String key,double score,String value) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			jedis.zadd(key, score, value);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
@@ -307,8 +432,9 @@ public class JedisService {
 	 * 
 	 */
 	public Set<String> setValueToSortedSetAndDelReturnInShard(String key,double score,String value, int sortCount,int returnIndex) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			jedis.zadd(key, score, value);
 			long sortedSetSize = getSortedSetSizeFromShard(key);
 			Set<String> returnValue = null;
@@ -320,7 +446,10 @@ public class JedisService {
 				returnValue = jedis.zrevrange(key,returnIndex,returnIndex);
 			}
 			return returnValue;
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();			
+			return null;
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
@@ -330,11 +459,14 @@ public class JedisService {
 	 * 
 	 */
 	public void setValueToSortedSetAndDel(String key,double score,String value, Long minScore) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			jedis.zadd(key, score, value);
 			jedis.zremrangeByScore(key, 0, minScore);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();	
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
@@ -344,10 +476,14 @@ public class JedisService {
 	 * 
 	 */
 	public long deleteSortedSetItemFromShard(String key,String ... value) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.zrem(key,value);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();			
+			return 0;
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
@@ -357,10 +493,13 @@ public class JedisService {
 	 * 
 	 */
 	public void setValueToSetInShard(String key,String ... value) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			jedis.sadd(key,value);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
@@ -370,10 +509,14 @@ public class JedisService {
 	 * 
 	 */
 	public long deleteSetItemFromShard(String key,String ... value) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.srem(key,value);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();			
+			return 0;
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
@@ -383,10 +526,14 @@ public class JedisService {
 	 * 
 	 */
 	public long deleteSetFromShard(String key) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.del(key);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();			
+			return 0;
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
@@ -396,9 +543,13 @@ public class JedisService {
 	 * 
 	 */
 	public boolean isSetMemberInShard(String key,String member) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.sismember(key, member);
+		} catch (Exception e) {
+			e.printStackTrace();			
+			return false;
 		} finally {
 			shardedJedisPool.returnResource(jedis);
 		}
@@ -409,9 +560,13 @@ public class JedisService {
 	 * 
 	 */
 	public Double isSortedSetMemberInShard(String key,String member) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.zscore(key, member);
+		} catch (Exception e) {
+			e.printStackTrace();			
+			return null;
 		} finally {
 			shardedJedisPool.returnResource(jedis);
 		}
@@ -425,9 +580,12 @@ public class JedisService {
 	 * @param value
 	 */
 	public void setValueToMap(String key, String detailKey, String value) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			jedis.hset(key, detailKey, value);
+		}catch (Exception e) {
+			e.printStackTrace();	
 		} finally {
 			shardedJedisPool.returnResource(jedis);
 		}
@@ -439,10 +597,14 @@ public class JedisService {
 	 * @param map
 	 */
 	public void setValueToMap(String key,Map<String,String> map) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			jedis.hmset(key, map);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();			
+			
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
@@ -453,10 +615,13 @@ public class JedisService {
 	 * @param map
 	 */
 	public void setLoginValueToMap(String key,Map<String,String> map) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			jedis.hmset(key,map);
 			jedis.expire(key,loginExpireTime);
+		}catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			shardedJedisPool.returnResource(jedis);
 		}
@@ -470,10 +635,14 @@ public class JedisService {
 	 * return value
 	 */
 	public String getValueFromMap(String key, String detailKey) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.hget(key, detailKey);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();			
+			return null;
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
@@ -486,10 +655,14 @@ public class JedisService {
 	 * return value
 	 */
 	public long getIncrValueFromMap(String key, String detailKey) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.hincrBy(key, detailKey,1);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();			
+			return 0;
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
@@ -501,10 +674,14 @@ public class JedisService {
 	 * return map对象
 	 */
 	public Map<String,String> getMapByKey(String key) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.hgetAll(key);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();			
+			return null;
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
@@ -515,9 +692,13 @@ public class JedisService {
 	 * return long
 	 */
 	public long deleteValueFromMap(String key,String ...detailKey) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.hdel(key, detailKey);
+		}catch (Exception e) {
+			e.printStackTrace();			
+			return 0;
 		} finally {
 			shardedJedisPool.returnResource(jedis);
 		}
@@ -531,10 +712,14 @@ public class JedisService {
 	 * return value
 	 */
 	public long getIncrValueFromMap(String key, String detailKey,long step) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.hincrBy(key, detailKey,step);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();			
+			return 0;
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
@@ -547,10 +732,14 @@ public class JedisService {
 	 * @return 元素个数
 	 */
 	public long getLength(String key) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.hlen(key);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();			
+			return 0;
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
@@ -563,10 +752,14 @@ public class JedisService {
 	 * @return 元素集
 	 */
 	public Map<String, String> getSnapShots(String key) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.hgetAll(key);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();			
+			return null;
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
@@ -581,10 +774,14 @@ public class JedisService {
 	 * @return 元素集
 	 */
 	public String getSnapShots(String key, String detailKey) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.hget(key, detailKey);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();			
+			return null;
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
@@ -596,10 +793,14 @@ public class JedisService {
 	 * @return value
 	 */
 	public String getSrandmember(String key){
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.srandmember(key);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
@@ -611,17 +812,22 @@ public class JedisService {
 	 * @return
 	 */
 	public List<Response<List<String>>> pipeLineFromMap(String[] keys,String[] fields) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
-		ShardedJedisPipeline pipeLine = jedis.pipelined();
+		ShardedJedis jedis = null;
+		ShardedJedisPipeline pipeLine = null;
 
 		List<Response<List<String>>> responseList = new ArrayList<Response<List<String>>>();
 		try {
+			jedis = shardedJedisPool.getResource();
+			pipeLine = jedis.pipelined();
 			for (String key : keys) {
 				Response<List<String>> r= pipeLine.hmget(key, fields);
 				responseList.add(r);
 			}
 			pipeLine.sync();
 			return responseList;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		} finally {
 			shardedJedisPool.returnResource(jedis);
 		}
@@ -650,11 +856,12 @@ public class JedisService {
 	}*/
 
 	public List<Response<Set<String>>> pipleGetFriendBlack(String key,List<String> uIdList){
-		ShardedJedis jedis = shardedJedisPool.getResource();
-		ShardedJedisPipeline pipeLine = jedis.pipelined();
-
+		ShardedJedis jedis = null;
+		ShardedJedisPipeline pipeLine = null;
 		List<Response<Set<String>>> responseList = new ArrayList<Response<Set<String>>>();
 		try {
+			jedis = shardedJedisPool.getResource();
+			pipeLine = jedis.pipelined();
 			for (String uid : uIdList) {
 				Response<Set<String>> response = pipeLine.smembers(key+uid);
 
@@ -662,7 +869,11 @@ public class JedisService {
 			}
 			pipeLine.sync();
 			return responseList;
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}			
+		finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 
@@ -739,8 +950,9 @@ public class JedisService {
 	 */
 	public int getKeyCount(String key) {
 		int userCount = 0;
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {	
+			jedis = shardedJedisPool.getResource();
 			Collection<Jedis> jedisColl = jedis.getAllShards();
 			for(Jedis jedisInfo:jedisColl){
 				Set<String> set = jedisInfo.keys(key);
@@ -749,7 +961,10 @@ public class JedisService {
 				}
 			}
 			return userCount;
-		} finally {
+		}  catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}	finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
@@ -760,47 +975,66 @@ public class JedisService {
 	 * @return
 	 */
 	public boolean ifKeyExists(String key) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.exists(key);
-		} finally {
+		}  catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}	finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
 	public boolean isKeyExistsInMap(String key,String field){
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {	
+			jedis = shardedJedisPool.getResource();
 			return jedis.hexists(key, field);
-		} finally {
+		}  catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}	finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
 	
 	public void pipleLineDelListValue(String key,List<String> idList){
-		ShardedJedis jedis = shardedJedisPool.getResource();
-		ShardedJedisPipeline pipeLine = jedis.pipelined();
+		ShardedJedis jedis = null;
+		ShardedJedisPipeline pipeLine = null;
 		try {
+			jedis = shardedJedisPool.getResource();
+			pipeLine = jedis.pipelined();
 			for (String id : idList) {
 				pipeLine.lrem(key, 0, id);
 			}
 			pipeLine.sync();
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+		finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
 	
 	public long zCount(String key,long max,long min){
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			return jedis.zcount(key, min, max);
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		} 
+		finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 	}
 	
 	public boolean saveAsMap(String key, Object obj) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			List<Field> fields = ReflectionService.getDeclaredFields(obj);
 			Map<String,String> map = new HashMap<String, String>();
 			for (Field field : fields) {
@@ -819,7 +1053,11 @@ public class JedisService {
 			}
 			jedis.hmset(key, map);
 			System.out.println("save object key[" + key + "] class name [" + obj.getClass().getName() + "]");
-		} finally {
+		}catch (Exception e) {
+			e.printStackTrace();
+			return false;
+			} 
+		finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 
@@ -827,8 +1065,9 @@ public class JedisService {
 	}
 	
 	public boolean saveAsMapByList(String key, List list) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis =null;
 		try {
+			jedis = shardedJedisPool.getResource();
 			for (Object obj:list){
 				Map<String,String> map = new HashMap<String, String>();
 				List<Field> fields = ReflectionService.getDeclaredFields(obj);
@@ -850,7 +1089,11 @@ public class JedisService {
 				jedis.hmset(key+(id==null?"":id.toString()), map);
 				System.out.println("save object key[" + key + "] class name [" + obj.getClass().getName() + "]");
 			}
-		} finally {
+		} catch (Exception e) {
+		e.printStackTrace();
+		return false;
+		} 
+		finally {
 			shardedJedisPool.returnResource(jedis);
 		}
 
@@ -863,9 +1106,28 @@ public class JedisService {
 	 * @param person
 	 */
 	public void setObject(String key,Object object) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try{
+			jedis = shardedJedisPool.getResource();
 			jedis.set(key.getBytes(), BeanUtils.obj2Bytes(object));
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			shardedJedisPool.returnResource(jedis);
+		}
+	}
+	/**
+	 * 保存对象到ridis
+	 * @param key
+	 * @param object
+	 * @param seconds
+	 */
+	public void setObject(String key,Object object,int seconds) {
+		ShardedJedis jedis = null;
+		try{
+			jedis = shardedJedisPool.getResource();
+			jedis.set(key.getBytes(), BeanUtils.obj2Bytes(object));
+			jedis.expire(key, seconds);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -879,14 +1141,17 @@ public class JedisService {
 	 * @return
 	 */
 	
-	public Object getObject(String key) {
-		ShardedJedis jedis = shardedJedisPool.getResource();
+	public Object getObject(String key) {		
+			
 		byte[] object=null;
+		ShardedJedis jedis = null;	
 		try{
+			jedis = shardedJedisPool.getResource();	
 			object = jedis.get((key).getBytes());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace();			
+			return null;
 		} finally {
 			shardedJedisPool.returnResource(jedis);
 		}
@@ -899,8 +1164,9 @@ public class JedisService {
 	 * @param data
 	 */
 	public void setObjectAsByte(String key,byte[] data){
-		ShardedJedis jedis = shardedJedisPool.getResource();
+		ShardedJedis jedis = null;
 		try{
+			jedis = shardedJedisPool.getResource();
 			jedis.set((key).getBytes(),data);
 		} catch (Exception e) {
 			e.printStackTrace();

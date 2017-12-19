@@ -14,6 +14,8 @@
 		<module>model</module>
 		<module>data</module>	
 		<module>service</module>	
+		<module>webconm</module>
+        <module>web</module>
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -48,6 +50,16 @@
 			<dependency>
 				<groupId>com.ibumeng.vcs</groupId>
 				<artifactId>service</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ibumeng.vcs</groupId>
+				<artifactId>webconm</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ibumeng.vcs</groupId>
+				<artifactId>web</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
