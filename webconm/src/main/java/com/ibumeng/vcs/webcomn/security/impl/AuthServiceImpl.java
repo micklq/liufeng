@@ -33,9 +33,6 @@ public class AuthServiceImpl  implements AuthService {
     private PermissionService permissionService;
 	
 	@Autowired
-    private PermissionActionService permissionActionService;
-	
-	@Autowired
     private RoleService roleService;
 	
 	@Autowired

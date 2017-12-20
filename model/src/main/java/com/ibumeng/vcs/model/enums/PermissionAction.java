@@ -3,7 +3,7 @@ package com.ibumeng.vcs.model.enums;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum DefaultAction {
+public enum PermissionAction {
 	Add("添加", 1),Update("修改", 2),Delete("删除", 3),Read("查看", 4),Audit("审批", 5);
 
 	private String name;
@@ -26,30 +26,30 @@ public enum DefaultAction {
 		this.value = value;
 	}
 
-	private static Map<String, DefaultAction> nameMap;
+	private static Map<String, PermissionAction> nameMap;
 
-	private static Map<Integer, DefaultAction> valueMap;
+	private static Map<Integer, PermissionAction> valueMap;
 
 	static {
-		nameMap = new HashMap<String, DefaultAction>();
-		valueMap = new HashMap<Integer, DefaultAction>();
+		nameMap = new HashMap<String, PermissionAction>();
+		valueMap = new HashMap<Integer, PermissionAction>();
 
-		for (DefaultAction vs : DefaultAction.values()) {
+		for (PermissionAction vs : PermissionAction.values()) {
 			nameMap.put(vs.name, vs);
 			valueMap.put(vs.value, vs);
 		}
 	}
 
-	private DefaultAction(String name, int value ) {
+	private PermissionAction(String name, int value ) {
 		this.name = name;
 		this.value = value;
 	}
 
-	public static DefaultAction getByName(String name) {
+	public static PermissionAction getByName(String name) {
 		return nameMap.get(name);
 	}
 
-	public static DefaultAction getByValue(int value) {
+	public static PermissionAction getByValue(int value) {
 		return valueMap.get(value);
 	}
 }

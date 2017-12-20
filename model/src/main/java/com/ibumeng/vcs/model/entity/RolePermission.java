@@ -27,7 +27,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @Entity
 @JsonIgnoreProperties({  "createDate", "modifyDate","creatorId", "dataFrom", "createDateStr", "modifyDateStr" })
-public class RolePermission extends UserBaseEntity {
+public class RolePermission extends BaseEntity {
 	
 
 	@Column(name = "roleid")
@@ -37,8 +37,8 @@ public class RolePermission extends UserBaseEntity {
 	private long permissionId;//权限Id	
 		
     
-	@Column(name = "actionid")
-	private long actionId;//事件Id	
+	@Column(name = "actionvalue")
+	private long actionValue;//事件
 	
 	public long getPermissionId() {
 		return permissionId;
@@ -48,13 +48,15 @@ public class RolePermission extends UserBaseEntity {
 		this.permissionId = permissionId;
 	}
 
-	public long getActionId() {
-		return actionId;
+	public long getActionValue() {
+		return actionValue;
 	}
 
-	public void setActionId(long actionId) {
-		this.actionId = actionId;
-	} 
+	public void setActionValue(long actionValue) {
+		this.actionValue = actionValue;
+	}
+
+	
 	
 	
 }
