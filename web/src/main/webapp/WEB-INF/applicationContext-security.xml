@@ -60,19 +60,19 @@
 		<property name="filters">
 			<map>
 				<entry key="needLogin" value-ref="needLoginAuthenticationFilter" />
-				<entry key="riAccess"><bean class="platform.county.jiange.web.security.InvalidAccessAuthorizationFilter"/></entry>
-				<entry key="permControl"><bean class="platform.county.jiange.web.security.PermissionsAuthorizationFilter"/></entry>
+				<entry key="riAccess"><bean class="com.borry.org.web.security.InvalidAccessAuthorizationFilter"/></entry>
+				<entry key="permControl"><bean class="com.borry.org.web.security.PermissionsAuthorizationFilter"/></entry>
 			</map>
 		</property>
 	</bean>
 
 	<!-- check user login filter -->
 	<bean id="needLoginAuthenticationFilter"
-		class="platform.county.jiange.webcomn.security.CaptchaFormAuthenticationFilter" />
+		class="com.borry.org.webcomn.security.CaptchaFormAuthenticationFilter" />
 
 
 	<!-- dao for shiro -->
-	<bean id="authenticationRealm" class="platform.county.jiange.web.security.WebCaptchaUserAuthorizingRealm">
+	<bean id="authenticationRealm" class="com.borry.org.web.security.WebCaptchaUserAuthorizingRealm">
 		<property name="authorizationCacheName" value="authorization" />
 	</bean>
 	<!-- cache for shiro -->

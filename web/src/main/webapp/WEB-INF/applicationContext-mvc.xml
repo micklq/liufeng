@@ -7,7 +7,7 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
        default-lazy-init="true" default-init-method="init"> 
-      <context:component-scan base-package="platform.county.jiange.web,platform.county.jiange.webcomn" use-default-filters="false">
+      <context:component-scan base-package="com.borry.org.web,com.borry.org.webcomn" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
@@ -53,7 +53,7 @@
 
     <mvc:interceptors>
         <!-- <mvc:interceptor> <mvc:mapping path="/**" /> <bean id="executeTimeInterceptor"
-            class="platform.county.jiange.webcomn.interceptor.ExecuteTimeInterceptor" /> </mvc:interceptor> -->
+            class="com.borry.org.webcomn.interceptor.ExecuteTimeInterceptor" /> </mvc:interceptor> -->
         <!-- page cache -->
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
@@ -69,8 +69,8 @@
                 <property name="entityManagerFactory" ref="entityManagerFactory"/>
             </bean>
         </mvc:interceptor>
-        <bean class="platform.county.jiange.web.interceptor.MenuInterceptor"></bean>        
-        <bean class="platform.county.jiange.webcomn.interceptor.AdminLogInterceptor"></bean>        
+        <bean class="com.borry.org.web.interceptor.MenuInterceptor"></bean>        
+        <bean class="com.borry.org.webcomn.interceptor.AdminLogInterceptor"></bean>        
     </mvc:interceptors>
 
     <!-- user mvc or default-servlet to handle static resources /> <mvc:resources

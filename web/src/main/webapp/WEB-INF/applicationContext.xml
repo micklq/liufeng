@@ -18,7 +18,7 @@
 	http://www.springframework.org/schema/jee/spring-jee.xsd"
 	default-lazy-init="true">
 
-	<!-- default is /WEB-INF/config*.properties see platform.county.jiange.webcomn.servlet.SrpingCtxPropertiesServletListener -->
+	<!-- default is /WEB-INF/config*.properties see com.borry.org.webcomn.servlet.SrpingCtxPropertiesServletListener -->
 	<context:property-placeholder location="/WEB-INF/config.properties"
 		ignore-resource-not-found="false" ignore-unresolvable="false"
 		local-override="true" file-encoding="UTF-8" />
@@ -132,7 +132,7 @@
 		<value>/WEB-INF/language/message</value> <value>/WEB-INF/language/security/message</value> 
 		<value>/WEB-INF/language/*/message</value> </list> </property> </bean> -->
 	<bean id="messageSource"
-		class="platform.county.jiange.webcomn.WildcardResourceBundleMessageSource">
+		class="com.borry.org.webcomn.WildcardResourceBundleMessageSource">
 		<property name="cacheSeconds" value="${message.cache_seconds}" />
 		<property name="defaultEncoding" value="${message.default_encoding}" />
 		<property name="fileEncodings" value="${message.default_encoding}" />

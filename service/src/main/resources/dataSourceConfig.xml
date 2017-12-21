@@ -41,7 +41,7 @@
      <property name="url" value="${db-1-url}" />  
      </bean>           
      
-     <bean id="dataSourceCluster" class="com.ibumeng.vcs.data.DynamicDataSource">
+     <bean id="dataSourceCluster" class="com.borry.org.data.DynamicDataSource">
 		<property name="master" ref="dataSourceMaster" />		
 		<property name="slaves">
 			<list>

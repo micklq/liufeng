@@ -1,4 +1,4 @@
-package com.ibumeng.vcs.service;
+package com.borry.org.service;
 
 import static org.junit.Assert.*;
 

@@ -1,4 +1,4 @@
-package com.ibumeng.vcs.service;
+package com.borry.org.service;
 
 import java.util.Date;
 import javax.annotation.Resource;

@@ -15,7 +15,7 @@
        http://www.springframework.org/schema/aop/spring-aop-3.2.xsd"
 	default-lazy-init="true">
 	<!-- JPA -->
-	<bean id="transactionManager" class="com.ibumeng.vcs.data.DynamicJpaTransactionManager">
+	<bean id="transactionManager" class="com.borry.org.data.DynamicJpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 		<property name="dataSource" ref="dataSourceCluster" />
 	</bean>
@@ -35,7 +35,7 @@
 	</tx:advice>
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSourceCluster" />
-        <property name="packagesToScan" value="com.ibumeng.vcs.model.entity" />  
+        <property name="packagesToScan" value="com.borry.org.model.entity" />  
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 				<property name="showSql" value="false" />
@@ -60,15 +60,15 @@
 			</props>
 		</property>
 	</bean>
-    <jpa:repositories base-package="com.ibumeng.vcs.data.repository"
+    <jpa:repositories base-package="com.borry.org.data.repository"
 		entity-manager-factory-ref="entityManagerFactory"
 		transaction-manager-ref="transactionManager"
-		factory-class="com.ibumeng.vcs.data.repository.BaseRepositoryFactoryBean">
+		factory-class="com.borry.org.data.repository.BaseRepositoryFactoryBean">
 	</jpa:repositories>
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	
 	<!-- MyBatis -->
-	<bean id="transactionManagerDAO" class="com.ibumeng.vcs.data.DynamicDataSourceTransactionManager">	    
+	<bean id="transactionManagerDAO" class="com.borry.org.data.DynamicDataSourceTransactionManager">	    
 		<property name="dataSource" ref="dataSourceCluster" />
 	</bean>  
 	<tx:advice id="txAdviceDao" transaction-manager="transactionManagerDAO">
@@ -87,20 +87,20 @@
 	</tx:advice>   		
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSourceCluster" />
-		<property name="mapperLocations" value="classpath:com/ibumeng/vcs/data/mapper/*.xml" />	
-		<property name="typeAliasesPackage" value="com.ibumeng.vcs.model.entity" />
+		<property name="mapperLocations" value="classpath:com/borry/org/data/mapper/*.xml" />	
+		<property name="typeAliasesPackage" value="com.borry.org.model.entity" />
 		<property name="configLocation" value="classpath:mybatisConfig.xml" />	
 	</bean>	
 	<bean  id="mapperScannerConfigurer"  class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.ibumeng.vcs.data.mapper" />		
+		<property name="basePackage" value="com.borry.org.data.mapper" />		
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />		
 	</bean>
 	  <!--*********************事务 AOP*********************-->
 	<aop:config>
 	    <!-- JPA切入点 -->
-		<aop:pointcut id="repositoryMethods" expression="execution(* com.ibumeng.vcs.service.impl..*(..))" />
+		<aop:pointcut id="repositoryMethods" expression="execution(* com.borry.org.service.impl..*(..))" />
 		<!-- DAO切入点 -->
-		<aop:pointcut id="daoMethods" expression="execution(* com.ibumeng.vcs.service.impl..*(..))" /> 
+		<aop:pointcut id="daoMethods" expression="execution(* com.borry.org.service.impl..*(..))" /> 
 		<!-- serviceMethods 切入点关联事务通知 -->		
 		<aop:advisor advice-ref="txAdviceJpa" pointcut-ref="repositoryMethods" />		
 		<!-- serviceMethods 切入点关联事务通知 -->
