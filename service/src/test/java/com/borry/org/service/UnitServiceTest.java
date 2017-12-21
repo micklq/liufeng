@@ -46,8 +46,7 @@ public class UnitServiceTest extends BaseTest {
 //				e.printStackTrace();
 //			}
 //			
-//		}
-		
+//		}		
 //		for(int i=0; i<3 ; i++)
 //		{
 //			String r = RandomStringUtils.random(5,true,true).toLowerCase();	
@@ -72,8 +71,7 @@ public class UnitServiceTest extends BaseTest {
 //				// TODO Auto-generated catch block
 //				e.printStackTrace();
 //			}			
-//		}	
-		
+//		}		
 //	}
 	
 	

@@ -1,30 +1,38 @@
-package com.borry.org.model.entity;
+package com.borry.org.model.entity.view;
 
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.Pattern;
 
-@Entity
-public class UserProfile extends UserBaseEntity {
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import com.borry.org.model.entity.UserPassport;
+
+
+public class UserPassportView extends UserPassport {
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6687180281182553205L;
-
-	@Id
-	@Column(name = "passportid")
-	private long passportId;
-
+	private static final long serialVersionUID = -8220483136985756119L;
+	
+	private String password;
+	
+	private String originalPassword;
+	
+	private String passwordSalt;
+	
 	private String nickName;
 
 	private String realName;
@@ -35,22 +43,32 @@ public class UserProfile extends UserBaseEntity {
 
 	private String avatar;
 
-	private String mobile;
-
-	private String email;
-
 	private String qq;    
 	
 	private String weixin;
 	
-	
-
-	public long getPassportId() {
-		return passportId;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setPassportId(long passportId) {
-		this.passportId = passportId;
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getPasswordSalt() {
+		return passwordSalt;
+	}
+
+	public void setPasswordSalt(String passwordSalt) {
+		this.passwordSalt = passwordSalt;
+	}
+
+	public String getOriginalPassword() {
+		return originalPassword;
+	}
+
+	public void setOriginalPassword(String originalPassword) {
+		this.originalPassword = originalPassword;
 	}
 
 	public String getNickName() {
@@ -69,11 +87,11 @@ public class UserProfile extends UserBaseEntity {
 		this.realName = realName;
 	}
 
-	public Integer getGender() {
+	public int getGender() {
 		return gender;
 	}
 
-	public void setGender(Integer gender) {
+	public void setGender(int gender) {
 		this.gender = gender;
 	}
 
@@ -84,7 +102,6 @@ public class UserProfile extends UserBaseEntity {
 	public void setBirthdate(String birthdate) {
 		this.birthdate = birthdate;
 	}
-	
 
 	public String getAvatar() {
 		return avatar;
@@ -92,16 +109,6 @@ public class UserProfile extends UserBaseEntity {
 
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
-	}
-
-
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public String getQq() {
@@ -112,15 +119,6 @@ public class UserProfile extends UserBaseEntity {
 		this.qq = qq;
 	}
 
-
-	public String getMobile() {
-		return mobile;
-	}
-
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
-
 	public String getWeixin() {
 		return weixin;
 	}
@@ -129,5 +127,10 @@ public class UserProfile extends UserBaseEntity {
 		this.weixin = weixin;
 	}
 
+	
+	
+	
+	
+	
 
 }

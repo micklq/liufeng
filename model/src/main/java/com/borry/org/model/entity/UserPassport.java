@@ -50,7 +50,8 @@ public class UserPassport extends UserBaseEntity {
 	private long roleId;
 	
 	@Transient
-	private String roleName;
+	private String roleName;	
+	
 	
 	/**
 	 * 状态

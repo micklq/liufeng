@@ -42,7 +42,8 @@ public class Permission extends UserBaseEntity {
      */
     @Column(length = 1024, nullable = true)
     private String description;    
-    private Long parentId=0L;//父结点id    
+    
+    private long parentId;//父结点id    
     /**
      * The Url.
      */
@@ -77,11 +78,11 @@ public class Permission extends UserBaseEntity {
 		this.description = description;
 	}
 
-	public Long getParentId() {
+	public long getParentId() {
 		return parentId;
 	}
 
-	public void setParentId(Long parentId) {
+	public void setParentId(long parentId) {
 		this.parentId = parentId;
 	}
 	

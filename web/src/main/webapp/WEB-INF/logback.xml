@@ -42,7 +42,7 @@
     <logger name="org.springframework.web" additivity="true" level="DEBUG" />
     <logger name="org.springframework.orm" additivity="true" level="DEBUG" />
 	-->
-    <logger name="platform.county.jiange" additivity="true" level="INFO"/>
+    <logger name="com.borry.org" additivity="true" level="INFO"/>
     <logger name="org.hibernate.SQL" additivity="true" level="INFO"/>
     <logger name="com.mchange.v2.c3p0" additivity="true" level="INFO"/>
 

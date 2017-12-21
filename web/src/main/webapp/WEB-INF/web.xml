@@ -33,7 +33,7 @@
   </filter-mapping>
   <filter>
     <filter-name>accessDeniedFilter</filter-name>
-    <filter-class>platform.county.jiange.webcomn.security.AccessDeniedFilter</filter-class>
+    <filter-class>com.borry.org.webcomn.security.AccessDeniedFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>accessDeniedFilter</filter-name>

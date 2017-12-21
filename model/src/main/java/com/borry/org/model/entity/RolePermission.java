@@ -56,6 +56,14 @@ public class RolePermission extends BaseEntity {
 		this.actionValue = actionValue;
 	}
 
+	public long getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(long roleId) {
+		this.roleId = roleId;
+	}
+
 	
 	
 	

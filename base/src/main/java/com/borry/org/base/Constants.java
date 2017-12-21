@@ -18,7 +18,7 @@ public class Constants {
      * The constant ENTITY_CUSTUM_VIOLATIONS. custom
      */
     public static final String ENTITY_CUSTOM_VIOLATIONS = "baseEntityCustomViolations";    
-    public static final String CAPTCHA_SESSION_KEY = "captchaSessionJiangeKey";
+    public static final String CAPTCHA_SESSION_KEY = "captchaSessionBorryOrgKey";
     
 
     /**

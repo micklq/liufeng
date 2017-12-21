@@ -42,7 +42,7 @@ public class KafkaServiceTest extends BaseTest {
 //		Message message = new Message();
 //		message.setAction(Action.UPDATE);
 //		message.setDataMap(data);		
-//		KafkaProducer.send("test",data);
+//		KafkaProducer.send("test",data);		
 		
 		KafkaProducerStr.send("test","test1-string-"+ System.currentTimeMillis());
 		

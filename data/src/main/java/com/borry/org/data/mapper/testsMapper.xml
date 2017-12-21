@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>  
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ibumeng.vcs.data.mapper.TestsDAO">
+<mapper namespace="com.borry.org.data.mapper.TestsDAO">
 
-	<select id="findAllByMapper" resultType="com.ibumeng.vcs.model.entity.Tests">
+	<select id="findAllByMapper" resultType="com.borry.org.model.entity.Tests">
 		select *  from tests
 	</select> 
-	<select id="queryAllByMapper" resultType="com.ibumeng.vcs.model.entity.Tests">
+	<select id="queryAllByMapper" resultType="com.borry.org.model.entity.Tests">
 		select *  from tests
 	</select> 	
-	<insert id="insertTests" parameterType="com.ibumeng.vcs.model.entity.Tests">
+	<insert id="insertTests" parameterType="com.borry.org.model.entity.Tests">
     insert into tests(name, description, create_at, creator_id, data_from, modify_at) values(#{name}, #{description}, #{createDate}, #{creatorId}, #{dataFrom}, #{modifyDate})
    </insert>
 </mapper>

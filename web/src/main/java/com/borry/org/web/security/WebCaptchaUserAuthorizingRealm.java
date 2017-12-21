@@ -27,8 +27,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.borry.org.base.Constants;
 import com.borry.org.model.entity.*;
+import com.borry.org.model.enums.PassportStatus;
 import com.borry.org.service.*;
-import com.borry.org.webcomn.security.AuthService;
+import com.borry.org.webcomn.security.MemberShipService;
 import com.borry.org.webcomn.security.CaptchaAuthenticationToken;
 import com.borry.org.webcomn.security.IncorrectCaptchaException;
 import com.borry.org.webcomn.security.Principal;
@@ -42,8 +43,8 @@ import com.borry.org.webcomn.security.Principal;
  */
 public class WebCaptchaUserAuthorizingRealm extends AuthorizingRealm {
 
-    @Resource(name = "authService")
-    private AuthService authService;
+    @Resource(name = "memberShipService")
+    private MemberShipService memberShipService;
 
 
     private boolean validateCaptcha(String captcha) {
@@ -83,45 +84,32 @@ public class WebCaptchaUserAuthorizingRealm extends AuthorizingRealm {
             throw new IncorrectCaptchaException("captcha");
         }
         if ((username != null) && (password != null)) {
-        	UserPassport passport =  authService.findUserPassportByUsername(username);
+        	UserPassport passport =  memberShipService.findUserPassportByUsername(username);
+        	
             if (passport == null) {
-                throw new UnknownAccountException();
+                throw new UnknownAccountException("passport");
             }
-            if (passport.getPassportStatus()==1) {
+            if (passport.getPassportStatus()==PassportStatus.Hibernation.getValue() || passport.getPassportStatus()==PassportStatus.Cancellation.getValue()) {
                 throw new DisabledAccountException();
             }
-//
-//            if (ruser.getIsLocked().booleanValue()) { //锁定账户
-//
-//                // 对全局配置进行检查, 是否存在全局的账号锁定策略
-//                int accountLockTime = 30; //锁定30分钟
-//                Date lockedDateTmp = ruser.getLockedDate();
-//                Date lockedDate = DateUtils.addMinutes(lockedDateTmp,
-//                        accountLockTime);
-//                if (new Date().after(lockedDate)) {
-//                    ruser.setLoginFailureCount(0);
-//                    ruser.setIsLocked(false);
-//                    ruser.setLockedDate(null);
-//                    ruserService.update(ruser);
-//                } else {
-//                    throw new LockedAccountException();
-//                }
-//            }
-
-//            if (!DigestUtils.md5Hex(password).equals(ruser.getPassword())) { // 验证密码,5次锁死
-//                Integer loginFailureCount = ruser.getLoginFailureCount() + 1;
-//                if (loginFailureCount >= 5) {
-//                    ruser.setIsLocked(true);
-//                    ruser.setLockedDate(new Date());
-//                }
-//                ruser.setLoginFailureCount(loginFailureCount);
-//                ruserService.update(ruser);
-//                throw new IncorrectCredentialsException("password");
-//            }
-//            ruser.setLoginIp(host);
-//            rus er.setLoginDate(new Date());
-//            ruser.setLoginFailureCount(0);
-//               ruserService.update(ruser); 
+            
+            if (passport.getPassportStatus()==PassportStatus.Locked.getValue()) {
+            	 throw new LockedAccountException();
+            }  
+            UserSecurity uSecurity =  memberShipService.findUserSecurityByPassportId(passport.getPassportId());
+            if (uSecurity == null) {
+                throw new UnknownAccountException("security");
+            }
+       	    String  psw = password+ uSecurity.getPasswordSalt();           
+            if (!DigestUtils.md5Hex(psw).equals(uSecurity.getPassword())) { // 验证密码,5次锁死
+                Integer loginFailureCount = uSecurity.getFailedPasswordAttemptCount() + 1;
+                if (loginFailureCount >= 5) {
+                	memberShipService.lock(passport.getPassportId()); //锁定用户
+                	              
+                }               
+                throw new IncorrectCredentialsException("password");
+            }
+            //memberShipService.unlock(passport.getPassportId()); //验证成功  解锁用户
             return new SimpleAuthenticationInfo(new Principal(passport.getPassportId(),passport.getRoleId(),username), password, getName());
         }
         throw new UnknownAccountException();
@@ -136,13 +124,13 @@ public class WebCaptchaUserAuthorizingRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo( PrincipalCollection principals) {
         Principal principal = (Principal) principals.fromRealm(getName()).iterator().next();
         if (principal != null) {
-            List<RolePermission> authorities = authService.findPermissionByRoleId(principal.getRoleid());
+            List<RolePermission> authorities = memberShipService.findPermissionByRoleId(principal.getRoleid());
             if (authorities != null && authorities.size()>0) {
                 SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
                 Set<String> sets = new HashSet<String>();
                 for(RolePermission o : authorities){
                 	
-                	sets.add(String.format("p%s-a%s",o.getPermissionId(),o.getActionValue()));
+                	sets.add(String.format("r%s-p%s-a%s",o.getRoleId(),o.getPermissionId(),o.getActionValue()));
                 }
                 simpleAuthorizationInfo.addStringPermissions(sets);
                 return simpleAuthorizationInfo;

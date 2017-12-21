@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.borry.org.model.entity.*;
+import com.borry.org.model.entity.view.UserPassportView;
+import com.borry.org.webcomn.MethodResult;
 
 
 /**
@@ -17,15 +19,10 @@ import com.borry.org.model.entity.*;
  * Time: 4:05 AM
  * 提供查询用户权限列表的服务
  */
-public interface AuthService {
+public interface MemberShipService {
+	
 	
 	boolean isAuthenticated();
-	 /**
-     * Gets current.
-     *
-     * @return the current
-     */
-    //User getCurrent();
 
     /**
      * Gets current username.
@@ -68,6 +65,48 @@ public interface AuthService {
      * @return the string permission
      */
     List<RolePermission> findPermissionByRoleId(Long roleid);
-   
+    
+    /**
+     * 锁定用户
+     * @param passportId
+     */
+    void lock(long passportId);
+    /**
+     * 解锁用户
+     * @param passportId
+     */
+    void unlock(long passportId);
+    
+    /**
+     * 用户注册
+     * @param mobile
+     * @param password
+     * @return
+     */
+    public MethodResult<UserPassport> signUp(String mobile,long roleId, String password);
+    
+    /**
+     * 添加会员
+     * @param user
+     * @return
+     */
+    public MethodResult<UserPassport> addMember(UserPassportView user); 
+    
+    /**
+     * 更新会员信息
+     * @param user
+     * @return
+     */
+    public MethodResult<Boolean> updateMember(UserPassportView user); 
+    
+    public MethodResult<Boolean> checkOriginalPassword(UserPassportView user); 
+    
+    public boolean mobileExists(String mobile); 
+    
+    public boolean userNameExists(String userName); 
+    
+    public MethodResult<Boolean> updatePassword(UserPassportView user);    
+    
+    public MethodResult<Boolean> updateMobile(UserPassportView user); 
 
 }
