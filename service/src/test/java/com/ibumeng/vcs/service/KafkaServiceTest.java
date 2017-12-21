@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 
-import com.ibumeng.vcs.base.Action;
-import com.ibumeng.vcs.base.Message;
-import com.ibumeng.vcs.service.kafka.producer.KafkaProducer;
-import com.ibumeng.vcs.service.kafka.producer.KafkaProducerString;
+
+
+import com.borry.org.base.Action;
+import com.borry.org.base.Message;
+import com.borry.org.service.kafka.producer.KafkaProducer;
+import com.borry.org.service.kafka.producer.KafkaProducerString;
 
 import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;

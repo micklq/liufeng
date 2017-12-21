@@ -6,8 +6,9 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.ibumeng.vcs.model.entity.OperationLog;
-import com.ibumeng.vcs.model.entity.Tests;
+import com.borry.org.model.entity.OperationLog;
+import com.borry.org.model.entity.Tests;
+import com.borry.org.service.EhCacheTestService;
 
 
 

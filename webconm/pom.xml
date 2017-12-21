@@ -2,15 +2,15 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.ibumeng.vcs</groupId>
-		<artifactId>rainbowall</artifactId>
+		<groupId>com.borry.org</groupId>
+		<artifactId>borryall</artifactId>
 		<version>1.0.0</version>
 	</parent>
 	<artifactId>webconm</artifactId>
 	<packaging>jar</packaging>
-	<name>rainbow-webconm</name>
-	<description>rainbow system web common</description>
-	<url>http://www.rainbow.com</url>
+	<name>borry-webconm</name>
+	<description>borry system web common</description>
+	<url>http://www.borry.com</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<version.spring>4.0.7.RELEASE</version.spring>
@@ -18,7 +18,7 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>com.ibumeng.vcs</groupId>
+			<groupId>com.borry.org</groupId>
 			<artifactId>service</artifactId>
 		</dependency>
 		<dependency>

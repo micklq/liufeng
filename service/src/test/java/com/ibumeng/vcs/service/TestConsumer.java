@@ -5,8 +5,8 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 
-import com.ibumeng.vcs.base.Message;
-import com.ibumeng.vcs.service.kafka.consumer.BaseConsumer;
+import com.borry.org.base.Message;
+import com.borry.org.service.kafka.consumer.BaseConsumer;
 
 @Service
 public class TestConsumer extends BaseConsumer {

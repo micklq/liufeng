@@ -2,13 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.ibumeng.vcs</groupId>
-	<artifactId>rainbowall</artifactId>
+	<groupId>com.borry.org</groupId>
+	<artifactId>borryall</artifactId>
 	<version>1.0.0</version>
 	<packaging>pom</packaging>
-	<name>rainbow-all</name>
-	<description>rainbow system</description>
-	<url>http://www.rainbow.com</url>
+	<name>borry-all</name>
+	<description>borry system</description>
+	<url>http://www.borry.com</url>
 	<modules>
 		<module>base</module>
 		<module>model</module>
@@ -33,32 +33,32 @@
 		<dependencies>
 			<!-- 管理内部依赖 -->
 			<dependency>
-				<groupId>com.ibumeng.vcs</groupId>
+				<groupId>com.borry.org</groupId>
 				<artifactId>base</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.ibumeng.vcs</groupId>
+				<groupId>com.borry.org</groupId>
 				<artifactId>model</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.ibumeng.vcs</groupId>
+				<groupId>com.borry.org</groupId>
 				<artifactId>data</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.ibumeng.vcs</groupId>
+				<groupId>com.borry.org</groupId>
 				<artifactId>service</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.ibumeng.vcs</groupId>
+				<groupId>com.borry.org</groupId>
 				<artifactId>webconm</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.ibumeng.vcs</groupId>
+				<groupId>com.borry.org</groupId>
 				<artifactId>web</artifactId>
 				<version>${project.version}</version>
 			</dependency>	

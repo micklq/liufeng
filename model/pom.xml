@@ -2,15 +2,15 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.ibumeng.vcs</groupId>
-		<artifactId>rainbowall</artifactId>
+		<groupId>com.borry.org</groupId>
+		<artifactId>borryall</artifactId>
 		<version>1.0.0</version>
 	</parent>
 	<artifactId>model</artifactId>
 	<packaging>jar</packaging>
-	<name>rainbow-model</name>
-	<description>rainbow system model</description>
-	<url>http://www.rainbow.com</url>
+	<name>borry-model</name>
+	<description>borry system model</description>
+	<url>http://www.borry.com</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>	
 	</properties>
