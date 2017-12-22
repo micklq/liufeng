@@ -17,7 +17,7 @@ public class IndexController {
 	private static final Logger logger = LoggerFactory.getLogger(IndexController.class);
 	
 	@RequestMapping("welcome")
-	public String index(){
+	public String index(){		
 		return "index/welcome";
 	}
 }

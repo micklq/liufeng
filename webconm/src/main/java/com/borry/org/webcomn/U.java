@@ -90,6 +90,11 @@ public class U {
 		String sname = getAttribute(Constants.SESSION_WEB_UNAME)==null?"":getAttribute(Constants.SESSION_WEB_UNAME).toString(); 
 		return sname;
 	}
+	public static Long getRoleid(){
+		Long suid = getAttribute(Constants.SESSION_WEB_RID)==null?0L:(Long)getAttribute(Constants.SESSION_WEB_RID);
+		return suid;
+	}	
+	
 	 /**
      * 获取单个字符串的MD5值
      * 

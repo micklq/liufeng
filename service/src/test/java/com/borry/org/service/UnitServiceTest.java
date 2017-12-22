@@ -27,52 +27,52 @@ public class UnitServiceTest extends BaseTest {
 	public TestsService testsService;
 	
 	
-//	@Test
-//	public void saveTest() 
-//	{
-//		for(int i=0; i<3 ; i++)
-//		{
-//			String r = RandomStringUtils.random(5,true,true).toLowerCase();			
-//			
-//			Tests o00 = new Tests();		
-//			o00.setName(r+"name");
-//			o00.setDescription(r+"description");
-//			testsService.save(o00);
-//			System.out.println(o00.toString());	
-//			try {
-//				Thread.sleep(500);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			
-//		}		
-//		for(int i=0; i<3 ; i++)
-//		{
-//			String r = RandomStringUtils.random(5,true,true).toLowerCase();	
-//			
-//			OperationLog o0 = new OperationLog();
-//			o0.setModuleType(r+"moduletype");
-//			o0.setReqType(r+"reqType");
-//			o0.setOperType(r+"operType");
-//			o0.setReqUrl(r+"reqUrl");
-//			o0.setReferer(r+"referer");
-//			o0.setObjectid(r+"objectid");
-//			o0.setObjectname(r+"objectname");
-//			o0.setUid(0L);
-//			o0.setUname(r+"uname");
-//			o0.setDescription(r+"description");
-//			operationLogService.save(o0);
-//			System.out.println(o0.toString());	
-//			
-//			try {
-//				Thread.sleep(500);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}			
-//		}		
-//	}
+	@Test
+	public void saveTest() 
+	{
+		for(int i=0; i<3 ; i++)
+		{
+			String r = RandomStringUtils.random(5,true,true).toLowerCase();			
+			
+			Tests o00 = new Tests();		
+			o00.setName(r+"name");
+			o00.setDescription(r+"description");
+			testsService.save(o00);
+			System.out.println(o00.toString());	
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}		
+		for(int i=0; i<3 ; i++)
+		{
+			String r = RandomStringUtils.random(5,true,true).toLowerCase();	
+			
+			OperationLog o0 = new OperationLog();
+			o0.setModuleType(r+"moduletype");
+			o0.setReqType(r+"reqType");
+			o0.setOperType(r+"operType");
+			o0.setReqUrl(r+"reqUrl");
+			o0.setReferer(r+"referer");
+			o0.setObjectid(r+"objectid");
+			o0.setObjectname(r+"objectname");
+			o0.setUid(0L);
+			o0.setUname(r+"uname");
+			o0.setDescription(r+"description");
+			operationLogService.save(o0);
+			System.out.println(o0.toString());	
+			
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}			
+		}		
+	}
 	
 	
 	

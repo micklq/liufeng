@@ -7,9 +7,7 @@ public class Principal implements Serializable {
     private static final long serialVersionUID = 5798882004228239559L;
     private Long passportid;
     private Long roleid;
-    private String username;
-    
-    private String roleName;
+    private String username;  
 
     public Principal(Long passportid, String username) {
         this.passportid = passportid;
@@ -20,7 +18,6 @@ public class Principal implements Serializable {
         this.roleid = roleid;
         this.username = username;
     }
-   
 
     public String getUsername() {
         return username;
@@ -49,10 +46,5 @@ public class Principal implements Serializable {
 	public void setRoleid(Long roleid) {
 		this.roleid = roleid;
 	}
-	public String getRoleName() {
-		return roleName;
-	}
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
-	}
+	
 }

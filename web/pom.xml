@@ -9,7 +9,7 @@
 	<artifactId>web</artifactId>
 	<packaging>war</packaging>
 	<name>borry-web</name>
-	<description>borry system admin interface </description>
+	<description>borry system interface </description>
 	<url>http://maven.apache.org</url>
 	<dependencies>		   
 		<dependency>
@@ -28,7 +28,17 @@
 			<version>2.2</version>
 			<scope>provided</scope>
 		</dependency>
-
+     <!-- ehcache缓存 -->
+	<dependency>
+		<groupId>net.sf.ehcache</groupId>
+		<artifactId>ehcache-core</artifactId>
+		<version>2.5.7</version>
+	</dependency>
+	<dependency>
+	   <groupId>net.sf.ehcache</groupId>
+	   <artifactId>ehcache-web</artifactId>
+	   <version>2.0.4</version>
+	</dependency>
 		<!-- ************************ task ************************ -->
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
@@ -47,10 +57,14 @@
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.4</version>
 		</dependency>
-
-
-		<!-- ****************** etc ******************** -->
-
+	  <!-- sitemesh -->
+		<dependency>
+			<groupId>opensymphony</groupId>
+			<artifactId>sitemesh</artifactId>
+			<version>2.4.2</version>
+		</dependency>
+		
+	<!-- ****************** etc ******************** -->
 
 		<dependency>
 			<groupId>net.sourceforge.pjl-comp-filter</groupId>

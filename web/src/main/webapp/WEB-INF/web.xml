@@ -1,18 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" metadata-complete="true" version="3.0">
-  <description>xst</description>
-  <display-name>xst</display-name>
+  <description>borryweb</description>
+  <display-name>borryweb</display-name>
+  <!-- 绝对顺序配置 -->
   <absolute-ordering/>
+  <!--spring配置文件路径 -->
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>/WEB-INF/applicationContext*.xml</param-value>
+    <param-value>classpath:applicationContext*.xml</param-value>
   </context-param>
+  <!-- logback配置文件位置 -->
+  <context-param>
+    <param-name>logbackConfigLocation</param-name>
+	<param-value>classpath:logback.xml</param-value>
+  </context-param>
+   <!--测试环境与线上环境 加载不同配置文件实现 -->
+  <listener>
+		<listener-class>com.borry.org.webcomn.DefaultListener</listener-class>
+ </listener>
+ <!-- Logback日志配置监听器 -->
+ <listener>
+	<listener-class>com.borry.org.webcomn.log.listener.LogbackConfigListener</listener-class>
+  </listener>
+  <!-- 启动Web容器时，自动装配ApplicationContext的配置信息 -->
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+  <!-- Introspector清理监听器， 主要负责处理由 JavaBeans Introspector 的使用而引起的缓冲泄露 -->
   <listener>
     <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
   </listener>
+  <!-- ContextLoaderListener将Web容器与spring容器整合。RequestContextListener将Spring容器与Web容器结合的更加密切。-->
+  <!-- 前者为必选配置，后者为可选配置，并且后者与scope=”request”搭配使用  -->
+  <listener>
+	<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+  </listener> 
+  <!-- 添加shiro过滤器，安全过滤，applicationContext-security.xml中引用该过滤器，检查用户登录状态 -->
+  <filter>
+    <filter-name>shiroFilter</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>shiroFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+	<filter-name>requestContextFilter</filter-name>
+	<filter-class>org.springframework.web.filter.RequestContextFilter</filter-class>
+  </filter>
+  <filter-mapping>
+	<filter-name>requestContextFilter</filter-name>
+	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <!-- 编码过滤器，过用于处理项目中的乱码问题 -->	
   <filter>
     <filter-name>encodingFilter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -25,10 +65,12 @@
       <param-value>true</param-value>
     </init-param>
   </filter>
+  <!-- 所有请求都调用编码过滤器 -->
   <filter-mapping>
     <filter-name>encodingFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+  <!-- 禁止访问过滤 -->
   <filter>
     <filter-name>accessDeniedFilter</filter-name>
     <filter-class>com.borry.org.webcomn.security.AccessDeniedFilter</filter-class>
@@ -41,14 +83,7 @@
     <filter-name>accessDeniedFilter</filter-name>
     <url-pattern>*.conf</url-pattern>
   </filter-mapping>
-  <filter>
-    <filter-name>shiroFilter</filter-name>
-    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>shiroFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
+  <!-- Sitemesh 是一个网页布局和修饰的框架，基于 Servlet 中的 Filter，类似于 ASP.NET 中的‘母版页’技术 -->
   <filter>
     <filter-name>sitemesh</filter-name>
     <filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
@@ -57,12 +92,13 @@
     <filter-name>sitemesh</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+  <!-- spring mvc 请求控制器 -->
   <servlet>
     <servlet-name>springmvc</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     <init-param>
       <param-name>contextConfigLocation</param-name>
-      <param-value>WEB-INF/applicationContext-mvc.xml</param-value>
+      <param-value>classpath:applicationContext-mvc.xml</param-value>
     </init-param>
     <init-param>
       <param-name>contextAttribute</param-name>
@@ -74,6 +110,29 @@
     <servlet-name>springmvc</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+  <!-- logbacksetup 请求控制器 -->
+  <servlet>
+	<servlet-name>logbacksetup</servlet-name>
+	<servlet-class>com.borry.org.webcomn.log.servlet.LogbackSetupServlet</servlet-class>
+	<load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+	<servlet-name>logbacksetup</servlet-name>
+	<url-pattern>/logback/*</url-pattern>
+  </servlet-mapping>
+  
+  <!-- 文件下载请求控制器 -->
+	<!--<servlet>
+		<servlet-name>filedownload</servlet-name>
+		<servlet-class>com.borry.org.webcomn.servlet.FileDownloadServlet</servlet-class>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>filedownload</servlet-name>
+		<url-pattern>/download/*</url-pattern>
+	</servlet-mapping>-->
+  
+  <!-- session配置 -->
   <session-config>
     <session-timeout>30</session-timeout>
   </session-config>

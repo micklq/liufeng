@@ -228,7 +228,6 @@
 
 		<!-- ****************** etc ******************** -->
 
-
 		<dependency>
 			<groupId>net.sourceforge.pjl-comp-filter</groupId>
 			<artifactId>pjl-comp-filter</artifactId>
@@ -240,13 +239,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
-		<!-- sitemesh -->
-		<dependency>
-			<groupId>opensymphony</groupId>
-			<artifactId>sitemesh</artifactId>
-			<version>2.4.2</version>
-		</dependency>
+	
 
 
 		<!-- java生成缩略图 -->

@@ -72,8 +72,7 @@ public class WebCaptchaUserAuthorizingRealm extends AuthorizingRealm {
      * @param token the token
      * @return the authentication info
      */
-    protected AuthenticationInfo doGetAuthenticationInfo(
-            AuthenticationToken token) {
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) {
         CaptchaAuthenticationToken localAuthenticationToken = (CaptchaAuthenticationToken) token;
         String username = localAuthenticationToken.getUsername();
         String password = new String(localAuthenticationToken.getPassword());

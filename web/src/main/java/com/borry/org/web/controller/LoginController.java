@@ -76,9 +76,9 @@ public class LoginController {
 		}
 		map.put("result", "success");
 		Principal p=(Principal)sub.getPrincipal();
-		U.setAttribute(Constants.SESSION_WEB_UID, p.getPassportid());
-		U.setAttribute(Constants.SESSION_WEB_RID, p.getRoleid());
+		U.setAttribute(Constants.SESSION_WEB_UID, p.getPassportid());	
         U.setAttribute(Constants.SESSION_WEB_UNAME, p.getUsername());
+    	U.setAttribute(Constants.SESSION_WEB_RID, p.getRoleid());    	
 		return map;
 	}
 	

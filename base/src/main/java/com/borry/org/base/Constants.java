@@ -29,7 +29,8 @@ public class Constants {
     
     public static final String RESULT = "result";
 	public static final String MESSAGE = "message";
-	public static final String SESSION_WEB_UID = "webUserid";
-	public static final String SESSION_WEB_RID = "webRoleid";
+	public static final String SESSION_WEB_UID = "webUserId";
 	public static final String SESSION_WEB_UNAME = "webUersName";
+	public static final String SESSION_WEB_RID = "webRoleId";
+
 }
