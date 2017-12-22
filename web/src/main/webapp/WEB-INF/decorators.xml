@@ -4,7 +4,7 @@
     <!-- Any urls that are excluded will never be decorated by Sitemesh -->
     <excludes>
         <pattern>/login.jsp</pattern>
-        <pattern>/401.jsp</pattern>       
+        <pattern>/404.html</pattern>       
         <pattern>/files/*</pattern>
         <pattern>/*Ajax</pattern>
         <pattern>/*ajax</pattern>

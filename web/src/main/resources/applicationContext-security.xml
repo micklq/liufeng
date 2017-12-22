@@ -43,8 +43,8 @@
 				 <!-- 资源 -->
 				/ = anon
 				/404.html = anon
-                /files/** = anon
-                /css/** = anon
+                /lib/** = anon
+                /static/** = anon
                 /images/** = anon  
                 /script/** = anon    
 	      		/login.jsp=anon
@@ -52,7 +52,7 @@
 	      		/401.jsp=anon
 	      		/captcha/create=anon	           		
 	      		/download/**=anon	      		
-	      		/index/welcome=authc,riAccess		        
+	      		/index/welcome=anon		        
 		        /**=authc,riAccess
 			</value>
 			<!-- /** = needLogin permissive : no check access, only work when use 
