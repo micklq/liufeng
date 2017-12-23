@@ -52,7 +52,7 @@
 	      		/401.jsp=anon
 	      		/captcha/create=anon	           		
 	      		/download/**=anon	      		
-	      		/index/welcome=anon		        
+	      		/index/welcome=authc,riAccess		        
 		        /**=authc,riAccess
 			</value>
 			<!-- /** = needLogin permissive : no check access, only work when use 

@@ -15,7 +15,7 @@ public class BaseTest {
 	@Test
 	public void test() {
      //fail("Not yet implemented");
-		System.out.println("com.ibumeng.vcs.service basetest test run!!!");
+		System.out.println("com.borry.org.service basetest test run!!!");
 	}
 
 }

@@ -37,9 +37,8 @@ public class CaptchaAuthenticationToken extends UsernamePasswordToken {
     public void setActivationCode(String activationCode) {
         this.activationCode = activationCode;
     }
-
-
-
+   
+    
     public CaptchaAuthenticationToken(String username, String password,
                                       String captchaId, String captcha, boolean rememberMe, String host) {
         super(username, password, rememberMe, host);

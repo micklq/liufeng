@@ -114,19 +114,16 @@ public class Permission extends UserBaseEntity {
    
 
 
-	/**
-     * The Type.实现类型,比如URI,BIObject
-     */
-    @Column(length = 255, nullable = false)
-    @Enumerated(EnumType.STRING)
-    private PermissionType type=PermissionType.URI;
+	// The Type.实现类型,比如URI,BIObject     
+//    @Column(length = 255, nullable = false)
+//    @Enumerated(EnumType.STRING)
+//    private PermissionType type=PermissionType.URI;
 
-    /**
-     * The enum Permission type.目前有两种类型,URI和基于业务对象的
-     */
-    public enum PermissionType {
-        URI, BIObject
-    }   
+    
+     //The enum Permission type.目前有两种类型,URI和基于业务对象的     
+//    public enum PermissionType {
+//        URI, BIObject
+//    }   
 
 
 	

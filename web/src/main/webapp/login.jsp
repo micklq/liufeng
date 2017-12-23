@@ -26,7 +26,9 @@
     <title>后台登陆</title>  
     <style type="text/css">
      label.error { right:300px; top:10px;}
-    </style>  
+    </style>
+<meta name="keywords" content="H-ui.admin v3.0,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
+<meta name="description" content="H-ui.admin v3.0，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
 </head>
 <body>
 <div class="header"></div>
@@ -36,13 +38,13 @@
             <div class="row cl">
                 <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label>
                 <div class="formControls col-xs-8">
-                    <input id="uName" name="uName" type="text" placeholder="账户" class="input-text size-L">
+                    <input id="username" name="username" type="text" placeholder="账户" class="input-text size-L">
                 </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60e;</i></label>
                 <div class="formControls col-xs-8">
-                    <input id="uPass" name="uPass" type="password" placeholder="密码" class="input-text size-L">
+                    <input id="password" name="password" type="password" placeholder="密码" class="input-text size-L">
                 </div>
             </div>       
             <div class="row cl">
@@ -65,12 +67,12 @@
 
         $("#form-login").validate({
             rules: {
-                uName: {
+                username: {
                     required: true,
                     minlength: 4,
                     maxlength: 16
                 },
-                uPass: {
+                password: {
                     required: true,
                 },                
             },
@@ -83,11 +85,11 @@
                     type: 'post',
                     url: "login/loginAjax",
                     success: function (result) {
-                     if (result["result"] == "success") {
+                     if (result.success) { 
 					 location.href = "index/welcome";
 				     } else {
 				      $("#btnLogin").attr("disabled", false);                            
-                      $.Huimodalalert(result["message"], 3000);					 
+                      $.Huimodalalert(result.message, 3000);					 
 				     }                      
                     },
                     error: function (XmlHttpRequest, textStatus, errorThrown) {

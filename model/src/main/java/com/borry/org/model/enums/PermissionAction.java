@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum PermissionAction {
-	Add("添加", 1),Update("修改", 2),Delete("删除", 3),Read("查看", 4),Audit("审批", 5);
+	All("全部", 0),Add("添加", 1),Update("修改", 2),Delete("删除", 3),Read("查看", 4),Audit("审批", 5);
 
 	private String name;
 

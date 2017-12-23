@@ -210,9 +210,9 @@ public class MemberShipServiceImpl  implements MemberShipService {
 		profile.setCreatorId(0L);	
 		
 		userPassportService.save(passport);
-		security.setPassportId(passport.getPassportId());
-		profile.setPassportId(passport.getPassportId());
+		security.setPassportId(passport.getPassportId());		
 		userSecurityService.save(security);
+		profile.setPassportId(passport.getPassportId());
 		userProfileService.save(profile);
 		
 		return result.SuccessResult(passport);
@@ -224,9 +224,9 @@ public class MemberShipServiceImpl  implements MemberShipService {
 		if(userNameExists(user.getUserName())){
 			return result.FailResult("用户名已注册！");
 		}
-		if(mobileExists(user.getMobile())){
-			return result.FailResult("手机号码已注册！");
-		}
+//		if(mobileExists(user.getMobile())){
+//			return result.FailResult("手机号码已注册！");
+//		}
 		UserPassport passport = new UserPassport();
 		UserSecurity security = new UserSecurity();
 		UserProfile profile = new UserProfile();
@@ -236,7 +236,8 @@ public class MemberShipServiceImpl  implements MemberShipService {
 		passport.setRoleId(user.getRoleId());
 		passport.setPassportStatus(PassportStatus.Standard.getValue());
 		passport.setDataFrom("addMember");
-		passport.setCreatorId(U.getUid());	
+		//passport.setCreatorId(U.getUid());	
+		passport.setCreatorId(0L);	
 		
 		String pswSalt = RandomStringUtils.random(6,true,true);
 		String  psw = user.getPassword()+pswSalt;  
@@ -248,7 +249,8 @@ public class MemberShipServiceImpl  implements MemberShipService {
 	    security.setLastPasswordChangedTime(null);       
 		security.setFailedPasswordAttemptCount(0);
 		security.setDataFrom("addMember");
-		security.setCreatorId(U.getUid());	
+		//security.setCreatorId(U.getUid());	
+		security.setCreatorId(0L);	
 		
 		profile.setMobile(user.getMobile());
 		profile.setEmail(user.getEmail());
@@ -260,7 +262,8 @@ public class MemberShipServiceImpl  implements MemberShipService {
 		profile.setQq(user.getQq());
 		profile.setWeixin(user.getWeixin());		
 		profile.setDataFrom("addMember");
-		profile.setCreatorId(U.getUid());		
+		//profile.setCreatorId(U.getUid());		
+		profile.setCreatorId(0L);	
 		
 		userPassportService.save(passport);
 		security.setPassportId(passport.getPassportId());

@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Role extends BaseEntity {
+public class Role extends UserBaseEntity {
 		
 	/**
 	 * 

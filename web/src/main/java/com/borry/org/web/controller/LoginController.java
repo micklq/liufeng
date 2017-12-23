@@ -19,6 +19,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.borry.org.base.Constants;
+import com.borry.org.webcomn.MethodResult;
 import com.borry.org.webcomn.U;
 import com.borry.org.webcomn.security.CaptchaAuthenticationToken;
 import com.borry.org.webcomn.security.IncorrectCaptchaException;
@@ -36,10 +37,11 @@ public class LoginController {
 	
 	
 	@RequestMapping("loginAjax")
-	public @ResponseBody Map<String,String> login(String username,String password) throws JsonProcessingException{
+	@ResponseBody
+	public MethodResult<Boolean> login(String username,String password) throws JsonProcessingException{
 		
 		logger.info("username:{},password:{}",username,password);
-		Map<String,String> map=new HashMap<String,String>();
+		MethodResult<Boolean> result=new MethodResult<Boolean>();
 		Subject sub=null;
 		try {
 			//*************************获取系统生成的Captcha*****************************//
@@ -52,34 +54,30 @@ public class LoginController {
 			sub.login(token);
 		} catch (UnknownAccountException e) {
 			logger.error("login error!!!!!!!!!!!!!!!!!!!",e);
-			map.put("message", "没有此账户");
+			return result.FailResult("没有此账户");			
 		} catch (LockedAccountException e) {
 			logger.error("login error!!!!!!!!!!!!!!!!!!!",e);
-			map.put("message", "账户被锁定");
+			return result.FailResult("账户被锁定");			
 		} catch (IncorrectCaptchaException e) {
 			logger.error("login error!!!!!!!!!!!!!!!!!!!",e);
-			map.put("message", "验证码错误");
+			return result.FailResult("验证码错误");				
 		} catch (DisabledAccountException e) {
 			logger.error("login error!!!!!!!!!!!!!!!!!!!",e);
-			map.put("message", "此账户不可用");
+			return result.FailResult("此账户不可用");	
 		} catch (IncorrectCredentialsException e) {
 			logger.error("login error!!!!!!!!!!!!!!!!!!!",e);
-			map.put("message", "账户和密码不匹配");
+			return result.FailResult("账户和密码不匹配");				
 		} catch (Exception e) {
 			logger.error("login error!!!!!!!!!!!!!!!!!!!",e);
-			map.put("message", "系统异常");
-		} finally{
-			if(map.containsKey("message")){
-				map.put("result", "error");
-				return map;
-			}
-		}
-		map.put("result", "success");
+			return result.FailResult("系统异常");		
+		
+		} finally{}
+		
 		Principal p=(Principal)sub.getPrincipal();
 		U.setAttribute(Constants.SESSION_WEB_UID, p.getPassportid());	
         U.setAttribute(Constants.SESSION_WEB_UNAME, p.getUsername());
     	U.setAttribute(Constants.SESSION_WEB_RID, p.getRoleid());    	
-		return map;
+		return  result.SuccessResult(true);
 	}
 	
 	@RequestMapping("logout")

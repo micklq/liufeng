@@ -16,10 +16,6 @@ import javax.persistence.Table;
 @Entity
 public class UserProfile extends UserBaseEntity {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6687180281182553205L;
 
 	@Id
 	@Column(name = "passportid")

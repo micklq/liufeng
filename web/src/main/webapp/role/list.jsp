@@ -2,100 +2,94 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html  style="background: white">
  <head>
-  <%
+ <%
   String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 %>
-    <title>角色管理</title>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-    <link href="<%=basePath%>/css/pagecss.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="<%=basePath%>/js/page/role.js" ></script> 
-  </head>
-<body>
-	<!-- 列表 -->
-    <table id="tt" data-options="border:false,toolbar:'#tb'">
-    </table>
-    
-    <!-- 列表上面的按钮和搜索条件  -->
-     <div id="tb" style="padding:5px;height:auto">
-     	<h2>角色管理</h2>
-     	<hr>
-		<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" onclick="javascript:newUser()" plain="true">添加</a>
-		<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" onclick="javascript:editUser()" plain="true">编辑</a> 
-		<!-- <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" onclick="javascript:destroyUser()" plain="true"></a> -->
+<title>管理员列表 - 管理员列表</title>
+</head>
+<body><section class="Hui-article-box">
+	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 管理员管理 <span class="c-gray en">&gt;</span> 角色管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+	<div class="Hui-article">
+		<article class="cl pd-20">
+			<div class="cl pd-5 bg-1 bk-gray"> <span class="l"> <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a class="btn btn-primary radius" href="javascript:;" onclick="admin_role_add('添加角色','admin-role-add.html','800')"><i class="Hui-iconfont">&#xe600;</i> 添加角色</a> </span> <span class="r">共有数据：<strong>54</strong> 条</span> </div>
+			<div class="mt-10">
+			<table class="table table-border table-bordered table-hover table-bg">
+				<thead>
+					<tr>
+						<th scope="col" colspan="6">角色管理</th>
+					</tr>
+					<tr class="text-c">
+						<th width="25"><input type="checkbox" value="" name=""></th>
+						<th width="40">ID</th>
+						<th width="200">角色名</th>
+						<th>用户列表</th>
+						<th width="300">描述</th>
+						<th width="70">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="text-c">
+						<td><input type="checkbox" value="" name=""></td>
+						<td>1</td>
+						<td>超级管理员</td>
+						<td><a href="#">admin</a></td>
+						<td>拥有至高无上的权利</td>
+						<td class="f-14"><a title="编辑" href="javascript:;" onclick="admin_role_edit('角色编辑','admin-role-add.html','1')" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_role_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+					</tr>
+					<tr class="text-c">
+						<td><input type="checkbox" value="" name=""></td>
+						<td>2</td>
+						<td>总编</td>
+						<td><a href="#">张三</a></td>
+						<td>具有添加、审核、发布、删除内容的权限</td>
+						<td class="f-14"><a title="编辑" href="javascript:;" onclick="admin_role_edit('角色编辑','admin-role-add.html','2')" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_role_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+					</tr>
+					<tr class="text-c">
+						<td><input type="checkbox" value="" name=""></td>
+						<td>3</td>
+						<td>栏目主辑</td>
+						<td><a href="#">李四</a>，<a href="#">王五</a></td>
+						<td>只对所在栏目具有添加、审核、发布、删除内容的权限</td>
+						<td class="f-14"><a title="编辑" href="javascript:;" onclick="admin_role_edit('角色编辑','admin-role-add.html','3')" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_role_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+					</tr>
+					<tr class="text-c">
+						<td><input type="checkbox" value="" name=""></td>
+						<td>4</td>
+						<td>栏目编辑</td>
+						<td><a href="#">赵六</a>，<a href="#">钱七</a></td>
+						<td>只对所在栏目具有添加、删除草稿等权利。</td>
+						<td class="f-14"><a title="编辑" href="javascript:;" onclick="admin_role_edit('角色编辑','admin-role-add.html','4')" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_role_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+		</article>
 	</div>
-	
-	<!-- 弹出的添加或者编辑对话框 -->
-	
-	<div id="dlg" class="easyui-dialog" style="width:600px;height:380px;padding:10px 20px" closed="true" buttons="#dlg-buttons">
-	
-		<div class="easyui-layout" data-options="fit:true">
-			<div data-options="region:'west',border:false" style="padding:5px;margin:0 auto;width:350px">
-				<div class="ftitle">角色信息</div>
-				<!-- 添加 -->
-				<form id="fm" method="post" novalidate>
-					<div class="fitem">
-						<label>角色名:</label>
-						<input class="easyui-validatebox easyui-textbox" name="name" style="width:50%" data-options="validType:'length[0,20]',required:true"></input>
-					</div>
-					<div class="fitem">
-						<label>是否系统角色:</label>
-						<select class="easyui-combobox easyui-validatebox" required="true" name="isSystem" style="width:50%;">
-							<option value="1">是</option>
-							<option value="0">否</option>
-						</select>
-					</div>
-					<div class="fitem">
-						<label>描述:</label>
-						<input class="easyui-validatebox easyui-textbox" name="description" id="description" data-options="multiline:true,validType:'length[0,100]',novalidate:true" value="" style="width:50%;height:100px">
-					</div>
-					<input type="hidden" name="id"/>
-				</form>
-			</div>
-			
-			<div data-options="region:'center',border:false" style="padding:5px;margin:0 auto;">
-				<div class="ftitle">分配权限</div>
-				<ul id="permissionTree"></ul>
-			</div>
-		</div>
+</section>
+ <!--请在下方写此页面业务相关的脚本--> 
+<script type="text/javascript" src="<%=basePath%>/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="<%=basePath%>/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="<%=basePath%>/lib/laypage/1.2/laypage.js"></script> 
+<script type="text/javascript">
+/*管理员-角色-添加*/
+function admin_role_add(title,url,w,h){
+	layer_show(title,url,w,h);
+}
+/*管理员-角色-编辑*/
+function admin_role_edit(title,url,id,w,h){
+	layer_show(title,url,w,h);
+}
+/*管理员-角色-删除*/
+function admin_role_del(obj,id){
+	layer.confirm('角色删除须谨慎，确认要删除吗？',function(index){
+		//此处请求后台程序，下方是成功后的前台处理……
 		
-	</div>
-	
-	<!-- 添加对话框里的保存和取消按钮 -->
-	<div id="dlg-buttons">
-		<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUser('#dlg','#fm','#permissionTree')">保存</a>
-		<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
-	</div>
-	
-	<div id="updatedlg" class="easyui-dialog" style="width:600px;height:380px;padding:10px 20px" closed="true" buttons="#updatedlg-buttons">
-	
-	<div class="easyui-layout" data-options="fit:true">
-			<div data-options="region:'west',border:false" style="padding:5px;margin:0 auto;width:350px">
-		<div class="ftitle">角色信息</div>
-		<!-- 修改 -->
-		<form id="updatefm" method="post" novalidate>
-			<div class="fitem">
-				<label>角色名:</label>
-				<input name="name" class="easyui-validatebox easyui-textbox" required="true">
-			</div>
-			<div class="fitem">
-				<label>描述:</label>
-				<input class="easyui-validatebox easyui-textbox" name="description" id="description" data-options="multiline:true,validType:'length[0,100]',novalidate:true" value="" style="width:50%;height:100px">
-			</div>
-			<input type="hidden" name="id"/>
-		</form>
-		</div>
-			
-			<div data-options="region:'center',border:false" style="padding:5px;margin:0 auto;">
-				<div class="ftitle">分配权限</div>
-				<ul id="editPermissionTree"></ul>
-			</div>
-	</div>
-	
-	<!-- 编辑对话框里的保存和取消按钮 -->
-	<div id="updatedlg-buttons">
-		<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUser('#updatedlg','#updatefm','#editPermissionTree')">保存</a>
-		<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#updatedlg').dialog('close')">取消</a>
-	</div>
- 
+		
+		$(obj).parents("tr").remove();
+		layer.msg('已删除!',{icon:1,time:1000});
+	});
+}
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
 </body>
 </html>

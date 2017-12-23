@@ -79,7 +79,7 @@ public class WebCaptchaUserAuthorizingRealm extends AuthorizingRealm {
         String captcha = localAuthenticationToken.getCaptcha();
         String host = localAuthenticationToken.getHost();
 
-        if (!validateCaptcha(captcha)) {
+        if (captcha!=null&&!validateCaptcha(captcha)) {
             throw new IncorrectCaptchaException("captcha");
         }
         if ((username != null) && (password != null)) {
