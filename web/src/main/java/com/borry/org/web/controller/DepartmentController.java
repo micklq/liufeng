@@ -7,16 +7,19 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.borry.org.model.entity.Department;
+import com.borry.org.model.entity.Organization;
 import com.borry.org.model.entity.Permission;
+import com.borry.org.model.entity.Role;
 import com.borry.org.model.entity.UserPassport;
 import com.borry.org.service.BaseService;
+import com.borry.org.service.DepartmentService;
 import com.borry.org.service.PermissionService;
-import com.borry.org.service.UserPassportService;
+import com.borry.org.service.RoleService;
 import com.borry.org.webcomn.controller.CRUDController;
 
 /**
@@ -25,25 +28,26 @@ import com.borry.org.webcomn.controller.CRUDController;
  *
  */
 @Controller
-@RequestMapping("permission")
-public class PermissionController extends CRUDController<Permission, Long> {	
+@RequestMapping("department")
+public class DepartmentController extends CRUDController<Department, Long> {
 	
-	private static final Logger logger = LoggerFactory.getLogger(PermissionController.class);
+	private static final Logger logger = LoggerFactory.getLogger(DepartmentController.class);
 	
 	@Autowired
-	private PermissionService permissionService;
+	private DepartmentService departmentService;
 	
-	@Resource(name = "permissionService")
+	@Resource(name = "departmentService")
 	@Override
-	public void setBaseService(BaseService<Permission, Long> baseService) {
+	public void setBaseService(BaseService<Department, Long> baseService) {
 		this.baseService = baseService;		
 	}
 	
 	@RequestMapping("index")
-	public String index(ModelMap model){			
+	public String index(ModelMap model){	
 		
-		 List<Permission> list = this.findWithAll();
+		 List<Department> list = this.findWithAll();
 		 model.put("list", list);
-		return "permission/index";
+		 
+		return "department/index";
 	}
 }

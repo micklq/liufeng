@@ -82,7 +82,7 @@ public class MemberShipServiceImpl  implements MemberShipService {
 		
 		List<Filter> filters = new ArrayList<Filter>();
 		filters.add(Filter.eq("userName",username));
-		Sort sort = new Sort(Sort.Direction.DESC, "passportId");
+		Sort sort = new Sort(Sort.Direction.DESC, "id");
 		List<UserPassport>	list = userPassportService.findAll(0, 2,filters,sort);
 		if(list!=null&& list.size()==1)
 		{

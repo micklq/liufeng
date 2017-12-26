@@ -17,6 +17,8 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.borry.org.model.enums.PassportStatus;
+
 @Entity
 public class UserPassport extends BaseEntity {
 
@@ -52,7 +54,7 @@ public class UserPassport extends BaseEntity {
 	 * 状态
 	 */
 	private int passportStatus;
-
+	
 	
 	
 	public long getPassportId() {
@@ -112,7 +114,13 @@ public class UserPassport extends BaseEntity {
 
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
-	}	
+	}
+
+	public String getPassportStatusText() {
+		return  PassportStatus.getByValue(this.getPassportStatus()).getName();
+	}
+
+		
 	
 
 }

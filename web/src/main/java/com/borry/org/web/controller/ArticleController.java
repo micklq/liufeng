@@ -9,8 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
@@ -20,11 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.borry.org.base.util.Util;
 import com.borry.org.model.Filter;
+import com.borry.org.model.entity.Articles;
+import com.borry.org.model.entity.Permission;
 import com.borry.org.model.entity.Role;
 import com.borry.org.model.entity.UserPassport;
+import com.borry.org.service.ArticlesService;
 import com.borry.org.service.BaseService;
+import com.borry.org.service.PermissionService;
 import com.borry.org.service.RoleService;
-import com.borry.org.service.UserPassportService;
 import com.borry.org.webcomn.controller.CRUDController;
 
 /**
@@ -33,28 +34,24 @@ import com.borry.org.webcomn.controller.CRUDController;
  *
  */
 @Controller
-@RequestMapping("admin")
-public class AdminController extends CRUDController<UserPassport, Long> {
+@RequestMapping("article")
+public class ArticleController extends CRUDController<Articles, Long> {
 	
-	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
-	
-	
-	@Autowired
-	private UserPassportService userPassportService;
+	private static final Logger logger = LoggerFactory.getLogger(ArticleController.class);
 	
 	@Autowired
-	private RoleService roleService;
+	private ArticlesService articlesService;
 	
-	@Resource(name = "userPassportService")
+	@Resource(name = "articlesService")
 	@Override
-	public void setBaseService(BaseService<UserPassport, Long> baseService) {
+	public void setBaseService(BaseService<Articles, Long> baseService) {
 		this.baseService = baseService;		
 	}
 	
 	@RequestMapping("index")
-	public String index(@RequestParam(value="page", required=false, defaultValue="1") Integer page,ModelMap model){		
+	public String index(@RequestParam(value="page", required=false, defaultValue="1") Integer page,ModelMap model){	
 		
-		int dataCount = (int)userPassportService.count();
+		int dataCount = (int)articlesService.count();
 		int dataPage = (int) (dataCount/15);
 		if(dataCount%15==0){
 			dataPage= dataPage-1; //分页整除 减一 以下再加一
@@ -71,8 +68,8 @@ public class AdminController extends CRUDController<UserPassport, Long> {
 		int nextPage=((page+1)>pageCount)?pageCount:(page+1);
 		 List<Filter> filters = new ArrayList<Filter>();
 		 Sort sort = new Sort(Direction.DESC,"id");
-		 Page<UserPassport> plist = this.findWithPage(page,size,filters,sort);
-		 List<UserPassport> rlist = new ArrayList<UserPassport>();
+		 Page<Articles> plist = this.findWithPage(page,size,filters,sort);
+		 List<Articles> rlist = new ArrayList<Articles>();
 		 if(plist!=null&& plist.getSize()>0)
 	     {        	
 	       	 rlist = plist.getContent();
@@ -83,31 +80,9 @@ public class AdminController extends CRUDController<UserPassport, Long> {
         model.addAttribute("currentPage", page);	
         model.addAttribute("pageCount", pageCount);	
         model.addAttribute("dataCount", dataCount);	
-        for(UserPassport o : rlist){
-        	
-        	if(Util.isNullOrEmpty(o.getEmail())){        		
-        		o.setEmail("无");
-        	}
-        	if(Util.isNullOrEmpty(o.getMobile())){        		
-        		o.setMobile("无");
-        	}
-        	if(o.getRoleId()>0){
-        	  Role item= roleService.find(o.getRoleId());
-        	 if(item!=null){
-        		o.setRoleName(item.getName());
-        	 }
-        	 else{
-        		 o.setRoleName("无");
-        	 }
-        	}
-        	else{
-        		o.setRoleName("无");
-        	}
-        }
+        
 		model.put("list", rlist);
-		
-		return "admin/index";
+		 
+		return "article/index";
 	}
-
-	
 }

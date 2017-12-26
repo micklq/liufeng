@@ -133,9 +133,9 @@
 			<dt><i class="Hui-iconfont">&#xe62d;</i> 管理员管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
-					<li><a href="<%=basePath%>/role/list" title="角色管理">角色管理</a></li>
-					<li><a href="<%=basePath%>/permission/list" title="权限管理">权限管理</a></li>
-					<li><a href="<%=basePath%>/admin/list" title="管理员列表">管理员列表</a></li>
+					<li><a href="<%=basePath%>/role/index" title="角色管理">角色管理</a></li>
+					<li><a href="<%=basePath%>/permission/index" title="权限管理">权限管理</a></li>
+					<li><a href="<%=basePath%>/admin/index" title="管理员列表">管理员列表</a></li>
 		</ul>
 	</dd>
 </dl>

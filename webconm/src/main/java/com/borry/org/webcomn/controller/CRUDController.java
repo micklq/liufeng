@@ -101,7 +101,7 @@ public abstract class CRUDController<T extends BaseEntity, ID extends Serializab
     }
     
     
-    public List<T> findWithAll(List<Filter> filters, Sort sort) {    	
+    public List<T> findWithAll() {    	
     	List<T> entities = baseService.findAll();
     	return entities;
     }
