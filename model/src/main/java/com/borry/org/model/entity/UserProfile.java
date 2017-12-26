@@ -14,12 +14,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-public class UserProfile extends UserBaseEntity {
+public class UserProfile extends BaseEntity {
 
-
-	@Id
-	@Column(name = "passportid")
-	private long passportId;
 
 	private String nickName;
 
@@ -42,11 +38,11 @@ public class UserProfile extends UserBaseEntity {
 	
 
 	public long getPassportId() {
-		return passportId;
+		return this.getId();
 	}
 
 	public void setPassportId(long passportId) {
-		this.passportId = passportId;
+		this.setId(passportId);
 	}
 
 	public String getNickName() {

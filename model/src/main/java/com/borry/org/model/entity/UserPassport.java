@@ -18,17 +18,12 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-public class UserPassport extends UserBaseEntity {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "passportid")
-	private long passportId;
+public class UserPassport extends BaseEntity {
 
 	/**
 	 * 用户名
 	 */
-	@NotEmpty(groups = {UserBaseEntity.Save.class,UserBaseEntity.Update.class})	
+	@NotEmpty(groups = {BaseEntity.Save.class,BaseEntity.Update.class})	
 	@Length(min = 2, max = 30)
 	@Column(nullable = false, updatable = false, unique = true)
 	private String userName;
@@ -61,11 +56,11 @@ public class UserPassport extends UserBaseEntity {
 	
 	
 	public long getPassportId() {
-		return passportId;
+		return this.getId();
 	}
 
 	public void setPassportId(long passportId) {
-		this.passportId = passportId;
+		this.setId(passportId);
 	}
 
 

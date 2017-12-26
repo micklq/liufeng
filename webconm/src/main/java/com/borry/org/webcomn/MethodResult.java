@@ -10,12 +10,12 @@ public class MethodResult<T> {
     
 	 private Boolean success;
 	 private String message;
-	 private Integer code;
+	 private String code;
 	 private T result; 
 	 
 	public MethodResult() {}
 	
-	public MethodResult(Boolean success, String message, int code, T result) {
+	public MethodResult(Boolean success, String message, String code, T result) {
 		this.success= success;
 		this.message= message;
 		this.code= code;
@@ -39,11 +39,11 @@ public class MethodResult<T> {
 		this.message = message;
 	}
 
-	public Integer getCode() {
+	public String getCode() {
 		return code;
 	}
 
-	public void setCode(Integer code) {
+	public void setCode(String code) {
 		this.code = code;
 	}
 
@@ -58,15 +58,23 @@ public class MethodResult<T> {
   
     public MethodResult<T> SuccessResult(T result) { 
         
-        return new MethodResult<T>(Boolean.TRUE,"success",200,result); 
+        return new MethodResult<T>(Boolean.TRUE,"success","200",result); 
+    }
+    public MethodResult<T> SuccessResult(T result,String code) { 
+        
+        return new MethodResult<T>(Boolean.TRUE,"success",code,result); 
+    }
+    public MethodResult<T> SuccessResult(T result,String code,String message) { 
+    
+    return new MethodResult<T>(Boolean.TRUE,message,code,result); 
     }
     
     public MethodResult<T> FailResult(String message) { 
         
-        return new MethodResult<T>(Boolean.FALSE,message,500,null); 
+        return new MethodResult<T>(Boolean.FALSE,message,"500",null); 
     }
     
-    public  MethodResult<T> FailResult(String message,Integer code) { 
+    public  MethodResult<T> FailResult(String message,String code) { 
         
         return new MethodResult<T>(Boolean.FALSE,message,code,null); 
     }

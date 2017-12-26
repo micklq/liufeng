@@ -32,10 +32,10 @@ public abstract class BaseEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
  
-    @Column(name = "create_at",columnDefinition = "timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'",nullable=true)    
+    @Column(name = "create_date",columnDefinition = "timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'",nullable=true)    
     Date createDate;
  
-    @Column(name = "modify_at",columnDefinition = "timestamp NULL DEFAULT CURRENT_TIMESTAMP",nullable=true)
+    @Column(name = "modify_date",columnDefinition = "timestamp NULL DEFAULT CURRENT_TIMESTAMP",nullable=true)
     private Date modifyDate;
 
     private Long creatorId; //创建人id 

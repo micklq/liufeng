@@ -16,12 +16,9 @@ import com.borry.org.model.entity.BaseEntity.Save;
 import com.borry.org.model.entity.BaseEntity.Update;
 
 @Entity
-public class UserSecurity  extends UserBaseEntity {
-	
-	@Id
-	@Column(name = "passportid")
-	private long passportId;
-	
+public class UserSecurity  extends BaseEntity {
+
+
 	@NotEmpty(groups = {Save.class,Update.class})
     @Pattern(regexp = "^[^\\s&\"<>]+$")
     @Length(min = 4, max = 300)
@@ -41,11 +38,11 @@ public class UserSecurity  extends UserBaseEntity {
 	private Date lastPasswordChangedTime;
 
 	public long getPassportId() {
-		return passportId;
+		return this.getId();
 	}
 
 	public void setPassportId(long passportId) {
-		this.passportId = passportId;
+		this.setId(passportId);
 	}
 
 	public String getPassword() {

@@ -9,29 +9,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Role extends UserBaseEntity {
+public class Role extends BaseEntity {
 		
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1604514970566735810L;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "roleid")
-	private long roleId;
-	
+		
 	private String name;
 
 	private String description;
 	
 
 	public long getRoleId() {
-		return roleId;
+		return this.getId();
 	}
 
 	public void setRoleId(long roleId) {
-		this.roleId = roleId;
+		this.setId(roleId);
 	}
 
 	public String getName() {

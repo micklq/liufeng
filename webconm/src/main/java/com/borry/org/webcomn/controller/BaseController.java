@@ -1,30 +1,45 @@
 package com.borry.org.webcomn.controller;
 
 import org.springframework.context.MessageSource;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 
 import com.borry.org.base.Constants;
+import com.borry.org.base.util.Util;
+import com.borry.org.webcomn.MethodResult;
 import com.borry.org.webcomn.RespBodyBuilder;
 import com.borry.org.webcomn.Violation;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
 import javax.validation.groups.Default;
 
 import java.util.Date;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 public class BaseController {
 
-
+	protected HttpServletRequest request;
+	protected HttpServletResponse response;
+	
+	protected int page = 1;
+	protected int size = 15;
+	protected Map<String,String> pmap;
+	
     @Resource(name = "validator")
     private Validator validator;
     @Resource(name = "localeResolver")
@@ -32,6 +47,42 @@ public class BaseController {
     @Resource(name = "messageSource")
     private MessageSource messageSource;
 
+    
+    
+    /***
+	 * ModelAttribute的作用 1)放置在方法的形参上：表示引用Model中的数据
+	 * 2)放置在方法上面：表示请求该类的每个Action前都会首先执行它，也可以将一些准备数据的操作放置在该方法里面。
+	 * 
+	 */	
+	
+	@ModelAttribute
+	public void prepareModel(HttpServletRequest request, HttpServletResponse response, Model viewData) {
+		this.request = request;
+		this.response = response;
+		
+		int rows = Util.toInt(request.getParameter("rows"),10);		
+		page = Util.toInt(request.getParameter("page"), 1);
+		size = Util.toInt(request.getParameter("size"), rows);		
+
+	}
+	
+	public Map<String,String> getParameterMap(HttpServletRequest request){
+		
+		if(pmap == null){
+			pmap = new HashMap<String,String>();
+			
+			Enumeration<String> names = request.getParameterNames();
+			
+			if(names != null){
+				while (names.hasMoreElements()) {
+					String name = names.nextElement();
+					pmap.put(name, request.getParameter(name));
+		        }
+			}
+		}
+		return pmap;
+	}
+	
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(Date.class, new MutliFormatDateEditor(true));
@@ -181,5 +232,54 @@ public class BaseController {
         Locale locale = localeResolver.resolveLocale(null);
         return messageSource.getMessage(code, args, locale);
     }
+    
+    
+    public <T> MethodResult<T> SuccessResultJson(T data) {
+
+		MethodResult<T> result = new MethodResult<T>();
+
+		return result.SuccessResult(data);
+	}
+
+	public <T> MethodResult<T> SuccessResultJson(T data, String code) {
+
+		MethodResult<T> result = new MethodResult<T>();
+
+		return result.SuccessResult(data, code);
+	}
+
+	public <T> MethodResult<T> SuccessResultJson(T data, String code, String message) {
+
+		MethodResult<T> result = new MethodResult<T>();
+
+		return result.SuccessResult(data, code, message);
+	}
+
+	public <T> MethodResult<T> FailResultJson() {
+		MethodResult<T> result = new MethodResult<T>();
+
+		return result.FailResult("参数错误", "ParamError");
+	}
+
+	public <T> MethodResult<T> FailResultJson(String message) {
+
+		MethodResult<T> result = new MethodResult<T>();
+
+		return result.FailResult(message);
+	}
+
+	public <T> MethodResult<T> FailResultJson(String message, String code) {
+
+		MethodResult<T> result = new MethodResult<T>();
+
+		return result.FailResult(message, code);
+	}
+
+	public <T> MethodResult<T> LoginRequired() {
+		MethodResult<T> result = new MethodResult<T>();
+
+		return result.FailResult("请登录", "LoginRequired");
+	}
+
 
 }

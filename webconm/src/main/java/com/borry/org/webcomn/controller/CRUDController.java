@@ -38,9 +38,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.borry.org.base.Constants;
+import com.borry.org.base.util.Util;
 import com.borry.org.model.Filter;
 import com.borry.org.model.constants.ResponseCode;
 import com.borry.org.model.entity.BaseEntity;
+import com.borry.org.model.entity.OperationLog;
 import com.borry.org.service.*;
 import com.borry.org.webcomn.RespBody;
 import com.borry.org.webcomn.U;
@@ -58,8 +60,8 @@ public abstract class CRUDController<T extends BaseEntity, ID extends Serializab
      */
     protected BaseService<T, ID> baseService;
     
-//    @Autowired
-//    protected OperationLogService operationLogService;
+    @Autowired
+    protected OperationLogService operationLogService;
     
     @Value("${log_meduleType}")
     protected String log_meduleType;
@@ -85,6 +87,7 @@ public abstract class CRUDController<T extends BaseEntity, ID extends Serializab
         List<T> entities = baseService.findAll(start, limit, filters, sort);
         return respBodyWriter.toSuccess(entities);
     }
+    
     protected List<T> listAndNotReturn(Integer start, Integer limit, List<Filter> filters, Sort sort) {
     	List<T> entities = baseService.findAll(start, limit, filters, sort);
     	return entities;
@@ -96,7 +99,20 @@ public abstract class CRUDController<T extends BaseEntity, ID extends Serializab
         Page<T> p = baseService.findAll(pr, filters);
         return respBodyWriter.toSuccess(p);
     }
-
+    
+    
+    public List<T> findWithAll(List<Filter> filters, Sort sort) {    	
+    	List<T> entities = baseService.findAll();
+    	return entities;
+    }
+    
+    public  Page<T> findWithPage(Integer page, Integer size, List<Filter> filters, Sort sort) {
+        Pageable pr = new PageRequest(page, size, sort);
+        return  baseService.findAll(pr, filters);       
+    }
+    public T findById(ID id) {    	
+    	return baseService.find(id);    	
+    }
 
     /**
      * Create.
@@ -104,17 +120,15 @@ public abstract class CRUDController<T extends BaseEntity, ID extends Serializab
      * @param entity the entity
      * @return the request result
      */
-    @RequestMapping(value = {"/create"},
-            method = {RequestMethod.POST, RequestMethod.PUT})
+    @RequestMapping(value = {"/create"}, method = {RequestMethod.POST, RequestMethod.PUT})
     @ResponseBody
     public RespBody create(T entity) {
         if (!validator(entity, BaseEntity.Save.class)) {
             return respBodyWriter.toError(ResponseCode.CODE_455.toString(),ResponseCode.CODE_455.toCode());
-        }
-        
+        }        
         entity.setCreatorId(U.getUid());        
         baseService.save(entity);
-        //this.operationLogService.save(new OperationLog(log_meduleType, "添加", entity.getId().toString(), entity.getClass().getSimpleName(), U.getUid(), U.getUname(), "添加"+entity.getClass().getSimpleName()));
+        this.operationLogService.save(new OperationLog(log_meduleType, "添加", entity.getId().toString(), entity.getClass().getSimpleName(), U.getUid(), U.getUname(), "添加"+entity.getClass().getSimpleName()));
         return respBodyWriter.toSuccess(entity);
     }
 
@@ -124,8 +138,7 @@ public abstract class CRUDController<T extends BaseEntity, ID extends Serializab
      * @param id the id
      * @return the request result
      */
-    @RequestMapping(value = {"/get"},
-            method = {RequestMethod.GET})
+    @RequestMapping(value = {"/get"},method = {RequestMethod.GET})
     @ResponseBody
     public RespBody get(@RequestParam ID id) {
         T entity = baseService.find(id);
@@ -138,8 +151,7 @@ public abstract class CRUDController<T extends BaseEntity, ID extends Serializab
      * @param entity the entity
      * @return the request result
      */
-    @RequestMapping(value = {"/update"},
-            method = {RequestMethod.POST, RequestMethod.PUT})
+    @RequestMapping(value = {"/update"}, method = {RequestMethod.POST, RequestMethod.PUT})
     @ResponseBody
     public RespBody update(T entity) {
         if (!validator(entity, BaseEntity.Update.class)) {
@@ -147,9 +159,40 @@ public abstract class CRUDController<T extends BaseEntity, ID extends Serializab
         }
         entity.setCreatorId(U.getUid());  
         baseService.update(entity);
-        //this.operationLogService.save(new OperationLog(log_meduleType, "更新", entity.getId().toString(), entity.getClass().getSimpleName(), U.getUid(), U.getUname(), "更新"+entity.getClass().getSimpleName()));
+        this.operationLogService.save(new OperationLog(log_meduleType, "更新", entity.getId().toString(), entity.getClass().getSimpleName(), U.getUid(), U.getUname(), "更新"+entity.getClass().getSimpleName()));
         return respBodyWriter.toSuccess(entity);
     }
+    
+    @RequestMapping( value = "saveAction", method= RequestMethod.POST)
+	@ResponseBody
+	public RespBody saveAction(T entity){
+		
+		if(entity.getId() == null || entity.getId() == 0 ){
+			//add
+			entity.setCreatorId(U.getUid());			
+			baseService.save(entity);		
+		   this.operationLogService.save(new OperationLog(log_meduleType, "添加", entity.getId().toString(), entity.getClass().getSimpleName(), U.getUid(), U.getUname(), "添加"+entity.getClass().getSimpleName()));
+		       
+			return respBodyWriter.toSuccess(entity);
+		}
+		else{
+			//update
+			
+			@SuppressWarnings("unchecked")
+			T model = baseService.find((ID)entity.getId());
+			if(model == null){
+				return respBodyWriter.toError("数据不存在",500);				
+			}
+			
+			Util.copyValueIncludes(entity, model, request.getParameterNames());			
+			model.setModifyDate(new Date());			
+			baseService.update(model);
+			this.operationLogService.save(new OperationLog(log_meduleType, "更新", model.getId().toString(), model.getClass().getSimpleName(), U.getUid(), U.getUname(), "更新"+model.getClass().getSimpleName()));
+			
+			return respBodyWriter.toSuccess(model);
+		}
+		
+	}
 
     /**
      * Delete request
@@ -165,7 +208,7 @@ public abstract class CRUDController<T extends BaseEntity, ID extends Serializab
             baseService.delete(id);
         }
         RespBody reps = new RespBody(Boolean.TRUE, RespBody.MESSAGE_OK, id);
-        //this.operationLogService.save(new OperationLog(log_meduleType, "删除", entity.getId().toString(), entity.getClass().getSimpleName(), U.getUid(), U.getUname(), "删除"+entity.getClass().getSimpleName()));
+        this.operationLogService.save(new OperationLog(log_meduleType, "删除", entity.getId().toString(), entity.getClass().getSimpleName(), U.getUid(), U.getUname(), "删除"+entity.getClass().getSimpleName()));
         return reps;
 
     }
@@ -183,7 +226,7 @@ public abstract class CRUDController<T extends BaseEntity, ID extends Serializab
             baseService.delete(ids);
         }
         RespBody reps = new RespBody(Boolean.TRUE, RespBody.MESSAGE_OK, ids);
-        //this.operationLogService.save(new OperationLog(log_meduleType, "删除全部", StringUtils.join(ids,","), baseService.getEntityClass().getSimpleName(), U.getUid(), U.getUname(), "删除全部"+baseService.getEntityClass().getSimpleName()));
+        this.operationLogService.save(new OperationLog(log_meduleType, "删除全部", StringUtils.join(ids,","), baseService.getEntityClass().getSimpleName(), U.getUid(), U.getUname(), "删除全部"+baseService.getEntityClass().getSimpleName()));
         return reps;
     }
 
@@ -194,8 +237,7 @@ public abstract class CRUDController<T extends BaseEntity, ID extends Serializab
      * @param limit 返回集合的长度,相当于分页大小
      * @return the request result
      */
-    @RequestMapping(value = {"/list"},
-            method = {RequestMethod.GET})
+    @RequestMapping(value = {"/list"},method = {RequestMethod.GET})
     @ResponseBody
     public RespBody list(@RequestParam Integer start, @RequestParam Integer limit) {
         return list(start, limit, null, null);
@@ -207,8 +249,7 @@ public abstract class CRUDController<T extends BaseEntity, ID extends Serializab
      * <input name="curdForm.filters['nameLike']" value="ccc" />
      * <input name="curdForm.orders['idDesc']" value="ccc" />
      */
-    @RequestMapping(value = {"/find"},
-            method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = {"/find"}, method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public RespBody find(@RequestParam Integer start, @RequestParam Integer limit, @RequestBody CRUDForm curdForm) {
         // 从request中获取通用查询条件
@@ -250,8 +291,7 @@ public abstract class CRUDController<T extends BaseEntity, ID extends Serializab
      * @param page 开始页码
      * @param size 分页大小
      */
-    @RequestMapping(value = {"/findpage"},
-            method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = {"/findpage"}, method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public RespBody findPage(@RequestParam Integer page, @RequestParam Integer size, @RequestBody CRUDForm curdForm) {
         // 从request中获取通用查询条件

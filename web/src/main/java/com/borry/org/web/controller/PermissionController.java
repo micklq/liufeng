@@ -5,6 +5,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.borry.org.model.entity.Permission;
+import com.borry.org.model.entity.UserPassport;
+import com.borry.org.service.BaseService;
+import com.borry.org.webcomn.controller.CRUDController;
+
 /**
  * 菜单暂时是写死的
  * @author meizhiwen
@@ -12,12 +17,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("permission")
-public class PermissionController {
+public class PermissionController extends CRUDController<Permission, Long> {
 	
 	private static final Logger logger = LoggerFactory.getLogger(PermissionController.class);
 	
-	@RequestMapping("list")
-	public String list(){		
-		return "permission/list";
+	@Override
+	public void setBaseService(BaseService<Permission, Long> baseService) {
+		this.baseService = baseService;		
+	}
+	
+	@RequestMapping("index")
+	public String index(){		
+		return "permission/index";
 	}
 }

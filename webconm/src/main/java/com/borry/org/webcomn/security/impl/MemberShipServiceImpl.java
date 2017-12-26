@@ -195,7 +195,7 @@ public class MemberShipServiceImpl  implements MemberShipService {
 		String  psw = password+pswSalt;  
 		security.setPasswordSalt(pswSalt);
 		security.setPassword(DigestUtils.md5Hex(psw));
-		security.setHashAlgorithm("MD5Hex");
+		security.setHashAlgorithm("MD5");
 	    security.setIsLocked(false);
 	    security.setLastLockedTime(null);
 	    security.setLastPasswordChangedTime(null);       
@@ -236,21 +236,19 @@ public class MemberShipServiceImpl  implements MemberShipService {
 		passport.setRoleId(user.getRoleId());
 		passport.setPassportStatus(PassportStatus.Standard.getValue());
 		passport.setDataFrom("addMember");
-		//passport.setCreatorId(U.getUid());	
-		passport.setCreatorId(0L);	
+		passport.setCreatorId(user.getCreatorId());			
 		
 		String pswSalt = RandomStringUtils.random(6,true,true);
 		String  psw = user.getPassword()+pswSalt;  
 		security.setPasswordSalt(pswSalt);
 		security.setPassword(DigestUtils.md5Hex(psw));
-		security.setHashAlgorithm("MD5Hex");
+		security.setHashAlgorithm("MD5");
 	    security.setIsLocked(false);
 	    security.setLastLockedTime(null);
 	    security.setLastPasswordChangedTime(null);       
 		security.setFailedPasswordAttemptCount(0);
 		security.setDataFrom("addMember");
-		//security.setCreatorId(U.getUid());	
-		security.setCreatorId(0L);	
+		security.setCreatorId(user.getCreatorId());				
 		
 		profile.setMobile(user.getMobile());
 		profile.setEmail(user.getEmail());
@@ -261,9 +259,8 @@ public class MemberShipServiceImpl  implements MemberShipService {
 		profile.setBirthdate(user.getBirthdate());
 		profile.setQq(user.getQq());
 		profile.setWeixin(user.getWeixin());		
-		profile.setDataFrom("addMember");
-		//profile.setCreatorId(U.getUid());		
-		profile.setCreatorId(0L);	
+		profile.setDataFrom("addMember");		
+		profile.setCreatorId(user.getCreatorId());	
 		
 		userPassportService.save(passport);
 		security.setPassportId(passport.getPassportId());
@@ -292,7 +289,7 @@ public class MemberShipServiceImpl  implements MemberShipService {
 		passport.setEmail(user.getEmail());
 		passport.setRoleId(user.getRoleId());
 		passport.setDataFrom("updateMember");
-		passport.setCreatorId(U.getUid());	
+		passport.setCreatorId(user.getCreatorId());	
 		
 		profile.setEmail(user.getEmail());
 		profile.setRealName(user.getRealName());
@@ -303,7 +300,7 @@ public class MemberShipServiceImpl  implements MemberShipService {
 		profile.setQq(user.getQq());
 		profile.setWeixin(user.getWeixin());		
 		profile.setDataFrom("updateMember");
-		profile.setCreatorId(U.getUid());		
+		profile.setCreatorId(user.getCreatorId());		
 		
 		userPassportService.update(passport);
 		userProfileService.update(profile);
@@ -348,7 +345,7 @@ public class MemberShipServiceImpl  implements MemberShipService {
 	    security.setLastPasswordChangedTime(new Date());       
 		security.setFailedPasswordAttemptCount(0);
 		security.setDataFrom("updatePassword");
-		security.setCreatorId(U.getUid());	
+		security.setCreatorId(user.getCreatorId());	
 		userSecurityService.update(security);
 		return result.SuccessResult(true);
 	}
@@ -376,11 +373,11 @@ public class MemberShipServiceImpl  implements MemberShipService {
 		passport.setUserName(user.getMobile());
 		passport.setMobile(user.getMobile());
 		passport.setDataFrom("updateMobile");
-		passport.setCreatorId(U.getUid());	
+		passport.setCreatorId(user.getCreatorId());	
 		
 		profile.setMobile(user.getMobile());			
 		profile.setDataFrom("updateMobile");
-		profile.setCreatorId(U.getUid());	
+		profile.setCreatorId(user.getCreatorId());	
 		
 		userPassportService.update(passport);
 		userProfileService.update(profile);
