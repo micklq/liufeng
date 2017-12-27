@@ -97,7 +97,7 @@ public interface MemberShipService {
      * @param user
      * @return
      */
-    public MethodResult<Boolean> updateMember(UserPassportView user); 
+    public MethodResult<Boolean> updateMember(UserPassportView user,boolean isAdmin); 
     
     public MethodResult<Boolean> checkOriginalPassword(UserPassportView user); 
     

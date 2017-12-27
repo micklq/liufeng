@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.borry.org.base.util.Util;
 import com.borry.org.model.Filter;
 import com.borry.org.model.entity.*;
 import com.borry.org.model.entity.view.UserPassportView;
@@ -272,17 +273,17 @@ public class MemberShipServiceImpl  implements MemberShipService {
 	}
 
 	@Override
-	public MethodResult<Boolean> updateMember(UserPassportView user) {
+	public MethodResult<Boolean> updateMember(UserPassportView user,boolean isAdmin) {
 		MethodResult<Boolean>  result = new MethodResult<Boolean>();
 		if(user.getPassportId()<=0){
 			return result.FailResult("参数错误");
 		}
 		
-		UserPassport passport = userPassportService.find(user.getPassportId());
+		UserPassport passport = userPassportService.queryById(user.getPassportId());
 		if(passport==null){
 			return result.FailResult("参数错误:用户不存在");
 		}
-		UserProfile profile = userProfileService.find(user.getPassportId());
+		UserProfile profile = userProfileService.queryById(user.getPassportId());
 		if(profile==null){
 			return result.FailResult("参数错误:用户信息不存在");
 		}	
@@ -290,6 +291,11 @@ public class MemberShipServiceImpl  implements MemberShipService {
 		passport.setRoleId(user.getRoleId());
 		passport.setDataFrom("updateMember");
 		passport.setCreatorId(user.getCreatorId());	
+		if(isAdmin){
+			passport.setMobile(user.getMobile());			
+			passport.setPassportStatus(user.getPassportStatus());
+			
+		}
 		
 		profile.setEmail(user.getEmail());
 		profile.setRealName(user.getRealName());
@@ -300,10 +306,33 @@ public class MemberShipServiceImpl  implements MemberShipService {
 		profile.setQq(user.getQq());
 		profile.setWeixin(user.getWeixin());		
 		profile.setDataFrom("updateMember");
-		profile.setCreatorId(user.getCreatorId());		
-		
+		profile.setCreatorId(user.getCreatorId());	
+		if(isAdmin){
+			profile.setMobile(user.getMobile());			
+		}		
 		userPassportService.update(passport);
 		userProfileService.update(profile);
+		
+		if(isAdmin&& user.getPassportStatus()== PassportStatus.Locked.getValue()){
+			
+			this.lock(user.getPassportId()); 
+		}
+		
+		if(isAdmin && !Util.isNullOrEmpty(user.getPassword())){
+			UserSecurity security = userSecurityService.queryById(user.getPassportId());
+			String pswSalt = RandomStringUtils.random(6,true,true);
+			String  psw = user.getPassword()+pswSalt;  
+			security.setPasswordSalt(pswSalt);
+			security.setPassword(DigestUtils.md5Hex(psw));
+			security.setHashAlgorithm("MD5");
+		    security.setIsLocked(false);
+		    security.setLastLockedTime(null);
+		    security.setLastPasswordChangedTime(null);       
+			security.setFailedPasswordAttemptCount(0);
+			security.setDataFrom("updateMember");
+			security.setCreatorId(user.getCreatorId());	
+			userSecurityService.update(security);
+		}
 		
 		return result.SuccessResult(true);
 	}

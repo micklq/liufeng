@@ -11,6 +11,8 @@
         <pattern>/*Ajax?*</pattern>
         <pattern>/*ajax?*</pattern>
         <pattern>/stat*</pattern>
+        <pattern>/*detail*</pattern>
+        <pattern>/*save*</pattern>
         <pattern>/*create*</pattern>
         <pattern>/*update*</pattern>
         <pattern>/*delete*</pattern>

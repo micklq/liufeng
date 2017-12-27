@@ -97,6 +97,11 @@ public class BaseServiceImpl<T, ID extends Serializable> implements
     public T find(ID id) {
         return baseRepository.findOne(id);
     }
+    
+    @Override
+    public T queryById(ID id) {
+        return baseRepository.findOne(id);
+    }
 
     @Override
     @Transactional(readOnly = true)

@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.borry.org.model.entity.ArticlesCategory;
 import com.borry.org.model.entity.Permission;
 import com.borry.org.model.entity.Role;
 import com.borry.org.model.entity.RolePermission;
@@ -20,6 +21,7 @@ import com.borry.org.model.entity.UserPassport;
 import com.borry.org.model.entity.view.UserPassportView;
 import com.borry.org.model.enums.Gender;
 import com.borry.org.model.enums.PermissionAction;
+import com.borry.org.service.ArticlesCategoryService;
 import com.borry.org.service.PermissionService;
 import com.borry.org.service.RolePermissionService;
 import com.borry.org.service.RoleService;
@@ -140,20 +142,38 @@ public class UserServiceTest extends BaseTest {
 //		System.out.println("Created RolePermission=====>>>>>"+rolePermission3.getId());	
 //		
 //	}	
-//	@Test
-	public void createAdminUser() 
-	{
 	
-//		MethodResult<UserPassport>  signupResult= memberShipService.signUp("13683205265", 1, "123456");
-//		System.out.println("Created Role=====>>>>>"+signupResult.isSuccess()+ "==>>"+ signupResult.getMessage());
-		UserPassportView user = new UserPassportView();
-		user.setRoleId(1);
-		user.setMobile("15110089625");
-		user.setUserName("admin");
-		user.setPassword("123456");
-		user.setGender(Gender.Male.getValue());
-		MethodResult<UserPassport>  member= memberShipService.addMember(user);
-		System.out.println("Created Role=====>>>>>"+member.isSuccess()+ "==>>"+ member.getMessage());	
+
+//	@Test
+//	public void createAdminUser() 
+//	{
+//	
+////		MethodResult<UserPassport>  signupResult= memberShipService.signUp("13683205265", 1, "123456");
+////		System.out.println("Created Role=====>>>>>"+signupResult.isSuccess()+ "==>>"+ signupResult.getMessage());
+//		UserPassportView user = new UserPassportView();
+//		user.setRoleId(1);
+//		user.setMobile("15110089625");
+//		user.setUserName("admin1");
+//		user.setPassword("123456");
+//		user.setGender(Gender.Male.getValue());
+//		MethodResult<UserPassport>  member= memberShipService.addMember(user);
+//		System.out.println("Created Role=====>>>>>"+member.isSuccess()+ "==>>"+ member.getMessage());	
+//		
+//	}
+	
+	
+	
+	@Autowired
+	public ArticlesCategoryService articlesCategoryService ;
+	@Test
+	public void createArticleCategory() 
+	{
+		ArticlesCategory category = new ArticlesCategory();
+		category.setName("新闻栏目2");
+		category.setDescription("新闻栏目2");	
+		articlesCategoryService.save(category);
+		System.out.println("Created Role=====>>>>>"+category.getId()+ "==>>"+ category.getName());			
+	
 		
 	}
 }

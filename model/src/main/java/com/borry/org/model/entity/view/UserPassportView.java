@@ -87,11 +87,11 @@ public class UserPassportView extends UserPassport {
 		this.realName = realName;
 	}
 
-	public int getGender() {
+	public Integer getGender() {
 		return gender;
 	}
 
-	public void setGender(int gender) {
+	public void setGender(Integer gender) {
 		this.gender = gender;
 	}
 

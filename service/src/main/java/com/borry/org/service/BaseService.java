@@ -52,6 +52,8 @@ public abstract interface BaseService<T, ID extends Serializable> {
      * @return the t
      */
     public abstract T find(ID paramID);
+    
+    public abstract T queryById(ID paramID);
 
     /**
      * 查找全部

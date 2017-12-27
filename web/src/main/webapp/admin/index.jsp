@@ -21,7 +21,7 @@
 				<button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
 			</div>
 			<div class="cl pd-5 bg-1 bk-gray mt-20">
-				<span class="l"><a href="javascript:;" onclick="admin_action('添加管理员','${pageContext.request.contextPath}/admin/adminview','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加管理员</a> </span>
+				<span class="l"><a href="javascript:;" onclick="admin_action('添加管理员','${pageContext.request.contextPath}/admin/detail','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加管理员</a> </span>
 			    <span class="r">共有数据：<strong>${requestScope.dataCount}</strong> 条</span>
 			</div>
 			<table class="table table-border table-bordered table-bg">
@@ -51,7 +51,7 @@
                      <td>${p.createDateStr}</td>
                      <td class="td-status"><span class="label label-success radius">${p.passportStatusText}</span></td>
                      <td class="td-manage">                            
-                       <a title="编辑" href="javascript:;" onclick="admin_action('管理员编辑','${pageContext.request.contextPath}/admin/adminview?id=${p.id}' , '800' , '500' )" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> 
+                       <a title="编辑" href="javascript:;" onclick="admin_action('管理员编辑','${pageContext.request.contextPath}/admin/detail?id=${p.id}' , '800' , '500' )" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> 
                      </td>
                 </tr>
                 </c:forEach> 					
