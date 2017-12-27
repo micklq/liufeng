@@ -29,79 +29,34 @@
 <!--[if IE 6]>
 <script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script><![endif]-->
-<title>管理员信息维护</title>
+<title>角色信息维护</title>
 <%  
-  UserPassportView p = (UserPassportView) request.getAttribute("userPassport");
-  if(p==null){ p = new UserPassportView();}
-  List<Role> roleList = (List<Role>) request.getAttribute("roleList");
+  Role p = (Role) request.getAttribute("role");
+  if(p==null){ p = new Role();}  
 %>
 </head>
 <body>
 <article class="cl pd-20">
-<form  method="post" class="form form-horizontal" id="form-submit">
-<input type="hidden" id="id" name="id" value="<%=p.getPassportId()%>">
-<div class="row cl">
-<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>登录名： </label>
-<%if (p.getPassportId() > 0) {%>
-<div class="formControls col-xs-6 col-sm-6"><input type="hidden" id="userName" name="userName" value="<%=p.getUserName()%>"><%=p.getUserName()%></div>
-<%}else {%>
-<div class="formControls col-xs-6 col-sm-6"><input type="text" class="input-text" id="userName" name="userName" value="" placeholder=""></div>
-<%}%>
-</div>
-<div class="row cl">
-<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>密码：</label>
-<div class="formControls col-xs-6 col-sm-6">
- <input type="text" class="input-text" id="password" name="password" value="" placeholder="<%=(p.getPassportId()==0 ?"":"不修改请留空")%>" >
-</div>
-</div>
-
-<div class="row cl">
-<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>手机：</label>
-<div class="formControls col-xs-6 col-sm-6">
-<input type="text" class="input-text" id="Mobile" name="Mobile" value="<%=(p.getMobile()!=null?p.getMobile():"")%>" placeholder="">
-</div>
-</div>
-
-<div class="row cl">
-<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>邮箱： </label>
-<div class="formControls col-xs-6 col-sm-6">
-<input type="text" class="input-text" id="Email" name="Email" value="<%=(p.getEmail()!=null?p.getEmail():"")%>" placeholder="">
-</div>
-</div>
-<div class="row cl">
-<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>角色：</label>
-<div class="formControls col-xs-8 col-sm-6">
-<span class="select-box">
-<select class="select" id="RoleId" name="RoleId">
-<option value="0" <%=(p.getRoleId()== 0 ? "selected" : "")%>>无</option>
-<% for( Role o : roleList ){ %>
-	<option value="<%= o.getId() %>"  <%=(p.getRoleId()==o.getId() ? "selected" : "")%>><%= o.getName() %></option>
- <% } %>
-</select>
-</span>
-</div>
-<div class="col-3"></div>
-</div>
-<div class="row cl">
-<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>状态：</label>
-<div class="formControls col-xs-8 col-sm-6">
- <span class="select-box">
- <select class="select" id="PassportStatus" name="PassportStatus">
- <% for( PassportStatus o : PassportStatus.values() ){ %>
-  <option value="<%= o.getValue() %>" <%=(p.getPassportStatus()== o.getValue() ? "selected" : "")%>><%= o.getName() %></option>
-<% } %>
-</select>
-</span>
-</div>
-<div class="col-3">
-</div>
-</div>         
-<div class="row cl">
- <div class="col-9 col-offset-2">
- <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
-</div>
-</div>
-</form>
+ <form method="post" class="form form-horizontal" id="form-admin-role-action">
+            <input type="hidden" id="id" name="id" value="<%=p.getRoleId()%>">
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>角色名称：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" value="<%=(p.getName()!=null?p.getName():"")%>" placeholder="" id="name" name="name">
+                </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-3">描述：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" value="<%=(p.getDescription()!=null?p.getDescription():"")%>" placeholder="" id="description" name="description">
+                </div>
+            </div>            
+            <div class="row cl">
+                <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+                    <button type="submit" class="btn btn-success radius" id="admin-role-save" name="admin-role-save"><i class="icon-ok"></i> 确定</button>
+                </div>
+            </div>
+ </form>
 </article>
 <script type="text/javascript" src="<%=basePath%>/lib/jquery/1.9.1/jquery.min.js"></script> 
 <script type="text/javascript" src="<%=basePath%>/lib/layer/2.4/layer.js"></script> 
@@ -112,7 +67,7 @@
 <script type="text/javascript" src="<%=basePath%>/lib/jquery.validation/1.14.0/messages_zh.js"></script> 
 <script type="text/javascript">
 $(function () { 
-  $("#form-submit").validate({
+  $("#form-admin-role-action").validate({
    rules: {},
    onkeyup: false,
    focusCleanup: true,
@@ -120,7 +75,7 @@ $(function () {
    submitHandler: function (form) {
       $(form).ajaxSubmit({
         type: 'post',
-        url: "<%=basePath%>/admin/updateAction",
+        url: "<%=basePath%>/role/updateAction",
         success: function (data) {
          if (data.success) {
            var index = parent.layer.getFrameIndex(window.name);

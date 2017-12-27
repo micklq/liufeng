@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.borry.org.model.entity.Organization;
 import com.borry.org.model.entity.Permission;
@@ -48,5 +49,17 @@ public class OrganizationController extends CRUDController<Organization, Long> {
 		 model.put("list", list);
 		 
 		return "organization/index";
+	}
+	
+	@RequestMapping("detail")
+	public String detail(@RequestParam(value="id", required=false, defaultValue="0") Long id,ModelMap model){		
+		
+		Organization organization = new Organization();
+		if( id>0) {
+			organization = organizationService.queryById(id);				
+		}
+		model.put("organization",organization);
+		
+		return "organization/detail";
 	}
 }

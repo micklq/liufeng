@@ -58,4 +58,16 @@ public class ArticleCategoryController extends CRUDController<ArticlesCategory, 
 		 
 		return "articleCategory/index";
 	}
+	
+	@RequestMapping("detail")
+	public String detail(@RequestParam(value="id", required=false, defaultValue="0") Long id,ModelMap model){		
+		
+		ArticlesCategory category = new ArticlesCategory();
+		if( id>0) {
+			category = articlesCategoryService.queryById(id);				
+		}
+		model.put("category",category);
+		
+		return "articleCategory/detail";
+	}
 }

@@ -29,79 +29,66 @@
 <!--[if IE 6]>
 <script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script><![endif]-->
-<title>管理员信息维护</title>
+<title>权限信息维护</title>
 <%  
-  UserPassportView p = (UserPassportView) request.getAttribute("userPassport");
-  if(p==null){ p = new UserPassportView();}
-  List<Role> roleList = (List<Role>) request.getAttribute("roleList");
+  List<Permission>  roots = (List<Permission>) request.getAttribute("rootPermission"); 
+  Permission p = (Permission) request.getAttribute("permission");
+  if(p==null){ p = new Permission();} 
 %>
 </head>
 <body>
 <article class="cl pd-20">
-<form  method="post" class="form form-horizontal" id="form-submit">
-<input type="hidden" id="id" name="id" value="<%=p.getPassportId()%>">
-<div class="row cl">
-<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>登录名： </label>
-<%if (p.getPassportId() > 0) {%>
-<div class="formControls col-xs-6 col-sm-6"><input type="hidden" id="userName" name="userName" value="<%=p.getUserName()%>"><%=p.getUserName()%></div>
-<%}else {%>
-<div class="formControls col-xs-6 col-sm-6"><input type="text" class="input-text" id="userName" name="userName" value="" placeholder=""></div>
-<%}%>
-</div>
-<div class="row cl">
-<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>密码：</label>
-<div class="formControls col-xs-6 col-sm-6">
- <input type="text" class="input-text" id="password" name="password" value="" placeholder="<%=(p.getPassportId()==0 ?"":"不修改请留空")%>" >
-</div>
-</div>
-
-<div class="row cl">
-<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>手机：</label>
-<div class="formControls col-xs-6 col-sm-6">
-<input type="text" class="input-text" id="Mobile" name="Mobile" value="<%=(p.getMobile()!=null?p.getMobile():"")%>" placeholder="">
-</div>
-</div>
-
-<div class="row cl">
-<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>邮箱： </label>
-<div class="formControls col-xs-6 col-sm-6">
-<input type="text" class="input-text" id="Email" name="Email" value="<%=(p.getEmail()!=null?p.getEmail():"")%>" placeholder="">
-</div>
-</div>
-<div class="row cl">
-<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>角色：</label>
-<div class="formControls col-xs-8 col-sm-6">
-<span class="select-box">
-<select class="select" id="RoleId" name="RoleId">
-<option value="0" <%=(p.getRoleId()== 0 ? "selected" : "")%>>无</option>
-<% for( Role o : roleList ){ %>
-	<option value="<%= o.getId() %>"  <%=(p.getRoleId()==o.getId() ? "selected" : "")%>><%= o.getName() %></option>
- <% } %>
-</select>
-</span>
-</div>
-<div class="col-3"></div>
-</div>
-<div class="row cl">
-<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>状态：</label>
-<div class="formControls col-xs-8 col-sm-6">
- <span class="select-box">
- <select class="select" id="PassportStatus" name="PassportStatus">
- <% for( PassportStatus o : PassportStatus.values() ){ %>
-  <option value="<%= o.getValue() %>" <%=(p.getPassportStatus()== o.getValue() ? "selected" : "")%>><%= o.getName() %></option>
-<% } %>
-</select>
-</span>
-</div>
-<div class="col-3">
-</div>
-</div>         
-<div class="row cl">
- <div class="col-9 col-offset-2">
- <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
-</div>
-</div>
-</form>
+<form method="post" class="form form-horizontal" id="form-submit">
+   <input type="hidden" id="id" name="id" value="<%=p.getPermissionId()%>">
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2">
+                    <span class="c-red">*</span>菜单名称：
+                </label>
+                <div class="formControls col-xs-6 col-sm-6">
+                    <input type="text" class="input-text" id="name" name="name" value="<%=(p.getName()!=null?p.getName():"")%>" placeholder="">
+                </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2">
+                    <span class="c-red">*</span>上级菜单：
+                </label>
+                <div class="formControls col-xs-8 col-sm-6">
+                    <span class="select-box">
+                        <select class="select" id="parentId" name="parentId">                            
+                            <option value="0"  <%=(p.getParentId()==0?"selected" : "")%>>顶级分类</option>
+                            <%if (roots != null && roots.size() > 0) {
+                               foreach (Permission o in roots) {%>   
+                                 <option value="<%=o.getPermissionId()%>" <%=(p.getParentId()==o.getPermissionId()?"selected" : "")%>><%=o.getName()%></option>
+                            <%} }%>                     
+                        </select>
+                    </span>
+                </div>
+                <div class="col-3">
+                </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2">
+                    <span class="c-red">*</span>访问地址：
+                </label>
+                <div class="formControls col-xs-6 col-sm-6">
+                    <input type="text" class="input-text" id="url" name="url" value="<%=(p.getUrl()!=null?p.getUrl():"")%>" placeholder="">
+                </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2">
+                    <span class="c-red">*</span>
+                    排序：
+                </label>
+                <div class="formControls col-xs-6 col-sm-6">
+                    <input type="text" class="input-text" id="sort" name="sort" value="<%=(p.getSort()>0?p.getSort():"0")%>" placeholder="">
+                </div>
+            </div>
+            <div class="row cl">
+                <div class="col-9 col-offset-2">
+                    <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+                </div>
+            </div>
+        </form>
 </article>
 <script type="text/javascript" src="<%=basePath%>/lib/jquery/1.9.1/jquery.min.js"></script> 
 <script type="text/javascript" src="<%=basePath%>/lib/layer/2.4/layer.js"></script> 
@@ -111,34 +98,48 @@
 <script type="text/javascript" src="<%=basePath%>/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
 <script type="text/javascript" src="<%=basePath%>/lib/jquery.validation/1.14.0/messages_zh.js"></script> 
 <script type="text/javascript">
-$(function () { 
-  $("#form-submit").validate({
-   rules: {},
-   onkeyup: false,
-   focusCleanup: true,
-   success: "valid",
-   submitHandler: function (form) {
-      $(form).ajaxSubmit({
-        type: 'post',
-        url: "<%=basePath%>/admin/updateAction",
-        success: function (data) {
-         if (data.success) {
-           var index = parent.layer.getFrameIndex(window.name);
-           parent.location.reload();
-           parent.layer.close(index);
-          }
-          else
-          {                                
-             $.Huimodalalert(data.message, 3000);
-          }
-         },
-        error: function (XmlHttpRequest, textStatus, errorThrown) {                       
-         $.Huimodalalert('网络超时,请检查网络连接！', 2000);
-        }
-        });                   
-     }
-   });
-});
-</script>
+        $(function () { 
+            $("#form-submit").validate({
+                rules: {
+                    name: {
+                        required: true,
+                        minlength: 2,
+                        maxlength: 16
+                    },
+                    parentId: {
+                        required: true,
+                        number: true,
+                    },                    
+                    sort: {
+                        required: true,
+                        number: true,
+                    },                    
+
+                },
+                onkeyup: false,
+                focusCleanup: true,
+                success: "valid",
+                submitHandler: function (form) {
+                    $(form).ajaxSubmit({
+                        type: 'post',
+                        url: "/permission/saveAction",
+                        success: function (data) {
+                            if (data.success) {
+                                var index = parent.layer.getFrameIndex(window.name);
+                                parent.location.reload();
+                                parent.layer.close(index);
+                            }
+                            else {
+                                $.Huimodalalert(data.message, 3000);
+                            }
+                        },
+                        error: function (XmlHttpRequest, textStatus, errorThrown) {
+                            $.Huimodalalert('网络超时,请检查网络连接！', 2000);
+                        }
+                    });                    
+                }
+            });
+        });
+    </script>
 </body>
 </html>

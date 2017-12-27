@@ -129,7 +129,7 @@ public class AdminController extends CRUDController<UserPassport, Long> {
 		
 		UserPassportView p = new UserPassportView();
 		if( id>0) {
-			UserPassport uPassport = userPassportService.find(id);
+			UserPassport uPassport = userPassportService.queryById(id);
 			if(uPassport!=null){
 				p = ClassHelper.convertClass(uPassport, UserPassportView.class);
 			}
