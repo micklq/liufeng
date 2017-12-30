@@ -117,8 +117,7 @@ public class BaseServiceImpl<T, ID extends Serializable> implements
 
     @Override
     @Transactional(readOnly = true)
-    public List<T> findAll(Integer first, Integer count, List<Filter> filters,
-                           Sort sort) {
+    public List<T> findAll(Integer first, Integer count, List<Filter> filters, Sort sort) {
         return baseRepository.findAll(first, count, filters, sort);
     }
 

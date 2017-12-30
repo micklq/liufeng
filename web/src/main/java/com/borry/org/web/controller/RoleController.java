@@ -1,5 +1,6 @@
 package com.borry.org.web.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -7,6 +8,8 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.borry.org.base.util.Util;
+import com.borry.org.model.Filter;
 import com.borry.org.model.entity.Permission;
 import com.borry.org.model.entity.Role;
 import com.borry.org.model.entity.RolePermission;
@@ -78,6 +82,12 @@ public class RoleController extends CRUDController<Role, Long> {
 		List<Permission> list = permissionService.findAll();
 		model.put("list", list);
 		
+		List<Filter> filters = new ArrayList<Filter>();
+		filters.add(Filter.eq("parentId", 0));
+		Sort sort = new Sort(Direction.ASC,"id");	
+		List<RolePermission> rlist = rolePermissionService.findAll(0,100,filters,sort);			
+		model.put("rlist", rlist);
+		
 		return "role/detail";
 	}
 	
@@ -106,7 +116,7 @@ public class RoleController extends CRUDController<Role, Long> {
 	                           rolePermission.setRoleId(entity.getRoleId());
 	                           rolePermission.setParentPermissionId(Util.toLong(oo[0]));
 	                           rolePermission.setPermissionId(Util.toLong(oo[1]));
-	                           rolePermission.setActionValue(Util.toLong(oo[2]));
+	                           rolePermission.setActionValue(Util.toInt(oo[2]));
 	                           rolePermissionService.save(rolePermission);	                            
 	                        }
 	                    }

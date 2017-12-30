@@ -3,6 +3,7 @@
 <%@page import="com.borry.org.model.entity.*"%>
 <%@page import="com.borry.org.model.entity.view.*"%>
 <%@page import="com.borry.org.model.enums.*"%>
+<%@page import="com.borry.org.webcomn.util.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html style="background: white">
@@ -12,14 +13,8 @@
   Role p = (Role) request.getAttribute("role");
   if(p==null){ p = new Role();} 
   List<Permission> plist = (List<Permission>) request.getAttribute("list"); 
-  List<Permission> roots = new ArrayList<Permission>();
-  List<Permission> slist = new ArrayList<Permission>();
-  if(plist!=null && plist.size()>0){
-    for(Permission root :plist){
-      if(root.getParentId()==0){roots.add(root); }
-    }
-  } 
-  
+  List<RolePermission> rlist = (List<RolePermission>)request.getAttribute("rlist"); 
+  List<Permission> roots = WebUtil.filterPermissionList(plist,0); 
 %>
 <base href="<%=basePath%>">
 <meta charset="utf-8">
@@ -69,17 +64,10 @@
                    <dt><label><%=o.getName()%></label></dt>
                     <dd>
                     <% 
-				     slist = new ArrayList<Permission>();
-				     for(Permission oo : plist)
-				     {
-                        if(oo.getParentId()==o.getPermissionId())
-                        {
-                           slist.add(oo); 
-                        }
-                     }             
+				     List<Permission> slist =WebUtil.filterPermissionList(plist,o.getPermissionId()); 				                 
                      if(slist.size()>0){
                        for(Permission so : slist) {  
-                        boolean ck0 = false;
+                       boolean ck0 = WebUtil.checkPermissionValue(rlist,so.getPermissionId(),0);
                      %>
                            <dl class="cl permission-list2">
                            <dt>
@@ -90,7 +78,7 @@
                             </dt>
                             <dd>
                               <% for( PermissionAction type : PermissionAction.values() ){ 
-                               boolean ck = flase;%>                                                 
+                               boolean ck =  WebUtil.checkPermissionValue(rlist,so.getPermissionId(),type.getValue());;%>                                                 
                                <label><input type="checkbox" @(ck ? "checked" : "") value="<%=o.getPermissionId()%>-<%=so.getPermissionId()%>-<%=type.getValue() %>" name="permissionValue" id="permissionValue-<%=so.getPermissionId()%>"><%= type.getName() %></label>
                              <%}%>                                                                                           
                             </dd>
