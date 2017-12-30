@@ -26,8 +26,6 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "permission")
 public class Permission extends BaseEntity {
-
-
 	
     /**
      * The Name.

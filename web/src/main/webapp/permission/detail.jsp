@@ -31,7 +31,7 @@
 <script>DD_belatedPNG.fix('*');</script><![endif]-->
 <title>权限信息维护</title>
 <%  
-  List<Permission>  roots = (List<Permission>) request.getAttribute("rootPermission"); 
+  List<Permission>  roots = (List<Permission>) request.getAttribute("RootPermission"); 
   Permission p = (Permission) request.getAttribute("permission");
   if(p==null){ p = new Permission();} 
 %>
@@ -122,7 +122,7 @@
                 submitHandler: function (form) {
                     $(form).ajaxSubmit({
                         type: 'post',
-                        url: "/permission/saveAction",
+                        url: "<%=basePath%>/permission/saveAction",
                         success: function (data) {
                             if (data.success) {
                                 var index = parent.layer.getFrameIndex(window.name);

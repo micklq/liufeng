@@ -1,3 +1,4 @@
+<%@page import="org.bouncycastle.asn1.cmp.OOBCertHash"%>
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@page import="com.borry.org.model.entity.*"%>
 <%@page import="com.borry.org.model.entity.view.*"%>
@@ -8,6 +9,17 @@
 <head>
 <%
   String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+  Role p = (Role) request.getAttribute("role");
+  if(p==null){ p = new Role();} 
+  List<Permission> plist = (List<Permission>) request.getAttribute("list"); 
+  List<Permission> roots = new ArrayList<Permission>();
+  List<Permission> slist = new ArrayList<Permission>();
+  if(plist!=null && plist.size()>0){
+    for(Permission root :plist){
+      if(root.getParentId()==0){roots.add(root); }
+    }
+  } 
+  
 %>
 <base href="<%=basePath%>">
 <meta charset="utf-8">
@@ -30,10 +42,6 @@
 <script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script><![endif]-->
 <title>角色信息维护</title>
-<%  
-  Role p = (Role) request.getAttribute("role");
-  if(p==null){ p = new Role();}  
-%>
 </head>
 <body>
 <article class="cl pd-20">
@@ -50,7 +58,48 @@
                 <div class="formControls col-xs-8 col-sm-9">
                     <input type="text" class="input-text" value="<%=(p.getDescription()!=null?p.getDescription():"")%>" placeholder="" id="description" name="description">
                 </div>
-            </div>            
+            </div>  
+             <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-3">网站角色：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                 <%if (roots != null && roots.size() > 0){ 
+				  for(Permission o :roots){
+				 %>
+				  <dl class="permission-list">
+                   <dt><label><%=o.getName()%></label></dt>
+                    <dd>
+                    <% 
+				     slist = new ArrayList<Permission>();
+				     for(Permission oo : plist)
+				     {
+                        if(oo.getParentId()==o.getPermissionId())
+                        {
+                           slist.add(oo); 
+                        }
+                     }             
+                     if(slist.size()>0){
+                       for(Permission so : slist) {  
+                        boolean ck0 = false;
+                     %>
+                           <dl class="cl permission-list2">
+                           <dt>
+                            <label class="">
+                            <input type="checkbox" <%=(ck0 ? "checked" : "")%> value="" name="permissionId" id="permissionId-<%=so.getPermissionId()%>">
+                            <%=so.getName()%>
+                            </label>
+                            </dt>
+                            <dd>
+                              <% for( PermissionAction type : PermissionAction.values() ){ 
+                               boolean ck = flase;%>                                                 
+                               <label><input type="checkbox" @(ck ? "checked" : "") value="<%=o.getPermissionId()%>-<%=so.getPermissionId()%>-<%=type.getValue() %>" name="permissionValue" id="permissionValue-<%=so.getPermissionId()%>"><%= type.getName() %></label>
+                             <%}%>                                                                                           
+                            </dd>
+                           </dl>
+                        <% }%>                                   
+                    </dd></dl>
+				  <% } }%>                   
+                </div>
+            </div>         
             <div class="row cl">
                 <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
                     <button type="submit" class="btn btn-success radius" id="admin-role-save" name="admin-role-save"><i class="icon-ok"></i> 确定</button>
@@ -66,34 +115,57 @@
 <script type="text/javascript" src="<%=basePath%>/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
 <script type="text/javascript" src="<%=basePath%>/lib/jquery.validation/1.14.0/messages_zh.js"></script> 
 <script type="text/javascript">
-$(function () { 
-  $("#form-admin-role-action").validate({
-   rules: {},
-   onkeyup: false,
-   focusCleanup: true,
-   success: "valid",
-   submitHandler: function (form) {
-      $(form).ajaxSubmit({
-        type: 'post',
-        url: "<%=basePath%>/role/updateAction",
-        success: function (data) {
-         if (data.success) {
-           var index = parent.layer.getFrameIndex(window.name);
-           parent.location.reload();
-           parent.layer.close(index);
-          }
-          else
-          {                                
-             $.Huimodalalert(data.message, 3000);
-          }
-         },
-        error: function (XmlHttpRequest, textStatus, errorThrown) {                       
-         $.Huimodalalert('网络超时,请检查网络连接！', 2000);
-        }
-        });                   
-     }
-   });
-});
-</script>
+    $(function () {
+        $(".permission-list dt input:checkbox").click(function () {
+            $(this).closest("dl").find("dd input:checkbox").prop("checked", $(this).prop("checked"));
+        });
+        $(".permission-list2 dd input:checkbox").click(function () {
+            var l = $(this).parent().parent().find("input:checked").length;
+            var l2 = $(this).parents(".permission-list").find(".permission-list2 dd").find("input:checked").length;
+            if ($(this).prop("checked")) {
+                $(this).closest("dl").find("dt input:checkbox").prop("checked", true);
+                $(this).parents(".permission-list").find("dt").first().find("input:checkbox").prop("checked", true);
+            }
+            else {
+                if (l == 0) {
+                    $(this).closest("dl").find("dt input:checkbox").prop("checked", false);
+                }
+                if (l2 == 0) {
+                    $(this).parents(".permission-list").find("dt").first().find("input:checkbox").prop("checked", false);
+                }
+            }
+        });
+        $("#form-admin-role-action").validate({
+            rules: {
+                Name: {
+                    required: true,
+                },
+            },
+            onkeyup: false,
+            focusCleanup: true,
+            success: "valid",
+            submitHandler: function (form) {
+                $(form).ajaxSubmit({
+                    type: 'post',
+                    url: "<%=basePath%>/role/updateAction",
+                    success: function (data) {
+                        if (data.success) {
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.location.reload();
+                            parent.layer.close(index);
+                        }
+                        else {
+                            $.Huimodalalert(data.message, 3000);
+                        }
+                    },
+                    error: function (XmlHttpRequest, textStatus, errorThrown) {
+                        $.Huimodalalert('网络超时,请检查网络连接！', 2000);
+                    }
+                });                
+            }
+        });
+    });
+ </script>   
+    
 </body>
 </html>

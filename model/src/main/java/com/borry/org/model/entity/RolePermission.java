@@ -36,7 +36,8 @@ public class RolePermission extends BaseEntity {
 	@Column(name = "permissionid")
 	private long permissionId;//权限Id	
 		
-    
+	private long parentPermissionId;//权限Id	
+	
 	@Column(name = "actionvalue")
 	private long actionValue;//事件
 	
@@ -62,6 +63,14 @@ public class RolePermission extends BaseEntity {
 
 	public void setRoleId(long roleId) {
 		this.roleId = roleId;
+	}
+
+	public long getParentPermissionId() {
+		return parentPermissionId;
+	}
+
+	public void setParentPermissionId(long parentPermissionId) {
+		this.parentPermissionId = parentPermissionId;
 	}
 
 	

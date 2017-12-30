@@ -14,15 +14,22 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.borry.org.model.Filter;
 import com.borry.org.model.entity.Permission;
 import com.borry.org.model.entity.Role;
 import com.borry.org.model.entity.UserPassport;
+import com.borry.org.model.entity.view.UserPassportView;
 import com.borry.org.service.BaseService;
 import com.borry.org.service.PermissionService;
+import com.borry.org.service.RolePermissionService;
 import com.borry.org.service.UserPassportService;
+import com.borry.org.webcomn.MethodResult;
+import com.borry.org.webcomn.RespBody;
+import com.borry.org.webcomn.U;
 import com.borry.org.webcomn.controller.CRUDController;
 
 /**
@@ -38,6 +45,9 @@ public class PermissionController extends CRUDController<Permission, Long> {
 	
 	@Autowired
 	private PermissionService permissionService;
+	
+	@Autowired
+	private RolePermissionService rolePermissionService;
 	
 	@Resource(name = "permissionService")
 	@Override
@@ -65,10 +75,31 @@ public class PermissionController extends CRUDController<Permission, Long> {
 		 List<Filter> filters = new ArrayList<Filter>();
 		 filters.add(Filter.eq("parentId", 0));
 		 Sort sort = new Sort(Direction.ASC,"id");		 
-		List<Permission> roots = permissionService.findAll(0, 100, filters, sort);
-		model.put("roots",roots);
-		
+		List<Permission> roots = permissionService.findAll(0, 100, filters, sort);		
+		model.put("RootPermission",roots);		
 		return "permission/detail";
 	}
+	
+	
+	@RequestMapping( value = "remove", method= RequestMethod.POST)
+	@ResponseBody
+	public RespBody remove(@RequestParam(value="id", required=false, defaultValue="0") Long id){	
+		
+		 if (id > 0)
+         {
+			 Permission item = permissionService.queryById(id);
+             if (item == null)
+             {
+            	  return respBodyWriter.toError("数据不存在", 500);
+             }             
+             rolePermissionService.deleteByPermissionId(id); //删除当前权限下的角色关系 
+             permissionService.delete(id);
+             return respBodyWriter.toSuccess();             
+         }
+         return respBodyWriter.toError("参数错误", 400);         
+		   			
+	}
+	
+		
 	
 }

@@ -37,6 +37,20 @@ public class RolePermissionServiceImpl extends BaseServiceImpl<RolePermission, L
 		super.setBaseRepository(baseRepository);
 	}
 
+	@Override
+	public void deleteByPermissionId(long permissionId) {
+		
+		rolePermissionDAO.deleteByPermissionId(permissionId);
+		
+	}
+	
+	@Override
+	public void deleteByRoleId(long roleId) {
+		
+		rolePermissionDAO.deleteByRoleId(roleId);
+		
+	}
+
 	
 
 }

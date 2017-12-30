@@ -14,12 +14,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.borry.org.base.util.Util;
 import com.borry.org.model.entity.Permission;
 import com.borry.org.model.entity.Role;
+import com.borry.org.model.entity.RolePermission;
 import com.borry.org.model.entity.UserPassport;
 import com.borry.org.model.entity.view.UserPassportView;
 import com.borry.org.service.BaseService;
 import com.borry.org.service.PermissionService;
+import com.borry.org.service.RolePermissionService;
 import com.borry.org.service.RoleService;
 import com.borry.org.webcomn.MethodResult;
 import com.borry.org.webcomn.RespBody;
@@ -40,6 +43,13 @@ public class RoleController extends CRUDController<Role, Long> {
 	
 	@Autowired
 	private RoleService roleService;
+	
+	@Autowired
+	private PermissionService permissionService;
+	
+	
+	@Autowired
+	private RolePermissionService rolePermissionService;
 	
 	@Resource(name = "roleService")
 	@Override
@@ -65,6 +75,9 @@ public class RoleController extends CRUDController<Role, Long> {
 		}
 		model.put("role",role);
 		
+		List<Permission> list = permissionService.findAll();
+		model.put("list", list);
+		
 		return "role/detail";
 	}
 	
@@ -72,13 +85,32 @@ public class RoleController extends CRUDController<Role, Long> {
 	@ResponseBody
 	public RespBody updateAction(Role entity){
 		
-		     entity.setCreatorId(U.getUid());	
+		   String[] permissionValues = request.getParameter("PermissionValue").split(","); 
+		    entity.setCreatorId(U.getUid());	
 			if(entity.getId() == null || entity.getId() == 0 ){										
 			  roleService.save(entity); //add								
 			}
 			else{				
 				roleService.update(entity);	//update													
 			}
+			   //添加权限	        
+	                if (permissionValues.length > 0)
+	                {
+	                	rolePermissionService.deleteByRoleId(entity.getRoleId());
+	                    for(String o : permissionValues)
+	                    {
+	                        String[] oo = o.split("-"); 
+	                        if (oo.length == 3)
+	                        {
+	                           RolePermission rolePermission = new RolePermission();
+	                           rolePermission.setRoleId(entity.getRoleId());
+	                           rolePermission.setParentPermissionId(Util.toLong(oo[0]));
+	                           rolePermission.setPermissionId(Util.toLong(oo[1]));
+	                           rolePermission.setActionValue(Util.toLong(oo[2]));
+	                           rolePermissionService.save(rolePermission);	                            
+	                        }
+	                    }
+	                } 
 			return respBodyWriter.toSuccess();
 		}
 }
