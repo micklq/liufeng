@@ -50,7 +50,7 @@ public class Permission extends BaseEntity {
     private int status; //0有效  1无效    
 	
     public long getPermissionId() {
-		return this.getId();
+		return ((this.getId()==null)?0:this.getId());
 	}
 
 	public void setPermissionId(long permissionId) {

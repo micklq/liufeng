@@ -16,7 +16,7 @@
 	<div class="Hui-article">
 		<article class="cl pd-20">
 			<div class="cl pd-5 bg-1 bk-gray"> <span class="l"> 
-			<a class="btn btn-primary radius" href="javascript:;" onclick="admin_role_action('添加角色', '${pageContext.request.contextPath}/admin/detail', '800')"><i class="Hui-iconfont">&#xe600;</i> 添加角色</a> </span> 
+			<a class="btn btn-primary radius" href="javascript:;" onclick="admin_role_action('添加角色', '${pageContext.request.contextPath}/role/detail', '800')"><i class="Hui-iconfont">&#xe600;</i> 添加角色</a> </span> 
 			</div>
 			<div class="mt-10">
 			<table class="table table-border table-bordered table-hover table-bg">
@@ -38,7 +38,7 @@
                         <td>${p.name}</td>
                         <td>${p.description}</td>
                         <td class="f-14">
-                        <a title="编辑" href="javascript:;" onclick="admin_role_action('角色编辑', '${pageContext.request.contextPath}/admin/detail?id=${p.id}', '800')" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> 
+                        <a title="编辑" href="javascript:;" onclick="admin_role_action('角色编辑', '${pageContext.request.contextPath}/role/detail?id=${p.id}', '800')" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> 
                         <a title="删除" href="javascript:;" onclick="admin_role_del(this, '${p.id}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
                         </td>
                     </tr>

@@ -1,23 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@page import="org.apache.calcite.linq4j.*"%>
-<%@page import="org.apache.calcite.linq4j.function.*"%>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@page import="com.borry.org.model.entity.*"%>
 <%@page import="com.borry.org.model.entity.view.*"%>
 <%@page import="com.borry.org.model.enums.*"%>
+<%@page import="com.borry.org.webcomn.util.*"%>
+<%@page import="com.borry.org.base.util.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html  style="background: white">
  <head>
  <%
   String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-  List<Permission> plist = (List<Permission>) request.getAttribute("list"); 
-  List<Permission> roots = new ArrayList<Permission>();
-  List<Permission> slist = new ArrayList<Permission>();
-  if(plist!=null && plist.size()>0){
-    for(Permission root :plist){
-      if(root.getParentId()==0){roots.add(root); }
-    }
-  } 
+  List<Permission> plist = (List<Permission>) request.getAttribute("permissionList"); 
+  List<Permission> roots =  WebUtil.filterPermissionList(plist,0); 
+    
 %>
 <title>管理员列表 - 权限管理</title>
 </head>
@@ -32,7 +27,7 @@
 	<div class="Hui-article">
 		<article class="cl pd-20">	
 			<div class="cl pd-5 bg-1 bk-gray mt-20"> 
-			<span class="l"><a href="javascript:;" onclick="admin_permission_action(('添加权限节点','/permission/detail?id=0','','310')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加权限节点</a></span> 
+			<span class="l"><a href="javascript:;" onclick="admin_permission_action('添加权限节点','<%=basePath%>/permission/detail?id=0','','310')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加权限节点</a></span> 
 			</div>
 			<table class="table table-border table-bordered table-bg">
 				<thead>
@@ -54,33 +49,26 @@
 				 %>
 				 <tr class="text-c">
                   <td class="text-l"><%=o.getName()%></td>
-                  <td><%=o.getUrl()%></td>
+                  <td><%=(Util.isNullOrEmpty(o.getUrl())?"--":o.getUrl())%></td>
                   <td><%=o.getPermissionId()%></td>
                   <td><%=o.getParentId()%></td>
                   <td><%=o.getSort()%></td>
                   <td>
-                   <a title="编辑" href="javascript:;" onclick="admin_permission_action('编辑权限节点', '/permission/detail?id=<%=o.getPermissionId()%>', '', '310')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>                                
+                   <a title="编辑" href="javascript:;" onclick="admin_permission_action('编辑权限节点', '<%=basePath%>/permission/detail?id=<%=o.getPermissionId()%>', '', '310')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>                                
                   </td>
                   </tr>
 				  <% 
-				     slist = new ArrayList<Permission>();
-				     for(Permission oo : plist)
-				     {
-                        if(oo.getParentId()==o.getPermissionId())
-                        {
-                           slist.add(oo); 
-                        }
-                     }             
+				     List<Permission>  slist = WebUtil.filterPermissionList(plist,o.getPermissionId()); 				                 
                      if(slist.size()>0){
                         for(Permission so : slist) {%>
 				          <tr class="text-c">
                                 <td class="text-l">&nbsp;&nbsp;&nbsp;├ <%=so.getName()%></td>
-                                <td><%=so.getUrl()%></td>
+                                <td><%=(Util.isNullOrEmpty(so.getUrl())?"--":so.getUrl())%></td>
                                 <td><%=so.getPermissionId()%></td>
                                 <td><%=so.getParentId()%></td>
                                 <td><%=so.getSort()%></td>
                                 <td>
-                                    <a title="编辑" href="javascript:;" onclick="admin_permission_action('角色编辑', '/permission/detail?id=<%=so.getPermissionId()%>', '', '310')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+                                    <a title="编辑" href="javascript:;" onclick="admin_permission_action('角色编辑', '<%=basePath%>/permission/detail?id=<%=so.getPermissionId()%>', '', '310')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
                                     <a title="删除" href="javascript:;" onclick="admin_permission_del(this, '<%=so.getPermissionId()%>" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
                                 </td>
                             </tr>				          

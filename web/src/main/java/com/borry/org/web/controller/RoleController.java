@@ -80,11 +80,11 @@ public class RoleController extends CRUDController<Role, Long> {
 		model.put("role",role);
 		
 		List<Permission> list = permissionService.findAll();
-		model.put("list", list);
+		model.put("plist", list);
 		
-		List<Filter> filters = new ArrayList<Filter>();
-		filters.add(Filter.eq("parentId", 0));
-		Sort sort = new Sort(Direction.ASC,"id");	
+		List<Filter> filters = new ArrayList<Filter>();		
+		filters.add(Filter.eq("roleId", id));
+		Sort sort = new Sort(Direction.ASC,"permissionId");	
 		List<RolePermission> rlist = rolePermissionService.findAll(0,100,filters,sort);			
 		model.put("rlist", rlist);
 		
@@ -93,9 +93,8 @@ public class RoleController extends CRUDController<Role, Long> {
 	
 	@RequestMapping( value = "updateAction", method= RequestMethod.POST)
 	@ResponseBody
-	public RespBody updateAction(Role entity){
-		
-		   String[] permissionValues = request.getParameter("PermissionValue").split(","); 
+	public RespBody updateAction(Role entity){		
+		   
 		    entity.setCreatorId(U.getUid());	
 			if(entity.getId() == null || entity.getId() == 0 ){										
 			  roleService.save(entity); //add								
@@ -103,24 +102,30 @@ public class RoleController extends CRUDController<Role, Long> {
 			else{				
 				roleService.update(entity);	//update													
 			}
-			   //添加权限	        
-	                if (permissionValues.length > 0)
-	                {
-	                	rolePermissionService.deleteByRoleId(entity.getRoleId());
-	                    for(String o : permissionValues)
-	                    {
-	                        String[] oo = o.split("-"); 
-	                        if (oo.length == 3)
-	                        {
-	                           RolePermission rolePermission = new RolePermission();
-	                           rolePermission.setRoleId(entity.getRoleId());
-	                           rolePermission.setParentPermissionId(Util.toLong(oo[0]));
-	                           rolePermission.setPermissionId(Util.toLong(oo[1]));
-	                           rolePermission.setActionValue(Util.toInt(oo[2]));
-	                           rolePermissionService.save(rolePermission);	                            
-	                        }
-	                    }
-	                } 
+			  String requestValues = request.getParameter("permissionValue"); 
+			 if(!Util.isNullOrEmpty(requestValues)) {
+				 String[] permissionValues = requestValues.split(","); 
+				   //添加权限	        
+		                if (permissionValues.length > 0)
+		                {
+		                	rolePermissionService.deleteByRoleId(entity.getRoleId());
+		                    for(String o : permissionValues)
+		                    {
+		                        String[] oo = o.split("-"); 
+		                        if (oo.length == 3)
+		                        {
+		                           RolePermission rolePermission = new RolePermission();
+		                           rolePermission.setRoleId(entity.getRoleId());
+		                           rolePermission.setParentPermissionId(Util.toLong(oo[0]));
+		                           rolePermission.setPermissionId(Util.toLong(oo[1]));
+		                           rolePermission.setActionValue(Util.toInt(oo[2]));
+		                           rolePermissionService.save(rolePermission);	                            
+		                        }
+		                    }
+		                }
+				 
+			 }
+			     
 			return respBodyWriter.toSuccess();
 		}
 }

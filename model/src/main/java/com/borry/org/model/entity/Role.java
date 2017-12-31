@@ -18,7 +18,7 @@ public class Role extends BaseEntity {
 	
 
 	public long getRoleId() {
-		return this.getId();
+		return ((this.getId()==null)?0:this.getId());
 	}
 
 	public void setRoleId(long roleId) {

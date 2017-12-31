@@ -8,6 +8,9 @@
 <head>
 <%
   String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+  List<Permission>  roots = (List<Permission>) request.getAttribute("rootPermission"); 
+  Permission p = (Permission) request.getAttribute("permission");
+  if(p==null){ p = new Permission();} 
 %>
 <base href="<%=basePath%>">
 <meta charset="utf-8">
@@ -30,11 +33,6 @@
 <script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script><![endif]-->
 <title>权限信息维护</title>
-<%  
-  List<Permission>  roots = (List<Permission>) request.getAttribute("RootPermission"); 
-  Permission p = (Permission) request.getAttribute("permission");
-  if(p==null){ p = new Permission();} 
-%>
 </head>
 <body>
 <article class="cl pd-20">
@@ -57,7 +55,7 @@
                         <select class="select" id="parentId" name="parentId">                            
                             <option value="0"  <%=(p.getParentId()==0?"selected" : "")%>>顶级分类</option>
                             <%if (roots != null && roots.size() > 0) {
-                               foreach (Permission o in roots) {%>   
+                               for(Permission o : roots) {%>   
                                  <option value="<%=o.getPermissionId()%>" <%=(p.getParentId()==o.getPermissionId()?"selected" : "")%>><%=o.getName()%></option>
                             <%} }%>                     
                         </select>

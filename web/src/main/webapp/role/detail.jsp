@@ -12,7 +12,7 @@
   String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
   Role p = (Role) request.getAttribute("role");
   if(p==null){ p = new Role();} 
-  List<Permission> plist = (List<Permission>) request.getAttribute("list"); 
+  List<Permission> plist = (List<Permission>) request.getAttribute("plist"); 
   List<RolePermission> rlist = (List<RolePermission>)request.getAttribute("rlist"); 
   List<Permission> roots = WebUtil.filterPermissionList(plist,0); 
 %>
@@ -58,16 +58,16 @@
                 <label class="form-label col-xs-4 col-sm-3">网站角色：</label>
                 <div class="formControls col-xs-8 col-sm-9">
                  <%if (roots != null && roots.size() > 0){ 
-				  for(Permission o :roots){
+				    for(Permission o :roots){
 				 %>
 				  <dl class="permission-list">
                    <dt><label><%=o.getName()%></label></dt>
                     <dd>
                     <% 
-				     List<Permission> slist =WebUtil.filterPermissionList(plist,o.getPermissionId()); 				                 
-                     if(slist.size()>0){
-                       for(Permission so : slist) {  
-                       boolean ck0 = WebUtil.checkPermissionValue(rlist,so.getPermissionId(),0);
+				       List<Permission> slist =WebUtil.filterPermissionList(plist,o.getPermissionId()); 				                 
+                       if(slist.size()>0){
+                         for(Permission so : slist) {  
+                         boolean ck0 = WebUtil.checkPermissionValue(rlist,so.getPermissionId(),0);
                      %>
                            <dl class="cl permission-list2">
                            <dt>
@@ -85,7 +85,7 @@
                            </dl>
                         <% }%>                                   
                     </dd></dl>
-				  <% } }%>                   
+				  <% } }}%>                   
                 </div>
             </div>         
             <div class="row cl">

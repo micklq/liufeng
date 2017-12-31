@@ -59,7 +59,7 @@ public class PermissionController extends CRUDController<Permission, Long> {
 	public String index(ModelMap model){			
 		
 		 List<Permission> list = this.findWithAll();
-		 model.put("list", list);
+		 model.put("permissionList", list);
 		return "permission/index";
 	}
 	
@@ -74,9 +74,9 @@ public class PermissionController extends CRUDController<Permission, Long> {
 		
 		 List<Filter> filters = new ArrayList<Filter>();
 		 filters.add(Filter.eq("parentId", 0));
-		 Sort sort = new Sort(Direction.ASC,"id");		 
+		 Sort sort = new Sort(Direction.ASC,"sort");		 
 		List<Permission> roots = permissionService.findAll(0, 100, filters, sort);		
-		model.put("RootPermission",roots);		
+		model.put("rootPermission",roots);		
 		return "permission/detail";
 	}
 	

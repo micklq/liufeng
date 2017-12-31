@@ -38,7 +38,7 @@ public class UserProfile extends BaseEntity {
 	
 
 	public long getPassportId() {
-		return this.getId();
+		return ((this.getId()==null)?0:this.getId());
 	}
 
 	public void setPassportId(long passportId) {
