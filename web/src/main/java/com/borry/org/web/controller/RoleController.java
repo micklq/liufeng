@@ -128,4 +128,23 @@ public class RoleController extends CRUDController<Role, Long> {
 			     
 			return respBodyWriter.toSuccess();
 		}
+	
+	@RequestMapping( value = "remove", method= RequestMethod.POST)
+	@ResponseBody
+	public RespBody remove(@RequestParam(value="id", required=false, defaultValue="0") Long id){	
+		
+		 if (id > 0)
+         {
+			 Role item = roleService.queryById(id);
+             if (item == null)
+             {
+            	  return respBodyWriter.toError("数据不存在", 500);
+             }             
+             rolePermissionService.deleteByRoleId(id); //删除当前权限下的角色关系 
+             roleService.delete(id);
+             return respBodyWriter.toSuccess();             
+         }
+         return respBodyWriter.toError("参数错误", 400);         
+		   			
+	}
 }

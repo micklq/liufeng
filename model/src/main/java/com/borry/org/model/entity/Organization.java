@@ -15,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.borry.org.model.enums.OrganizationStatus;
+
 
 /**
  * Created by
@@ -27,6 +29,14 @@ import javax.persistence.Transient;
 public class Organization extends BaseEntity {
 		
 	
+	
+	public long getOrgId() {
+		return ((this.getId()==null)?0:this.getId());
+	}
+
+	public void setOrgId(long orgId) {
+		this.setId(orgId);
+	}
 	private String code;//组织编号    
 	 
     /**
@@ -44,7 +54,8 @@ public class Organization extends BaseEntity {
     @Column(length = 300, nullable = true)
     private String address;//单位地址    
 
-
+    private int status; //0有效  1无效    
+    
 	public String getCode() {
 		return code;
 	}
@@ -82,6 +93,20 @@ public class Organization extends BaseEntity {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+
+	public int getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	
+	public String getStatusText() {
+		return  OrganizationStatus.getByValue(this.getStatus()).getName();
 	}
     
     

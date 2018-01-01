@@ -27,7 +27,7 @@
 	<div class="Hui-article">
 		<article class="cl pd-20">	
 			<div class="cl pd-5 bg-1 bk-gray mt-20"> 
-			<span class="l"><a href="javascript:;" onclick="admin_permission_action('添加权限节点','<%=basePath%>/permission/detail?id=0','','310')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加权限节点</a></span> 
+			<span class="l"><a href="javascript:;" onclick="permission_detail('添加权限节点','<%=basePath%>/permission/detail?id=0','','310')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加权限节点</a></span> 
 			</div>
 			<table class="table table-border table-bordered table-bg">
 				<thead>
@@ -54,7 +54,7 @@
                   <td><%=o.getParentId()%></td>
                   <td><%=o.getSort()%></td>
                   <td>
-                   <a title="编辑" href="javascript:;" onclick="admin_permission_action('编辑权限节点', '<%=basePath%>/permission/detail?id=<%=o.getPermissionId()%>', '', '310')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>                                
+                   <a title="编辑" href="javascript:;" onclick="permission_detail('编辑权限节点', '<%=basePath%>/permission/detail?id=<%=o.getPermissionId()%>', '', '310')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>                                
                   </td>
                   </tr>
 				  <% 
@@ -68,8 +68,8 @@
                                 <td><%=so.getParentId()%></td>
                                 <td><%=so.getSort()%></td>
                                 <td>
-                                    <a title="编辑" href="javascript:;" onclick="admin_permission_action('角色编辑', '<%=basePath%>/permission/detail?id=<%=so.getPermissionId()%>', '', '310')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-                                    <a title="删除" href="javascript:;" onclick="admin_permission_del(this, '<%=so.getPermissionId()%>" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                                    <a title="编辑" href="javascript:;" onclick="permission_detail('角色编辑', '<%=basePath%>/permission/detail?id=<%=so.getPermissionId()%>', '', '310')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+                                    <a title="删除" href="javascript:;" onclick="permission_del(this, '<%=so.getPermissionId()%>" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
                                 </td>
                             </tr>				          
 				      <% }}%> 
@@ -87,11 +87,11 @@
 <script type="text/javascript" src="<%=basePath%>/lib/laypage/1.2/laypage.js"></script> 
 <script type="text/javascript">
 /*管理员-权限-添加-编辑*/
-function admin_permission_action(title, url, w, h) {
+function permission_detail(title, url, w, h) {
     layer_show(title, url, w, h);
 }
 /*管理员-权限-删除*/
-function admin_permission_del(obj, id) {
+function permission_del(obj, id) {
    layer.confirm('确认要删除吗？', function (index) {
             $.ajax({
                 type: 'POST',

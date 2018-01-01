@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.borry.org.model.entity.Department;
 import com.borry.org.model.entity.Permission;
 import com.borry.org.model.entity.RolePermission;
 
@@ -28,6 +29,28 @@ public class WebUtil {
 		 {
 		   for(RolePermission o :list){
 			 if(o.getPermissionId()==permissionId&& o.getActionValue()==actionValue){return true;}
+		   }
+		 }
+		 return false;
+	}
+	
+	public static List<Department> filterDepartmentList(List<Department> list , long parentId)  
+	{
+		 List<Department> result = new ArrayList<Department>();
+		 if(list!=null && list.size()>0){
+			    for(Department o :list){
+			      if(o.getParentId()==parentId){result.add(o); }
+			    }
+		 }
+		 return result;
+	}
+	
+	public static boolean checkSubDepartment(List<Department> list , long parentId)  
+	{
+		 if(list!=null && list.size()>0)
+		 {
+		   for(Department o :list){
+			 if(o.getParentId()==parentId){return true;}
 		   }
 		 }
 		 return false;

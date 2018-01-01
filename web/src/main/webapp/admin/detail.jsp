@@ -58,21 +58,21 @@
 <div class="row cl">
 <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>手机：</label>
 <div class="formControls col-xs-6 col-sm-6">
-<input type="text" class="input-text" id="Mobile" name="Mobile" value="<%=(p.getMobile()!=null?p.getMobile():"")%>" placeholder="">
+<input type="text" class="input-text" id="mobile" name="mobile" value="<%=(p.getMobile()!=null?p.getMobile():"")%>" placeholder="">
 </div>
 </div>
 
 <div class="row cl">
 <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>邮箱： </label>
 <div class="formControls col-xs-6 col-sm-6">
-<input type="text" class="input-text" id="Email" name="Email" value="<%=(p.getEmail()!=null?p.getEmail():"")%>" placeholder="">
+<input type="text" class="input-text" id="email" name="email" value="<%=(p.getEmail()!=null?p.getEmail():"")%>" placeholder="">
 </div>
 </div>
 <div class="row cl">
 <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>角色：</label>
 <div class="formControls col-xs-8 col-sm-6">
 <span class="select-box">
-<select class="select" id="RoleId" name="RoleId">
+<select class="select" id="roleId" name="roleId">
 <option value="0" <%=(p.getRoleId()== 0 ? "selected" : "")%>>无</option>
 <% for( Role o : roleList ){ %>
 	<option value="<%= o.getId() %>"  <%=(p.getRoleId()==o.getId() ? "selected" : "")%>><%= o.getName() %></option>
@@ -86,7 +86,7 @@
 <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>状态：</label>
 <div class="formControls col-xs-8 col-sm-6">
  <span class="select-box">
- <select class="select" id="PassportStatus" name="PassportStatus">
+ <select class="select" id="passportStatus" name="passportStatus">
  <% for( PassportStatus o : PassportStatus.values() ){ %>
   <option value="<%= o.getValue() %>" <%=(p.getPassportStatus()== o.getValue() ? "selected" : "")%>><%= o.getName() %></option>
 <% } %>

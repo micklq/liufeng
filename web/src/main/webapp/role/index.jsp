@@ -16,7 +16,7 @@
 	<div class="Hui-article">
 		<article class="cl pd-20">
 			<div class="cl pd-5 bg-1 bk-gray"> <span class="l"> 
-			<a class="btn btn-primary radius" href="javascript:;" onclick="admin_role_action('添加角色', '${pageContext.request.contextPath}/role/detail', '800')"><i class="Hui-iconfont">&#xe600;</i> 添加角色</a> </span> 
+			<a class="btn btn-primary radius" href="javascript:;" onclick="role_detail('添加角色', '${pageContext.request.contextPath}/role/detail', '800')"><i class="Hui-iconfont">&#xe600;</i> 添加角色</a> </span> 
 			</div>
 			<div class="mt-10">
 			<table class="table table-border table-bordered table-hover table-bg">
@@ -38,8 +38,8 @@
                         <td>${p.name}</td>
                         <td>${p.description}</td>
                         <td class="f-14">
-                        <a title="编辑" href="javascript:;" onclick="admin_role_action('角色编辑', '${pageContext.request.contextPath}/role/detail?id=${p.id}', '800')" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> 
-                        <a title="删除" href="javascript:;" onclick="admin_role_del(this, '${p.id}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                        <a title="编辑" href="javascript:;" onclick="role_detail('角色编辑', '${pageContext.request.contextPath}/role/detail?id=${p.id}', '800')" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> 
+                        <a title="删除" href="javascript:;" onclick="role_del(this, '${p.id}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
                         </td>
                     </tr>
                  </c:forEach> 			
@@ -56,15 +56,15 @@
 <script type="text/javascript" src="<%=basePath%>/lib/laypage/1.2/laypage.js"></script> 
 <script type="text/javascript">
  /*管理员-角色-添加-编辑*/
-        function admin_role_action(title, url, w, h) {
+        function role_detail(title, url, w, h) {
             layer_show(title, url, w, h);
         }       
         /*管理员-角色-删除*/
-        function admin_role_del(obj, id) {
+        function role_del(obj, id) {
             layer.confirm('角色删除须谨慎，确认要删除吗？', function (index) {
                 $.ajax({
                     type: 'POST',
-                    url: 'admin/roleRemove?roleId=' + id,
+                    url: '<%=basePath%>/role/remove?id=' + id,
                     dataType: 'json',
                     success: function (data) {
                         if (data.success) {

@@ -26,6 +26,13 @@ import javax.persistence.Transient;
 @Entity
 public class Department extends BaseEntity {
 	
+	public long getDepartId() {
+		return ((this.getId()==null)?0:this.getId());
+	}
+
+	public void setDepartId(long departId) {
+		this.setId(departId);
+	}
 	/**
 	 * The Organization Id
 	 */
@@ -41,6 +48,10 @@ public class Department extends BaseEntity {
     private String description;  
     
     private long parentId;//父结点id
+    
+    private long depth; //层次深度
+    
+    private int sort;//排序字段
 
 	public long getOrganizationId() {
 		return organizationId;
@@ -72,6 +83,22 @@ public class Department extends BaseEntity {
 
 	public void setParentId(long parentId) {
 		this.parentId = parentId;
+	}
+
+	public int getSort() {
+		return sort;
+	}
+
+	public void setSort(int sort) {
+		this.sort = sort;
+	}
+
+	public long getDepth() {
+		return depth;
+	}
+
+	public void setDepth(long depth) {
+		this.depth = depth;
 	}
     
     
