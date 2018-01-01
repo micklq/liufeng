@@ -30,6 +30,15 @@ public class ArticlesCategory extends BaseEntity {
 	private String description; 
 	private long parentId;
 	private int sort;
+	
+	public long getCategoryId() {
+		return ((this.getId()==null)?0:this.getId());
+	}
+
+	public void setCategoryId(long categoryId) {
+		this.setId(categoryId);
+	}
+	
 	public String getName() {
 		return name;
 	}

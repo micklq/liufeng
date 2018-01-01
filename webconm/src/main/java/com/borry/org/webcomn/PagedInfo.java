@@ -1,6 +1,6 @@
 package com.borry.org.webcomn;
 
-public class PageInfo {
+public class PagedInfo {
 	private int dataCount;
 	private int prePage;
 	private int nextPage;

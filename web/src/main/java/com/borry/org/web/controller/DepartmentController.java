@@ -13,7 +13,9 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.borry.org.base.util.Util;
 import com.borry.org.model.Filter;
@@ -27,6 +29,8 @@ import com.borry.org.service.BaseService;
 import com.borry.org.service.DepartmentService;
 import com.borry.org.service.PermissionService;
 import com.borry.org.service.RoleService;
+import com.borry.org.service.UserProfileService;
+import com.borry.org.webcomn.RespBody;
 import com.borry.org.webcomn.controller.CRUDController;
 
 /**
@@ -42,6 +46,10 @@ public class DepartmentController extends CRUDController<Department, Long> {
 	
 	@Autowired
 	private DepartmentService departmentService;
+	
+	@Autowired
+	private UserProfileService userProfileService;
+	
 	
 	@Resource(name = "departmentService")
 	@Override
@@ -67,13 +75,36 @@ public class DepartmentController extends CRUDController<Department, Long> {
 	
 	@RequestMapping("detail")
 	public String detail(@RequestParam(value="id", required=false, defaultValue="0") Long id,ModelMap model){		
-		
+				
 		Department department = new Department();
 		if( id>0) {
 			department = departmentService.queryById(id);				
 		}
 		model.put("department",department);
 		
+		 List<Filter> filters = new ArrayList<Filter>();
+		 filters.add(Filter.eq("parentId", 0));
+		 Sort sort = new Sort(Direction.ASC,"sort");		 
+		List<Department> roots = departmentService.findAll(0, 100, filters, sort);		
+		model.put("rootDepartment",roots);	
 		return "department/detail";
+	}
+	@RequestMapping( value = "remove", method= RequestMethod.POST)
+	@ResponseBody
+	public RespBody remove(@RequestParam(value="id", required=false, defaultValue="0") Long id){	
+		
+		 if (id > 0)
+         {
+			 Department item = departmentService.queryById(id);
+             if (item == null)
+             {
+            	  return respBodyWriter.toError("数据不存在", 500);
+             }             
+             userProfileService.clearByDepartmentId(id);;  //用户所属部门归0 
+             departmentService.delete(id);
+             return respBodyWriter.toSuccess();             
+         }
+         return respBodyWriter.toError("参数错误", 400);         
+		   			
 	}
 }

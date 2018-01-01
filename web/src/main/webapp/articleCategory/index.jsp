@@ -14,7 +14,7 @@
     <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a>
     </nav>
     <div class="page-container">
-        <div class="cl pd-5 bg-1 bk-gray"> <span class="l"> <a class="btn btn-primary radius" href="javascript:;" onclick="detail_action('添加栏目', '/articleCategory/detail', '500', '300')">
+        <div class="cl pd-5 bg-1 bk-gray"> <span class="l"> <a class="btn btn-primary radius" href="javascript:;" onclick="category_detail('添加栏目', '/articleCategory/detail', '500', '300')">
             <i class="Hui-iconfont">&#xe600;</i> 添加栏目</a> 
             </span> 
         </div>
@@ -37,8 +37,8 @@
                     <td>${p.name}</td>                               
                     <td>${p.description}</td>                     
                     <td class="td-manage">                            
-                       <a title="编辑" href="javascript:;" onclick="detail_action('栏目编辑','${pageContext.request.contextPath}/articleCategory/detail?id=${p.id}' , '800' , '500' )" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> 
-                       <a title="删除" href="javascript:;" onclick="del_action(this, '${p.id}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                       <a title="编辑" href="javascript:;" onclick="category_detail('栏目编辑','${pageContext.request.contextPath}/articleCategory/detail?id=${p.id}' , '800' , '500' )" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> 
+                       <a title="删除" href="javascript:;" onclick="category_del(this, '${p.id}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
                      </td>
                 </tr>
            </c:forEach> 
@@ -53,15 +53,15 @@
 <script type="text/javascript" src="<%=basePath%>/lib/laypage/1.2/laypage.js"></script> 
 <script type="text/javascript">
         /*管理员-角色-添加-编辑*/
-        function detail_action(title, url, w, h) {
+        function category_detail(title, url, w, h) {
             layer_show(title, url, w, h);
         }       
         /*管理员-角色-删除*/
-        function del_action(obj, id) {
+        function category_del(obj, id) {
             layer.confirm('删除须谨慎，确认要删除吗？', function (index) {
                 $.ajax({
                     type: 'POST',
-                    url: '<%=basePath%>/categoryRemove?id=' + id,
+                    url: '<%=basePath%>/remove?id=' + id,
                     dataType: 'json',
                     success: function (data) {
                         if (data.success) {

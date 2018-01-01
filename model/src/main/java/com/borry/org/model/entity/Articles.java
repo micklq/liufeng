@@ -26,6 +26,7 @@ import javax.persistence.Transient;
 @Entity
 public class Articles extends BaseEntity {
 	
+	
 	 private long categoryId;
 	 private String title;
 	 private String editor;
@@ -33,6 +34,18 @@ public class Articles extends BaseEntity {
 	 private String description;
 	 private String contents;
 	 private int browseTimes;
+	
+	@Transient
+	private String categoryName;
+	 
+	public long getArticleId() {
+		return ((this.getId()==null)?0:this.getId());
+	}
+
+	public void setArticleId(long articleId) {
+		this.setId(articleId);
+	}
+	
 	public long getCategoryId() {
 		return categoryId;
 	}
@@ -74,6 +87,12 @@ public class Articles extends BaseEntity {
 	}
 	public void setBrowseTimes(int browseTimes) {
 		this.browseTimes = browseTimes;
+	}
+	public String getCategoryName() {
+		return categoryName;
+	}
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
 	
 	 

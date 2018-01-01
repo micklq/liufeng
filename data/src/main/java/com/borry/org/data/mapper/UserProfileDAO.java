@@ -6,6 +6,8 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 
-public interface UserProfileDAO { 	
+public interface UserProfileDAO {
+
+	void clearByDepartmentId(@Param("departId")long departId); 	
 	
 }

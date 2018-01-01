@@ -2,13 +2,18 @@ package com.borry.org.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.borry.org.model.entity.Department;
 
 
 
@@ -66,7 +71,35 @@ public class DemoTest  {
 	
 	
 	
+	@Test
+	public void recursionTest() 
+	{
+		
+		int dataCount =12;
+		int dataPage = (int) (12/12);
+		System.out.println("dataPage:" +dataPage);
+		if(dataCount%12==0){
+			System.out.println("dataCount:" +dataCount);
+			dataPage= dataPage-1; //分页整除 减一 以下再加一
+		}
+		System.out.println("dataPage:" +dataPage);
+	}
 	
-	
+	private void recursion(List<Department> list)
+	{
+		List<Department> result = new ArrayList<Department>();
+		for(Department o :list){
+			
+			if(o.getParentId()==0){
+				
+				
+			}
+			else{
+				recursion(list);
+				
+			}
+		}
+		
+	}
 
 }

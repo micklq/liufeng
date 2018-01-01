@@ -7,9 +7,8 @@ import org.springframework.data.domain.Page;
 
 import com.borry.org.model.entity.Articles;
 
-public interface ArticlesService  extends BaseService<Articles, Long>{
-    
+public interface ArticlesService  extends BaseService<Articles, Long>{    
 
-
+	public void clearByCategoryId(long categoryId);
 }
 

@@ -8,9 +8,9 @@
 <head>
 <%
   String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-  List<Permission>  roots = (List<Permission>) request.getAttribute("rootPermission"); 
-  Permission p = (Permission) request.getAttribute("permission");
-  if(p==null){ p = new Permission();} 
+  List<Department>  roots = (List<Department>) request.getAttribute("rootDepartment"); 
+  Department p = (Department) request.getAttribute("department");
+  if(p==null){ p = new Department();}
 %>
 <base href="<%=basePath%>">
 <meta charset="utf-8">
@@ -32,21 +32,22 @@
 <!--[if IE 6]>
 <script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script><![endif]-->
-<title>权限信息维护</title>
+<title>部门信息维护</title>
 </head>
 <body>
 <article class="cl pd-20">
 <form method="post" class="form form-horizontal" id="form-submit">
-   <input type="hidden" id="id" name="id" value="<%=p.getPermissionId()%>">   
+   <input type="hidden" id="id" name="id" value="<%=p.getDepartId()%>">
+   <input type="hidden" id="organizationId" name="organizationId" value="<%=p.getOrganizationId()%>">
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2">
-                    <span class="c-red">*</span>菜单名称：
+                    <span class="c-red">*</span>名称：
                 </label>
                 <div class="formControls col-xs-6 col-sm-6">
                     <input type="text" class="input-text" id="name" name="name" value="<%=(p.getName()!=null?p.getName():"")%>" placeholder="">
                 </div>
             </div>
-            <div class="row cl">
+             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2">
                     <span class="c-red">*</span>描述：
                 </label>
@@ -63,27 +64,19 @@
                         <select class="select" id="parentId" name="parentId">                            
                             <option value="0"  <%=(p.getParentId()==0?"selected" : "")%>>顶级分类</option>
                             <%if (roots != null && roots.size() > 0) {
-                               for(Permission o : roots) {%>   
-                                 <option value="<%=o.getPermissionId()%>" <%=(p.getParentId()==o.getPermissionId()?"selected" : "")%>><%=o.getName()%></option>
+                               for(Department o : roots) {%>   
+                                 <option value="<%=o.getDepartId()%>" <%=(p.getParentId()==o.getDepartId()?"selected" : "")%>><%=o.getName()%></option>
                             <%} }%>                     
                         </select>
                     </span>
                 </div>
                 <div class="col-3">
                 </div>
-            </div>
-            <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-2">
-                    <span class="c-red">*</span>访问地址：
-                </label>
-                <div class="formControls col-xs-6 col-sm-6">
-                    <input type="text" class="input-text" id="url" name="url" value="<%=(p.getUrl()!=null?p.getUrl():"")%>" placeholder="">
-                </div>
-            </div>
+            </div>           
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2">
                     <span class="c-red">*</span>
-                    排序：
+                                                         排序：
                 </label>
                 <div class="formControls col-xs-6 col-sm-6">
                     <input type="text" class="input-text" id="sort" name="sort" value="<%=(p.getSort()>0?p.getSort():"0")%>" placeholder="">
@@ -128,7 +121,7 @@
                 submitHandler: function (form) {
                     $(form).ajaxSubmit({
                         type: 'post',
-                        url: "<%=basePath%>/permission/saveAction",
+                        url: "<%=basePath%>/department/saveAction",
                         success: function (data) {
                             if (data.success) {
                                 var index = parent.layer.getFrameIndex(window.name);

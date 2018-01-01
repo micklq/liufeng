@@ -29,7 +29,6 @@ import com.borry.org.model.enums.OrganizationStatus;
 public class Organization extends BaseEntity {
 		
 	
-	
 	public long getOrgId() {
 		return ((this.getId()==null)?0:this.getId());
 	}

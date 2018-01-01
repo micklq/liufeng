@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 
 
+
 import com.borry.org.data.mapper.UserProfileDAO;
 import com.borry.org.data.repository.*;
 import com.borry.org.model.entity.UserProfile;
@@ -35,6 +36,12 @@ public class UserProfileServiceImpl extends BaseServiceImpl<UserProfile, Long> i
 	@Override
 	public void setBaseRepository(BaseRepository<UserProfile, Long> baseRepository) {
 		super.setBaseRepository(baseRepository);
+	}
+
+	@Override
+	public void clearByDepartmentId(Long departId) {
+		// TODO Auto-generated method stub
+		userProfileDAO.clearByDepartmentId(departId);
 	}
 
 		

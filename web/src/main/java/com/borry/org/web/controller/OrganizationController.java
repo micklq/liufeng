@@ -87,8 +87,7 @@ public class OrganizationController extends CRUDController<Organization, Long> {
 	        	o.setAddress("无");
 	        }
 	    }
-		model.put("list", rlist);
-			
+		model.put("list", rlist);			
 		 
 		return "organization/index";
 	}

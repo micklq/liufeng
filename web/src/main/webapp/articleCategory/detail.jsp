@@ -7,10 +7,9 @@
 <html style="background: white">
 <head>
 <%
-  String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-  List<Permission>  roots = (List<Permission>) request.getAttribute("rootPermission"); 
-  Permission p = (Permission) request.getAttribute("permission");
-  if(p==null){ p = new Permission();} 
+  String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath(); 
+  ArticlesCategory p = (ArticlesCategory) request.getAttribute("category");
+  if(p==null){ p = new ArticlesCategory();} 
 %>
 <base href="<%=basePath%>">
 <meta charset="utf-8">
@@ -37,15 +36,15 @@
 <body>
 <article class="cl pd-20">
 <form method="post" class="form form-horizontal" id="form-submit">
-   <input type="hidden" id="id" name="id" value="<%=p.getPermissionId()%>">   
+   <input type="hidden" id="id" name="id" value="<%=p.getCategoryId()%>">
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2">
-                    <span class="c-red">*</span>菜单名称：
+                    <span class="c-red">*</span>名称：
                 </label>
                 <div class="formControls col-xs-6 col-sm-6">
                     <input type="text" class="input-text" id="name" name="name" value="<%=(p.getName()!=null?p.getName():"")%>" placeholder="">
                 </div>
-            </div>
+            </div>            
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2">
                     <span class="c-red">*</span>描述：
@@ -56,34 +55,7 @@
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2">
-                    <span class="c-red">*</span>上级菜单：
-                </label>
-                <div class="formControls col-xs-8 col-sm-6">
-                    <span class="select-box">
-                        <select class="select" id="parentId" name="parentId">                            
-                            <option value="0"  <%=(p.getParentId()==0?"selected" : "")%>>顶级分类</option>
-                            <%if (roots != null && roots.size() > 0) {
-                               for(Permission o : roots) {%>   
-                                 <option value="<%=o.getPermissionId()%>" <%=(p.getParentId()==o.getPermissionId()?"selected" : "")%>><%=o.getName()%></option>
-                            <%} }%>                     
-                        </select>
-                    </span>
-                </div>
-                <div class="col-3">
-                </div>
-            </div>
-            <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-2">
-                    <span class="c-red">*</span>访问地址：
-                </label>
-                <div class="formControls col-xs-6 col-sm-6">
-                    <input type="text" class="input-text" id="url" name="url" value="<%=(p.getUrl()!=null?p.getUrl():"")%>" placeholder="">
-                </div>
-            </div>
-            <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-2">
-                    <span class="c-red">*</span>
-                    排序：
+                    <span class="c-red">*</span>排序：
                 </label>
                 <div class="formControls col-xs-6 col-sm-6">
                     <input type="text" class="input-text" id="sort" name="sort" value="<%=(p.getSort()>0?p.getSort():"0")%>" placeholder="">
@@ -111,16 +83,7 @@
                         required: true,
                         minlength: 2,
                         maxlength: 16
-                    },
-                    parentId: {
-                        required: true,
-                        number: true,
                     },                    
-                    sort: {
-                        required: true,
-                        number: true,
-                    },                    
-
                 },
                 onkeyup: false,
                 focusCleanup: true,
@@ -128,7 +91,7 @@
                 submitHandler: function (form) {
                     $(form).ajaxSubmit({
                         type: 'post',
-                        url: "<%=basePath%>/permission/saveAction",
+                        url: "<%=basePath%>/articleCategory/saveAction",
                         success: function (data) {
                             if (data.success) {
                                 var index = parent.layer.getFrameIndex(window.name);

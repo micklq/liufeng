@@ -33,6 +33,12 @@ public class ArticlesServiceImpl extends BaseServiceImpl<Articles, Long> impleme
 		   super.setBaseRepository(baseRepository);
     }
 
+	@Override
+	public void clearByCategoryId(long categoryId) {
+		// TODO Auto-generated method stub
+		articlesDAO.clearByCategoryId(categoryId);
+	}
+
 
 
 }

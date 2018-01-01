@@ -19,13 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.borry.org.base.util.Util;
 import com.borry.org.model.Filter;
 import com.borry.org.model.entity.Articles;
-import com.borry.org.model.entity.Permission;
-import com.borry.org.model.entity.Role;
-import com.borry.org.model.entity.UserPassport;
+import com.borry.org.model.entity.ArticlesCategory;
+import com.borry.org.service.ArticlesCategoryService;
 import com.borry.org.service.ArticlesService;
 import com.borry.org.service.BaseService;
-import com.borry.org.service.PermissionService;
-import com.borry.org.service.RoleService;
 import com.borry.org.webcomn.controller.CRUDController;
 
 /**
@@ -42,6 +39,9 @@ public class ArticleController extends CRUDController<Articles, Long> {
 	@Autowired
 	private ArticlesService articlesService;
 	
+	@Autowired
+	private ArticlesCategoryService articlesCategoryService;
+	
 	@Resource(name = "articlesService")
 	@Override
 	public void setBaseService(BaseService<Articles, Long> baseService) {
@@ -49,40 +49,26 @@ public class ArticleController extends CRUDController<Articles, Long> {
 	}
 	
 	@RequestMapping("index")
-	public String index(@RequestParam(value="page", required=false, defaultValue="1") Integer page,ModelMap model){	
+	public String index(@RequestParam(value="keyword", required=false, defaultValue="")String keyword,@RequestParam(value="categoryId", required=false, defaultValue="0")Long categoryId,@RequestParam(value="page", required=false, defaultValue="1") Integer page,ModelMap model){	
 		
-		int dataCount = (int)articlesService.count();
-		int dataPage = (int) (dataCount/15);
-		if(dataCount%15==0){
-			dataPage= dataPage-1; //分页整除 减一 以下再加一
+		
+		List<Filter> filters = new ArrayList<Filter>();
+		if(categoryId!=null &&categoryId>0){
+			filters.add(Filter.eq("categoryId", categoryId));
 		}
-		int pageCount = dataPage+1;		
-		if(page<=0)
-		{
-			page = 1;
-		}	
-		if(page>=pageCount){
-			page=pageCount;
+		if(!Util.isNullOrEmpty(keyword)){			
+			filters.add(Filter.like("title", keyword));
 		}
-		int prePage=((page-1)>0)?(page-1):1;
-		int nextPage=((page+1)>pageCount)?pageCount:(page+1);
-		 List<Filter> filters = new ArrayList<Filter>();
-		 Sort sort = new Sort(Direction.DESC,"id");
-		 Page<Articles> plist = this.findWithPage(page,size,filters,sort);
-		 List<Articles> rlist = new ArrayList<Articles>();
-		 if(plist!=null&& plist.getSize()>0)
-	     {        	
-	       	 rlist = plist.getContent();
-	     } 
-		model.addAllAttributes(rlist);        
-        model.addAttribute("prePage", prePage);
-        model.addAttribute("nextPage", nextPage);
-        model.addAttribute("currentPage", page);	
-        model.addAttribute("pageCount", pageCount);	
-        model.addAttribute("dataCount", dataCount);	
-        
-		model.put("list", rlist);
-		 
+		Sort sort = new Sort(Direction.DESC,"id");
+		Page<Articles> plist = this.findWithPage(page,size,filters,sort);
+		model.put("plist", plist);
+		
+		List<ArticlesCategory> categoryList = articlesCategoryService.findAll();
+		model.put("categoryList", categoryList); 
+		
+		
+		model.put("categoryId", categoryId);
+		model.put("keyword", keyword);
 		return "article/index";
 	}
 	
@@ -94,6 +80,9 @@ public class ArticleController extends CRUDController<Articles, Long> {
 			article = articlesService.queryById(id);				
 		}
 		model.put("article",article);
+		
+		List<ArticlesCategory> categoryList = articlesCategoryService.findAll();
+		model.put("categoryList", categoryList); 
 		
 		return "article/detail";
 	}

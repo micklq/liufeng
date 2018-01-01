@@ -17,6 +17,7 @@ import javax.persistence.Table;
 public class UserProfile extends BaseEntity {
 
 
+	
 	private String nickName;
 
 	private String realName;
@@ -35,8 +36,10 @@ public class UserProfile extends BaseEntity {
 	
 	private String weixin;
 	
+	private long orgId; //组织Id
 	
-
+	private long departId; //部门Id
+	
 	public long getPassportId() {
 		return ((this.getId()==null)?0:this.getId());
 	}
@@ -119,6 +122,22 @@ public class UserProfile extends BaseEntity {
 
 	public void setWeixin(String weixin) {
 		this.weixin = weixin;
+	}
+
+	public long getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(long orgId) {
+		this.orgId = orgId;
+	}
+
+	public long getDepartId() {
+		return departId;
+	}
+
+	public void setDepartId(long departId) {
+		this.departId = departId;
 	}
 
 

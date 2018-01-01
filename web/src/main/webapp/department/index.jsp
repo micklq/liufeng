@@ -63,7 +63,7 @@
                      if(slist.size()>0){
                         for(Department so : slist) {%>
 				          <tr class="text-c">
-                                <td class="text-l"><%=so.getName()%></td>
+                                <td class="text-l">&nbsp;&nbsp;&nbsp;├ <%=so.getName()%></td>
                                 <td><%=(Util.isNullOrEmpty(so.getDescription()())?"--":so.getDescription())%></td>
                                 <td><%=so.getOrganizationId()%></td>
                                 <td><%=so.getDepartId()%></td>
