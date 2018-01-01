@@ -31,7 +31,7 @@
 <script>DD_belatedPNG.fix('*');</script><![endif]-->
 <title>新增文章 - 资讯管理</title>
 <%  
-  List<ArticlesCategory>  categoryList = (List<ArticlesCategory>) request.getAttribute("categoryList"); 
+  List<ArticlesCategory>  categoryList = (List<ArticlesCategory>)request.getAttribute("categoryList"); 
   Articles p = (Articles) request.getAttribute("article");
   if(p==null){ p = new Articles();} 
 %>
@@ -52,10 +52,10 @@
                     <span class="select-box">
                         <select id="categoryId" name="categoryId" class="select">  
                          <option value="0"  <%=(p.getCategoryId() == 0 ? "selected" : "")%>>-无所属栏目-</option>                          
-                         <%if (clist != null && clist.size() > 0){ 
-                         	for(ArticlesCategory o :clist){
+                         <%if (categoryList != null && categoryList.size() > 0){ 
+                         	for(ArticlesCategory co :categoryList){
                          %>
-                         <option value="<%=o.getCategoryId()%>" <%=(categoryId == o.getCategoryId() ? "selected" : "")%>><%=o.getName()%></option> 
+                         <option value="<%=co.getCategoryId()%>" <%=(p.getCategoryId()== co.getCategoryId()? "selected" : "")%>><%=co.getName()%></option> 
                          <% } }%>		
                         </select>
                     </span>

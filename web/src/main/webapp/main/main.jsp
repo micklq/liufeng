@@ -84,10 +84,19 @@
 			<dt><i class="Hui-iconfont">&#xe616;</i> 资讯管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
-					<li><a href="article-list.html" title="资讯管理">资讯管理</a></li>
+			<li><a href="<%=basePath%>/article/index" title="资讯管理">资讯管理</a></li>
+			<li><a href="<%=basePath%>/articleCategory/index" title="资讯类别">资讯类别</a></li>
 		</ul>
 	</dd>
-</dl>
+    </dl>
+    <dl id="menu-org">
+			<dt><i class="Hui-iconfont">&#xe616;</i> 资讯管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+			<ul>
+			<li><a href="<%=basePath%>/organization/index" title="组织架构管理">组织架构管理</a></li>			
+		</ul>
+	</dd>
+    </dl>
 		<dl id="menu-picture">
 			<dt><i class="Hui-iconfont">&#xe613;</i> 图片管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>

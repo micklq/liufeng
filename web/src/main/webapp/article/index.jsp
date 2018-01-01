@@ -16,7 +16,7 @@
   Long categoryId =  (Long) request.getAttribute("categoryId");
   String keyword =  (String) request.getAttribute("keyword");
   if(categoryId==null){
-    categoryId=0;
+    categoryId=0L;
   }
 %>
 <title>资讯管理 - 资讯列表 </title>
@@ -32,7 +32,7 @@
 		<article class="cl pd-20">
 			
 		<div class="cl pd-5 bg-1 bk-gray mt-20">
-		<span class="l"><a class="btn btn-primary radius"  onclick="article_datail('添加资讯', '/articles/datail')" href="javascript:;"><i class="Hui-iconfont">&#xe600;</i> 添加资讯</a></span> 
+		<span class="l"><a class="btn btn-primary radius"   data-title="添加资讯" _href="/article/detail"  onclick="article_detail('添加资讯', '/article/detail')" href="javascript:;"><i class="Hui-iconfont">&#xe600;</i> 添加资讯</a></span> 
         <span class="l">&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <span class="l">
          <span class="select-box inline">
@@ -93,13 +93,13 @@
             })
         })
         /*资讯-添加编辑*/
-        function article_detail(title, url, w, h) {
-            var opt = layer.open({
-                type: 2,
-                title: title,
-                content: url
+        function article_detail(title, url, w, h) {          
+            var index = layer.open({
+            	type: 2,
+            	title: title,
+            	content: url
             });
-            layer.full(opt);
+            layer.full(index);
         }        
         /*资讯-删除*/
         function article_del(obj, id) {
