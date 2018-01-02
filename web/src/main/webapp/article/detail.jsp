@@ -83,7 +83,7 @@
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2">文章内容：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <script id="editor" type="text/plain" style="width:100%;height:400px;"></script>
+                    <script id="editor1" type="text/plain" style="width:100%;height:400px;"></script>
                    <div style=" display:none;">
                        <textarea id="contents" name="contents"><%=(p.getContents()!=null?p.getContents():"")%></textarea>
                    </div>
@@ -112,7 +112,7 @@
 <script type="text/javascript" src="<%=basePath%>/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>  
 <script type="text/javascript">
     $(function () {
-        var ue = UE.getEditor('editor');
+        var ue = UE.getEditor('editor1');
         ue.ready(function () { //设置编辑器的内容           
             ue.setContent($("#contents").val());           
         });
@@ -130,9 +130,7 @@
                 description: {
                     required: true,
                 },
-                contents: {
-                    required: true,
-                },
+                //contents:{required: true,},
             },
             onkeyup: false,
             focusCleanup: true,
@@ -142,7 +140,7 @@
                 $("#contents").val(htmls);
                 $(form).ajaxSubmit({
                     type: 'post',
-                    url: "/article/saveAction",
+                    url: "<%=basePath%>/article/saveAction",
                     success: function (data) {
                         if (data.success) {
                             var index = parent.layer.getFrameIndex(window.name);
