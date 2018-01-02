@@ -39,6 +39,7 @@
                         <td>${p.id}</td>
                         <td>${p.name}</td>
                         <td>${p.description}</td>
+                         <td>${p.address}</td>
                         <td class="td-status"><span class="label label-success radius">${p.statusText}</span></td>
                         <td class="f-14">
                          <a title="组织部门" href="${pageContext.request.contextPath}/department/index?orgid=${p.id}" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe62b;</i></a>

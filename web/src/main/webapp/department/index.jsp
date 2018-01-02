@@ -12,6 +12,11 @@
   String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
   List<Department> plist = (List<Department>) request.getAttribute("departmentList"); 
   List<Department> tree0 =  WebUtil.filterDepartmentList(plist,0); 
+  Long orgId = (Long) request.getAttribute("organizationId");
+  if(orgId==null){
+    orgId=0L;
+  } 
+  
 %>
 <title>组织架构 - 部门维护</title>
 </head>
@@ -25,7 +30,7 @@
 	<div class="Hui-article">
 		<article class="cl pd-20">	
 			<div class="cl pd-5 bg-1 bk-gray mt-20"> 
-			<span class="l"><a href="javascript:;" onclick="department_detail('添加部门节点','<%=basePath%>/department/detail?id=0','','310')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加部门节点</a></span> 
+			<span class="l"><a href="javascript:;" onclick="department_detail('添加部门节点','<%=basePath%>/department/detail?id=0&orgid=<%=orgId%>','','310')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加部门节点</a></span> 
 			</div>
 			<table class="table table-border table-bordered table-bg">
 				<thead>
@@ -43,12 +48,12 @@
 					</tr>
 				</thead>
 				<tbody>
-				 <%if (tree0 != null && tree0.size() > 0){ 
+				 <%if(tree0 != null && tree0.size() > 0){ 
 				  for(Department o :tree0){
 				 %>
 				 <tr class="text-c">
                   <td class="text-l"><%=o.getName()%></td>
-                  <td><%=(Util.isNullOrEmpty(o.getDescription()())?"--":o.getDescription())%></td>
+                  <td><%=(Util.isNullOrEmpty(o.getDescription())?"--":o.getDescription())%></td>
                   <td><%=o.getOrganizationId()%></td>
                   <td><%=o.getDepartId()%></td>
                   <td><%=o.getParentId()%></td>
@@ -64,7 +69,7 @@
                         for(Department so : slist) {%>
 				          <tr class="text-c">
                                 <td class="text-l">&nbsp;&nbsp;&nbsp;├ <%=so.getName()%></td>
-                                <td><%=(Util.isNullOrEmpty(so.getDescription()())?"--":so.getDescription())%></td>
+                                <td><%=(Util.isNullOrEmpty(so.getDescription())?"--":so.getDescription())%></td>
                                 <td><%=so.getOrganizationId()%></td>
                                 <td><%=so.getDepartId()%></td>
                                 <td><%=so.getParentId()%></td>

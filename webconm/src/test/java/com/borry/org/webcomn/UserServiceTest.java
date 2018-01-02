@@ -148,12 +148,12 @@ public class UserServiceTest extends BaseTest {
 //	public void createAdminUser() 
 //	{
 //	
-////		MethodResult<UserPassport>  signupResult= memberShipService.signUp("13683205265", 1, "123456");
-////		System.out.println("Created Role=====>>>>>"+signupResult.isSuccess()+ "==>>"+ signupResult.getMessage());
+////	MethodResult<UserPassport>  signupResult= memberShipService.signUp("13683205265", 1, "123456");
+////	System.out.println("Created Role=====>>>>>"+signupResult.isSuccess()+ "==>>"+ signupResult.getMessage());
 //		UserPassportView user = new UserPassportView();
 //		user.setRoleId(1);
 //		user.setMobile("15110089625");
-//		user.setUserName("admin1");
+//		user.setUserName("admin");
 //		user.setPassword("123456");
 //		user.setGender(Gender.Male.getValue());
 //		MethodResult<UserPassport>  member= memberShipService.addMember(user);
@@ -163,17 +163,17 @@ public class UserServiceTest extends BaseTest {
 	
 	
 	
-	@Autowired
-	public ArticlesCategoryService articlesCategoryService ;
-	@Test
-	public void createArticleCategory() 
-	{
-		ArticlesCategory category = new ArticlesCategory();
-		category.setName("新闻栏目2");
-		category.setDescription("新闻栏目2");	
-		articlesCategoryService.save(category);
-		System.out.println("Created Role=====>>>>>"+category.getId()+ "==>>"+ category.getName());			
-	
-		
-	}
+//	@Autowired
+//	public ArticlesCategoryService articlesCategoryService ;
+//	@Test
+//	public void createArticleCategory() 
+//	{
+//		ArticlesCategory category = new ArticlesCategory();
+//		category.setName("新闻栏目2");
+//		category.setDescription("新闻栏目2");	
+//		articlesCategoryService.save(category);
+//		System.out.println("Created Role=====>>>>>"+category.getId()+ "==>>"+ category.getName());			
+//	
+//		
+//	}
 }

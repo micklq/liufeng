@@ -25,8 +25,9 @@
                 </tr>
                 <tr class="text-c">                   
                     <th width="40">ID</th>
-                    <th width="200">栏目名</th>                   
+                    <th width="150">栏目名</th>                   
                     <th width="300">描述</th>
+                    <th width="70">排序</th>
                     <th width="70">操作</th>
                 </tr>
             </thead>
@@ -35,7 +36,8 @@
                 <tr class="text-c">                   
                     <td>${p.id}</td>
                     <td>${p.name}</td>                               
-                    <td>${p.description}</td>                     
+                    <td>${p.description}</td>    
+                    <td>${p.sort}</td>                         
                     <td class="td-manage">                            
                        <a title="编辑" href="javascript:;" onclick="category_detail('栏目编辑','${pageContext.request.contextPath}/articleCategory/detail?id=${p.id}' , '800' , '500' )" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> 
                        <a title="删除" href="javascript:;" onclick="category_del(this, '${p.id}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>

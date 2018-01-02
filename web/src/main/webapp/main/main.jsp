@@ -90,7 +90,7 @@
 	</dd>
     </dl>
     <dl id="menu-org">
-			<dt><i class="Hui-iconfont">&#xe616;</i> 资讯管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dt><i class="Hui-iconfont">&#xe616;</i> 组织架构<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 			<ul>
 			<li><a href="<%=basePath%>/organization/index" title="组织架构管理">组织架构管理</a></li>			

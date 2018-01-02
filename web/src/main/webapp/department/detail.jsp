@@ -11,6 +11,8 @@
   List<Department>  roots = (List<Department>) request.getAttribute("rootDepartment"); 
   Department p = (Department) request.getAttribute("department");
   if(p==null){ p = new Department();}
+  Long orgId = (Long)request.getAttribute("organizationId");
+  if(orgId==null){orgId=0L;}
 %>
 <base href="<%=basePath%>">
 <meta charset="utf-8">
@@ -38,7 +40,7 @@
 <article class="cl pd-20">
 <form method="post" class="form form-horizontal" id="form-submit">
    <input type="hidden" id="id" name="id" value="<%=p.getDepartId()%>">
-   <input type="hidden" id="organizationId" name="organizationId" value="<%=p.getOrganizationId()%>">
+   <input type="hidden" id="organizationId" name="organizationId" value="<%=((p.getOrganizationId()==0)?orgId:p.getOrganizationId())%>">
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2">
                     <span class="c-red">*</span>名称：

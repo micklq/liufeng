@@ -48,14 +48,14 @@
                 </div>
             </div>   
             <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-3">描述：</label>
-                <div class="formControls col-xs-8 col-sm-9">
+                <label class="form-label col-xs-4 col-sm-2">描述：</label>
+                <div class="formControls col-xs-6 col-sm-6">
                     <input type="text" class="input-text" id="description" name="description" value="<%=(p.getDescription()!=null?p.getDescription():"")%>" placeholder="" >
                 </div>
             </div>          
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2">
-                    <span class="c-red">*</span>地址：
+                    <span class="c-red">*</span>单位地址：
                 </label>
                 <div class="formControls col-xs-6 col-sm-6">
                     <input type="text" class="input-text" id="address" name="address" value="<%=(p.getAddress()!=null?p.getAddress():"")%>" placeholder="">

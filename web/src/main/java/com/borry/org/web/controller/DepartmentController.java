@@ -69,24 +69,27 @@ public class DepartmentController extends CRUDController<Department, Long> {
 		  Sort sort = new Sort(Direction.ASC,"sort");	
 		  List<Department> rlist = departmentService.findAll(0,1000,filters,sort);			
 		  model.put("departmentList", rlist);
+		  model.put("organizationId", orgid);
 		  
 		return "department/index";
 	}
 	
 	@RequestMapping("detail")
-	public String detail(@RequestParam(value="id", required=false, defaultValue="0") Long id,ModelMap model){		
+	public String detail(@RequestParam(value="id", required=false, defaultValue="0")Long id,@RequestParam(value="orgid", required=false, defaultValue="0")Long orgid,ModelMap model){		
 				
 		Department department = new Department();
-		if( id>0) {
+		if(id!=null&&id>0) {
 			department = departmentService.queryById(id);				
 		}
-		model.put("department",department);
-		
-		 List<Filter> filters = new ArrayList<Filter>();
-		 filters.add(Filter.eq("parentId", 0));
-		 Sort sort = new Sort(Direction.ASC,"sort");		 
+		model.put("department",department);		
+		model.put("organizationId", ((orgid!=null&&orgid>0)?orgid:0));
+		List<Filter> filters = new ArrayList<Filter>();
+		filters.add(Filter.eq("parentId", 0));
+		Sort sort = new Sort(Direction.ASC,"sort");		 
 		List<Department> roots = departmentService.findAll(0, 100, filters, sort);		
 		model.put("rootDepartment",roots);	
+		
+		
 		return "department/detail";
 	}
 	@RequestMapping( value = "remove", method= RequestMethod.POST)

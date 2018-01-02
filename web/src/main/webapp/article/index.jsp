@@ -32,7 +32,7 @@
 		<article class="cl pd-20">
 			
 		<div class="cl pd-5 bg-1 bk-gray mt-20">
-		<span class="l"><a class="btn btn-primary radius"   data-title="添加资讯" _href="/article/detail"  onclick="article_detail('添加资讯', '/article/detail')" href="javascript:;"><i class="Hui-iconfont">&#xe600;</i> 添加资讯</a></span> 
+		<span class="l"><a class="btn btn-primary radius"   data-title="添加资讯" _href="<%=basePath%>/article/detail"  onclick="article_detail('添加资讯', '<%=basePath%>/article/detail')" href="javascript:;"><i class="Hui-iconfont">&#xe600;</i> 添加资讯</a></span> 
         <span class="l">&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <span class="l">
          <span class="select-box inline">
@@ -74,7 +74,7 @@
            <td><%=o.getModifyDateStr()%></td>
            <td><%=o.getBrowseTimes()%></td>
            <td class="f-14 td-manage">
-           <a style="text-decoration:none" class="ml-5" onclick="article_detail('资讯编辑', '/article/detail?id=<%=o.getArticleId()%>')" href="javascript:;" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a> 
+           <a style="text-decoration:none" class="ml-5" onclick="article_detail('资讯编辑', '<%=basePath%>/article/detail?id=<%=o.getArticleId()%>')" href="javascript:;" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a> 
            <a style="text-decoration:none" class="ml-5" onclick="article_del(this, '<%=o.getArticleId()%>')" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
         </tr> 					
 		<% } }%>			
