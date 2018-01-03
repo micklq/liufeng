@@ -32,28 +32,26 @@ public class WebUtil {
 		   }
 		 }
 		 return false;
-	}
+	}	
 	
-	public static List<Department> filterDepartmentList(List<Department> list , long parentId)  
-	{
-		 List<Department> result = new ArrayList<Department>();
-		 if(list!=null && list.size()>0){
-			    for(Department o :list){
-			      if(o.getParentId()==parentId){result.add(o); }
-			    }
-		 }
-		 return result;
-	}
-	
-	public static boolean checkSubDepartment(List<Department> list , long parentId)  
-	{
-		 if(list!=null && list.size()>0)
-		 {
-		   for(Department o :list){
-			 if(o.getParentId()==parentId){return true;}
-		   }
-		 }
-		 return false;
+   public static List<Department> getDepartmentTree(List<Department> list){
+	   if(list!=null&&list.size()>0)
+	   {
+		   List<Department> result = new  ArrayList<Department>();		
+		   departmentRecursion(list,0,0,result);	  
+		   return result;		   
+	   }
+	   return null;
+   }
+   
+   private static void departmentRecursion(List<Department> source ,long pid,int depth,List<Department> result){
+		for(Department o :source){
+			if(o.getParentId()==pid ){
+				o.setDepth(depth+1);				
+				result.add(o);
+				departmentRecursion(source ,o.getId(),(int)o.getDepth(),result);
+			}			
+		}
 	}
 	
 

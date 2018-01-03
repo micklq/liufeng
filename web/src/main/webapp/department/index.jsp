@@ -11,7 +11,7 @@
  <%
   String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
   List<Department> plist = (List<Department>) request.getAttribute("departmentList"); 
-  List<Department> tree0 =  WebUtil.filterDepartmentList(plist,0); 
+  List<Department> tree0 =  WebUtil.getDepartmentTree(plist); 
   Long orgId = (Long) request.getAttribute("organizationId");
   if(orgId==null){
     orgId=0L;
@@ -52,34 +52,22 @@
 				  for(Department o :tree0){
 				 %>
 				 <tr class="text-c">
-                  <td class="text-l"><%=o.getName()%></td>
+                  <td class="text-l">
+                  <%if(o.getDepth()>1){ 
+                  for(int i=1;i<o.getDepth();i++){%>                  
+                     &nbsp;&nbsp;├
+                  <%} }%>               
+                  <%=o.getName()%>
+                  </td>
                   <td><%=(Util.isNullOrEmpty(o.getDescription())?"--":o.getDescription())%></td>
                   <td><%=o.getOrganizationId()%></td>
                   <td><%=o.getDepartId()%></td>
                   <td><%=o.getParentId()%></td>
                   <td><%=o.getSort()%></td>
                   <td>
-                   <a title="编辑" href="javascript:;" onclick="department_detail('编辑部门节点', '<%=basePath%>/department/detail?id=<%=o.getDepartId()%>', '', '310')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>                                
+                   <a title="编辑" href="javascript:;" onclick="department_detail('编辑部门节点', '<%=basePath%>/department/detail?id=<%=o.getDepartId()%>&orgid=<%=o.getOrganizationId()%>', '', '310')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>                                
                   </td>
-                  </tr>
-				  <% 				 
-				     		
-				     List<Department>  slist = WebUtil.filterDepartmentList(plist,o.getDepartId()); 				                 
-                     if(slist.size()>0){
-                        for(Department so : slist) {%>
-				          <tr class="text-c">
-                                <td class="text-l">&nbsp;&nbsp;&nbsp;├ <%=so.getName()%></td>
-                                <td><%=(Util.isNullOrEmpty(so.getDescription())?"--":so.getDescription())%></td>
-                                <td><%=so.getOrganizationId()%></td>
-                                <td><%=so.getDepartId()%></td>
-                                <td><%=so.getParentId()%></td>
-                                <td><%=so.getSort()%></td>
-                                <td>
-                                    <a title="编辑" href="javascript:;" onclick="department_detail('角色编辑', '<%=basePath%>/department/detail?id=<%=so.getDepartId()%>', '', '310')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-                                    <a title="删除" href="javascript:;" onclick="department_del(this, '<%=so.getDepartId()%>" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
-                                </td>
-                            </tr>				          
-				      <% }}%> 
+                  </tr>					   
                  <% } }%>
 				
 				</tbody>

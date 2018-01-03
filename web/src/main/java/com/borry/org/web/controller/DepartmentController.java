@@ -32,6 +32,7 @@ import com.borry.org.service.RoleService;
 import com.borry.org.service.UserProfileService;
 import com.borry.org.webcomn.RespBody;
 import com.borry.org.webcomn.controller.CRUDController;
+import com.borry.org.webcomn.util.WebUtil;
 
 /**
  * 菜单暂时是写死的
@@ -84,11 +85,11 @@ public class DepartmentController extends CRUDController<Department, Long> {
 		model.put("department",department);		
 		model.put("organizationId", ((orgid!=null&&orgid>0)?orgid:0));
 		List<Filter> filters = new ArrayList<Filter>();
-		filters.add(Filter.eq("parentId", 0));
+		filters.add(Filter.eq("organizationId", orgid));
 		Sort sort = new Sort(Direction.ASC,"sort");		 
-		List<Department> roots = departmentService.findAll(0, 100, filters, sort);		
-		model.put("rootDepartment",roots);	
+		List<Department> departTree  = WebUtil.getDepartmentTree(departmentService.findAll(0, 1000, filters, sort));
 		
+		model.put("departTree",departTree);	
 		
 		return "department/detail";
 	}

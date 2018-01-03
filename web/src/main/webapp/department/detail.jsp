@@ -8,7 +8,7 @@
 <head>
 <%
   String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-  List<Department>  roots = (List<Department>) request.getAttribute("rootDepartment"); 
+  List<Department>  departTree = (List<Department>) request.getAttribute("departTree"); 
   Department p = (Department) request.getAttribute("department");
   if(p==null){ p = new Department();}
   Long orgId = (Long)request.getAttribute("organizationId");
@@ -65,8 +65,8 @@
                     <span class="select-box">
                         <select class="select" id="parentId" name="parentId">                            
                             <option value="0"  <%=(p.getParentId()==0?"selected" : "")%>>顶级分类</option>
-                            <%if (roots != null && roots.size() > 0) {
-                               for(Department o : roots) {%>   
+                            <%if (departTree != null && departTree.size() > 0) {
+                               for(Department o : departTree) {%>   
                                  <option value="<%=o.getDepartId()%>" <%=(p.getParentId()==o.getDepartId()?"selected" : "")%>><%=o.getName()%></option>
                             <%} }%>                     
                         </select>

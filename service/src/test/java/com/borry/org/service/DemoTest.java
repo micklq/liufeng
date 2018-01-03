@@ -93,6 +93,12 @@ public class DemoTest  {
 		d3.setName("深圳");
 		list.add(d3);
 		
+		Department d31 =new Department();
+		d31.setId(6L);
+		d31.setParentId(2L);
+		d31.setName("广州");
+		list.add(d31);
+		
 		Department d4 =new Department();
 		d4.setId(4L);
 		d4.setParentId(1L);
@@ -104,62 +110,34 @@ public class DemoTest  {
 		d5.setParentId(4L);
 		d5.setName("长沙");
 		list.add(d5);
+		Department d51 =new Department();
+		d51.setId(7L);
+		d51.setParentId(4L);
+		d51.setName("武汉");
+		list.add(d51);		
 		
-
+		List<Department> result = getTree(list);
 		
-//		for(long i=1; i<5; i++){
-//			Department d1 =new Department();
-//			d1.setId(i);
-//			d1.setParentId(0);
-//			list.add(d1);
-//			for(long j=1; j<5; j++){
-//				Department d2 =new Department();
-//				d2.setId((i+j+4));
-//				d2.setParentId(i);
-//				list.add(d2);
-//				
-//				for(long jj=1; jj<5; jj++){
-//					Department d3 =new Department();
-//					d3.setId(i+j+jj+4+4);
-//					d3.setParentId(j);
-//					list.add(d3);
-//				}
-//				
-//			}
-//		}
-		
-//		for(Department oo :list){
-//			
-//			System.out.println("id:"+oo.getId()+"======pid:"+oo.getParentId());
-//		}
-		
-		
-		recursion(list);
+		for(Department o :result){
+			
+			System.out.println("rrid:" + o.getId() + "=<<s"+o.getName()+"s>>=rrpid:" + o.getParentId() + "==>depth:"+o.getDepth());
+		}
 	}
 	
-	private void recursion(List<Department> list)
-	{	
-		
-//		for(Department o :list){
-//			
-//			if(o.getParentId()==0){
-//				
-//				System.out.println("rid:" + o.getId() + "=<<"+o.getName()+">>=rpid:" + o.getParentId());
-//			}
-//			else{
-				
-				recursion1(list,0);
-//			}		
-//		}
-		
-	}
 	
-	private void recursion1(List<Department> list ,long pid){
-		for(Department o :list){
+private List<Department> getTree(List<Department> list){		
+	List<Department> result = new  ArrayList<Department>();		
+	 recursion(list,0,0,result);	  
+	 return result;
+ }
+	
+	private void recursion(List<Department> source ,long pid,int depth,List<Department> result){
+		
+		for(Department o :source){
 			if(o.getParentId()==pid ){
-				System.out.println("rrid:" + o.getId() + "=<<s"+o.getName()+"s>>=rrpid:" + o.getParentId());
-				
-				recursion1(list ,o.getId());
+				o.setDepth(depth+1);				
+				result.add(o);
+				recursion(source ,o.getId(),(int)o.getDepth(),result);
 			}			
 		}
 	}
