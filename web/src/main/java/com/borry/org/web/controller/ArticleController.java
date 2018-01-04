@@ -65,7 +65,7 @@ public class ArticleController extends CRUDController<Articles, Long> {
 			for(Articles o :plist.getContent()){
 				ArticlesCategory catagory= articlesCategoryService.find(o.getCategoryId());
 				if(catagory!=null){
-					 o.setCategoryName(catagory.getName());	
+					 o.setCategoryName(catagory.getName());	  //设置栏目名称
 				}			 
 			}				
 		}
