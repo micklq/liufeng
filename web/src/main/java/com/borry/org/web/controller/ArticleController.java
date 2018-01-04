@@ -61,6 +61,15 @@ public class ArticleController extends CRUDController<Articles, Long> {
 		}
 		Sort sort = new Sort(Direction.DESC,"id");
 		Page<Articles> plist = this.findWithPage(page,size,filters,sort);
+		if(plist!=null && plist.getContent()!=null&& plist.getContent().size()>0){
+			for(Articles o :plist.getContent()){
+				ArticlesCategory catagory= articlesCategoryService.find(o.getCategoryId());
+				if(catagory!=null){
+					 o.setCategoryName(catagory.getName());	
+				}			 
+			}				
+		}
+		
 		model.put("plist", plist);
 		
 		List<ArticlesCategory> categoryList = articlesCategoryService.findAll();

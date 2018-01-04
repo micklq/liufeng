@@ -14,7 +14,7 @@
     <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a>
     </nav>
     <div class="page-container">
-        <div class="cl pd-5 bg-1 bk-gray"> <span class="l"> <a class="btn btn-primary radius" href="javascript:;" onclick="category_detail('添加栏目', '/articleCategory/detail', '500', '300')">
+        <div class="cl pd-5 bg-1 bk-gray"> <span class="l"> <a class="btn btn-primary radius" href="javascript:;" onclick="category_detail('添加栏目', '<%=basePath%>/articleCategory/detail', '500', '300')">
             <i class="Hui-iconfont">&#xe600;</i> 添加栏目</a> 
             </span> 
         </div>

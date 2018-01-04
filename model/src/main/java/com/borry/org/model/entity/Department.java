@@ -48,7 +48,8 @@ public class Department extends BaseEntity {
     private String description;  
     
     private long parentId;//父结点id
-    
+	
+    @Transient
     private long depth; //层次深度
     
     private int sort;//排序字段
