@@ -107,9 +107,9 @@
 <script type="text/javascript" src="<%=basePath%>/lib/jquery.validation/1.14.0/messages_zh.js"></script> 
 <script type="text/javascript" src="<%=basePath%>/lib/My97DatePicker/4.8/WdatePicker.js"></script>   
 <script type="text/javascript" src="<%=basePath%>/lib/webuploader/0.1.5/webuploader.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>/lib/ueditor/1.4.3/ueditor.config.js"></script>
-<script type="text/javascript" src="<%=basePath%>/lib/ueditor/1.4.3/ueditor.all.min.js"> </script>
-<script type="text/javascript" src="<%=basePath%>/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>  
+<script type="text/javascript" src="<%=basePath%>/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="<%=basePath%>/ueditor/ueditor.all.min.js"> </script>
+<script type="text/javascript" src="<%=basePath%>/ueditor/lang/zh-cn/zh-cn.js"></script>  
 <script type="text/javascript">
     $(function () {
         var ue = UE.getEditor('editor1');

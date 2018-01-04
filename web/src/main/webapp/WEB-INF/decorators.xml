@@ -7,7 +7,9 @@
         <pattern>/404.html</pattern> 
         <pattern>/404.jsp</pattern> 
         <pattern>/error.jsp</pattern>       
-        <pattern>/files/*</pattern>
+        <pattern>/static/*</pattern>
+        <pattern>/lib/*</pattern>
+        <pattern>/ueditor/*</pattern>
         <pattern>/*Ajax</pattern>
         <pattern>/*ajax</pattern>
         <pattern>/*Ajax?*</pattern>

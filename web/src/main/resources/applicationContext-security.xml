@@ -51,7 +51,8 @@
 	      		/login/loginAjax=anon
 	      		/401.jsp=anon
 	      		/captcha/create=anon	           		
-	      		/download/**=anon	      		
+	      		/download/**=anon	
+	      		/ueditor/** = anon        		
 	      		/index/welcome=authc,riAccess		        
 		        /**=authc,riAccess
 			</value>

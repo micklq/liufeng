@@ -73,7 +73,7 @@
     <!-- user mvc or default-servlet to handle static resources />
     <mvc:resources location="/" mapping="/**"/> -->
     <mvc:default-servlet-handler/>
-
+    <mvc:resources mapping="/ueditor/**" location="/ueditor/" />
     <!-- bean name view resolver -->
     <bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
         <property name="order" value="1"/>
