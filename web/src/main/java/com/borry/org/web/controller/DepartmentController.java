@@ -88,7 +88,17 @@ public class DepartmentController extends CRUDController<Department, Long> {
 		filters.add(Filter.eq("organizationId", orgid));
 		Sort sort = new Sort(Direction.ASC,"sort");		 
 		List<Department> departTree  = WebUtil.getDepartmentTree(departmentService.findAll(0, 1000, filters, sort));
-		
+		if(departTree!=null && departTree.size()>0){
+			for(Department o :departTree){				
+				if(o.getDepth()>1){
+					String pre ="";
+					for(int i=1; i<o.getDepth(); i++){
+					 	pre +="├";
+					}
+					o.setName(pre+o.getName());
+				}
+			}
+		}	
 		model.put("departTree",departTree);	
 		
 		return "department/detail";
