@@ -10,6 +10,7 @@
         <pattern>/static/*</pattern>
         <pattern>/lib/*</pattern>
         <pattern>/ueditor/*</pattern>
+        <pattern>/ueditor/upload/*</pattern>
         <pattern>/*Ajax</pattern>
         <pattern>/*ajax</pattern>
         <pattern>/*Ajax?*</pattern>

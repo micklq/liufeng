@@ -52,7 +52,8 @@
 	      		/401.jsp=anon
 	      		/captcha/create=anon	           		
 	      		/download/**=anon	
-	      		/ueditor/** = anon        		
+	      		/ueditor/** = anon       
+	      		/ueditor/upload/** = anon        	 		
 	      		/index/welcome=authc,riAccess		        
 		        /**=authc,riAccess
 			</value>
