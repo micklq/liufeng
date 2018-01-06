@@ -82,7 +82,7 @@ public class ArticleController extends CRUDController<Articles, Long> {
 	}
 	
 	@RequestMapping("detail")
-	public String detail(@RequestParam(value="id", required=false, defaultValue="0") Long id,ModelMap model){		
+	public String detail(@RequestParam(value="id", required=false, defaultValue="0") Long id,ModelMap model){
 		
 		Articles article = new Articles();
 		if( id>0) {

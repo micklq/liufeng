@@ -1,13 +1,5 @@
 @charset "utf-8";
 /* -----------H-ui前端框架-------------
-* H-ui.css v3.1.5
-* http://www.h-ui.net/
-* Created & Modified by guojunhui
-* Date modified 2017.07.19
-*
-* Copyright 2013-2017 北京颖杰联创科技有限公司 All rights reserved.
-* Licensed under MIT license.
-* http://opensource.org/licenses/MIT
 *
 */
 /*------------------------------------
@@ -273,7 +265,7 @@ body{line-height:1.6; position:relative}
 h1,h2,h3,h4,h5,h6{font-size:100%}
 a,area{outline:none;blr:expression(this.onFocus=this.blur())}
 a{text-decoration:none;cursor: pointer}
-a:hover{text-decoration:underline;outline:none}
+a:hover{text-decoration:none;outline:none}
 a.ie6:hover{zoom:1}
 a:focus{outline:none}
 a:hover,a:active{outline:none}:focus{outline:none}
@@ -302,7 +294,8 @@ input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit
 	Example:		class="clearfix|cl"
 	Explain:		clearfix（简写cl）避免因子元素浮动而导致的父元素高度缺失能问题
 */
-.cl:after,.clearfix:after{content:"\20";display:block;height:0;clear:both;visibility:hidden}.cl,.clearfix{zoom:1}
+.cl:after,.clearfix:after{content:"\20";display:block;height:0;clear:both;visibility:hidden}
+.cl,.clearfix{zoom:1}
 
 /*2.1 栅格系统
 	Name:			style_container
@@ -788,11 +781,11 @@ h6{font-size:12px}
 	<del>带删除线的文本</del>
 	<pre class="prettyprint linenums">预格式化的文本</pre>
 */
-p{margin-bottom:10px}	/*段落*/
+p{margin-bottom:0}	段落*/
 small{font-size:85%}	/*小型文本*/
 b,strong {font-weight: bold}	/*重要的文本，加粗*/
-em{font-style:italic}	/*被强调的文本*/
-i{}	/*斜体*/
+em{font-style:normal}	/*被强调的文本*/
+i{font-style:normal}	/*斜体*/
 u{}	/*加下划线*/
 cite{font-style:normal}	/*引用*/
 mark{color:#000;background:#ff0}/*突出显示文本*/
@@ -1091,7 +1084,7 @@ ul.inline > li,ol.inline > li{display:inline-block;*display:inline;padding-right
 .size-XXL{}/*加大*/
 .size-XXXL{}/*超大*/
 
-.input-text,.btn,.input-text.size-M,.btn.size-M{ font-size:14px; height:31px;*height:auto;line-height:1.42857;padding:4px}/*默认为M，可以不写，可以理解为：均码*/
+.input-text,.btn,.input-text.size-M,.btn.size-M{ font-size:14px; height:28px;*height:auto;line-height:1.42857;padding:4px}/*默认为M，可以不写，可以理解为：均码*/
 a.btn,a.btn.size-M,span.btn,span.btn.size-M{ line-height:21px}
 .btn,.btn.size-M{ padding:4px 12px}
 
@@ -3083,10 +3076,10 @@ H-ui采用Font Awesome 3.2.1的整套图标，因为是图标字体，所以可�
 	Explain: 鼠标经过状态a:hover，当前选中状态li:current。
 */
 /*导航条*/
-.navbar-wrapper{ height: 45px}
+.navbar-wrapper{ height: 90px}
 .navbar{ position:relative; z-index:1030; background-color: #fff}
 .navbar-black{ background-color: #222}
-.navbar-fixed-top{ position:fixed; top:0;left: 0; right: 0; z-index:1030}
+.navbar-fixed-top{ position:fixed; top:0;left: 0; right: 0; height:90px; background:#253b59;  z-index:1030}
 
   /*logo*/
 	.logo{ display:inline-block; text-decoration:none; cursor:pointer; background-repeat: no-repeat; background-position: left center; background-size: auto 100%}
@@ -4070,7 +4063,14 @@ a.label:hover, a.label:focus, a.badge:hover, a.badge:focus{color: #fff;text-deco
   </div>
 </footer>
 */
-.footer{border-top:1px solid #E8E8E8; padding:15px 0;font-family:tahoma,Arial;font-size:12px;color:#999;line-height:22px;text-align:center}
+.footer{
+  padding: 15px 0;
+  background: #253b59;
+  font-family: tahoma,Arial;
+  font-size: 12px;
+  color: #fff;
+  text-align: center;
+}
 .footer a,.footer a:hover{color:#999}
 
 /*4.24 星星评价

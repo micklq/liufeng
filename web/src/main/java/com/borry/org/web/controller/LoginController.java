@@ -48,7 +48,7 @@ public class LoginController {
 			ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 	        HttpSession session = attr.getRequest().getSession(false);	      
 	        //*************************获取系统生成的Captcha*****************************//
-			CaptchaAuthenticationToken token=new CaptchaAuthenticationToken(username, password, null, null, false, null);
+																																																																																																																				CaptchaAuthenticationToken token=new CaptchaAuthenticationToken(username, password, null, null, false, null);
 			
 			sub=SecurityUtils.getSubject();
 			sub.login(token);
