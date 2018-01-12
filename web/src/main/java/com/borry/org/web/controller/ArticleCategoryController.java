@@ -22,6 +22,7 @@ import com.borry.org.base.util.Util;
 import com.borry.org.model.Filter;
 import com.borry.org.model.entity.Articles;
 import com.borry.org.model.entity.ArticlesCategory;
+import com.borry.org.model.entity.Department;
 import com.borry.org.model.entity.Permission;
 import com.borry.org.model.entity.Role;
 import com.borry.org.model.entity.UserPassport;
@@ -32,6 +33,7 @@ import com.borry.org.service.PermissionService;
 import com.borry.org.service.RoleService;
 import com.borry.org.webcomn.RespBody;
 import com.borry.org.webcomn.controller.CRUDController;
+import com.borry.org.webcomn.util.WebUtil;
 
 /**
  * 菜单暂时是写死的
@@ -59,8 +61,22 @@ public class ArticleCategoryController extends CRUDController<ArticlesCategory, 
 	@RequestMapping("index")
 	public String index(@RequestParam(value="page", required=false, defaultValue="1") Integer page,ModelMap model){	
 		
-		 List<ArticlesCategory> list = this.findWithAll();
-		 model.put("list", list); 
+		 //List<ArticlesCategory> list = this.findWithAll();
+		 //model.put("list", list); 
+		 
+		 List<ArticlesCategory> departTree  = WebUtil.getArticlesCategoryTree(this.findWithAll());
+			if(departTree!=null && departTree.size()>0){
+				for(ArticlesCategory o :departTree){				
+					if(o.getDepth()>1){
+						String pre ="";
+						for(int i=1; i<o.getDepth(); i++){
+						 	pre +="├";
+						}
+						o.setName(pre+o.getName());
+					}
+				}
+			}	
+			model.put("list",departTree);	
 		 
 		return "articleCategory/index";
 	}

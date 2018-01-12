@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.borry.org.model.entity.ArticlesCategory;
 import com.borry.org.model.entity.Department;
 import com.borry.org.model.entity.Permission;
 import com.borry.org.model.entity.RolePermission;
@@ -50,6 +51,26 @@ public class WebUtil {
 				o.setDepth(depth+1);				
 				result.add(o);
 				departmentRecursion(source ,o.getId(),(int)o.getDepth(),result);
+			}			
+		}
+	}
+   
+   public static List<ArticlesCategory> getArticlesCategoryTree(List<ArticlesCategory> list){
+	   if(list!=null&&list.size()>0)
+	   {
+		   List<ArticlesCategory> result = new  ArrayList<ArticlesCategory>();		
+		   articlesCategoryRecursion(list,0,0,result);	  
+		   return result;		   
+	   }
+	   return null;
+   }
+   
+   private static void articlesCategoryRecursion(List<ArticlesCategory> source ,long pid,int depth,List<ArticlesCategory> result){
+		for(ArticlesCategory o :source){
+			if(o.getParentId()==pid ){
+				o.setDepth(depth+1);	//在	ArticlesCategory实体中添加这个字段 不生成		
+				result.add(o);
+				articlesCategoryRecursion(source ,o.getId(),(int)o.getDepth(),result);
 			}			
 		}
 	}

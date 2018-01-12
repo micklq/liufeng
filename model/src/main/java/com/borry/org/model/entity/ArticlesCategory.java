@@ -31,6 +31,17 @@ public class ArticlesCategory extends BaseEntity {
 	private long parentId;
 	private int sort;
 	
+	@Transient
+    private long depth; 
+	
+	public long getDepth() {
+		return depth;
+	}
+
+	public void setDepth(long depth) {
+		this.depth = depth;
+	}
+	
 	public long getCategoryId() {
 		return ((this.getId()==null)?0:this.getId());
 	}
@@ -63,6 +74,8 @@ public class ArticlesCategory extends BaseEntity {
 	public void setSort(int sort) {
 		this.sort = sort;
 	}
+
+	
 	
 
 	
