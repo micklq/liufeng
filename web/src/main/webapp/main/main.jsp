@@ -75,7 +75,7 @@
 <div class="menu_dropdown bk_2">
 		<dl>
 			<dt class="cl">
-				<a href="index.html"><span class="sidebar_icon1"></span>
+				<a href="<%=basePath%>/index/welcome"><span class="sidebar_icon1"></span>
 				<em>检查官主页</em>
 				<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></a>
 			</dt>
@@ -90,7 +90,7 @@
 
 		<dl>
 			<dt class="cl">
-				<a href="caseshouli.html"><span class="sidebar_icon9"></span>
+				<a href="<%=basePath%>/anjian/index"><span class="sidebar_icon9"></span>
 				<em>案件受理</em>
 				<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></a>
 			</dt>
