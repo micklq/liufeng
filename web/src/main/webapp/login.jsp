@@ -15,7 +15,7 @@
     <script type="text/javascript" src="lib/html5shiv.js"></script>
     <script type="text/javascript" src="lib/respond.min.js"></script>
     <![endif]-->
-    <link href="<%=basePath%>/static/css/H-ui.min.css" rel="stylesheet" type="text/css" />
+    <link href="<%=basePath%>/static/css/H-ui.css" rel="stylesheet" type="text/css" />
     <link href="<%=basePath%>/static/css/H-ui.login.css" rel="stylesheet" type="text/css" />
     <link href="<%=basePath%>/static/css/style.css" rel="stylesheet" type="text/css" />
     <link href="<%=basePath%>/lib/Hui-iconfont/1.0.8/iconfont.css" rel="stylesheet" type="text/css" />
@@ -27,8 +27,8 @@
     <style type="text/css">
      label.error { right:300px; top:10px;}
     </style>
-<meta name="keywords" content="H-ui.admin v3.0,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
-<meta name="description" content="H-ui.admin v3.0，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+<meta name="keywords" content="网站后台">
+<meta name="description" content="后台系统。">
 </head>
 <body>
 <div class="header"></div>

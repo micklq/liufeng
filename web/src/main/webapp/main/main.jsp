@@ -6,6 +6,7 @@
 <head>
 <%
   String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+  
 %>
 <base href="<%=basePath%>">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -30,8 +31,8 @@
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
 <title><decorator:title default="borry management system"/></title>
-<meta name="keywords" content="载">
-<meta name="description" content="统模版，适合中小型CMS后台系统。">
+<meta name="keywords" content="">
+<meta name="description" content="">
 <!--<decorator:head /> 插入原始页面(被包装页面)的head标签中的内容(不包括head标签本身)。 -->
 </head>
 <body>	
@@ -46,15 +47,15 @@
 
 			<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
 				<ul class="cl">
-					<li class="topicon_4"><a href="#" title="">欢迎您，Sphtsf!</a></li>
-					<li class="topicon_1" id="Hui-msg">
+					<li class="topicon_4"><a href="#" title="">欢迎您，${webUersName}</a></li>
+					<!--  <li class="topicon_1" id="Hui-msg">
 						<a  href="#" title="消息">
 							<span class="badge badge-danger">1</span>
 							消息
 						</a>
-					</li>
+					</li>-->
 					<li class="topicon_2"><a href="#" title="帮助">帮助</a></li>
-					<li class="topicon_3"><a href="#" title="退出">退出</a></li>
+					<li class="topicon_3"><a href="<%=basePath%>/login/logout" title="退出">退出</a></li>
 
 
 

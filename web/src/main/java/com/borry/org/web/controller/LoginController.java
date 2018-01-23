@@ -74,6 +74,7 @@ public class LoginController {
 		} finally{}
 		
 		Principal p=(Principal)sub.getPrincipal();
+				
 		U.setAttribute(Constants.SESSION_WEB_UID, p.getPassportid());	
         U.setAttribute(Constants.SESSION_WEB_UNAME, p.getUsername());
     	U.setAttribute(Constants.SESSION_WEB_RID, p.getRoleid());    	
