@@ -48,8 +48,15 @@ public class OrganizationController extends CRUDController<Organization, Long> {
 		this.baseService = baseService;		
 	}
 	
+	
 	@RequestMapping("index")
-	public String index(ModelMap model){			
+	public String index(ModelMap model){	
+		 
+		return "organization/index";
+	}
+	
+	@RequestMapping("index1")
+	public String index1(ModelMap model){			
 	
 		 
 		 int dataCount = (int)organizationService.count();
@@ -89,7 +96,7 @@ public class OrganizationController extends CRUDController<Organization, Long> {
 	    }
 		model.put("list", rlist);			
 		 
-		return "organization/index";
+		return "organization/index1";
 	}
 	
 	@RequestMapping("detail")

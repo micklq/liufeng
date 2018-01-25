@@ -6,18 +6,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * 案件受理
+ * 帮扶对象
  * @author mick
  *
  */
 @Controller
-@RequestMapping("anjian")
-public class AnJianController {
+@RequestMapping("zixun")
+public class ZiXunController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(AnJianController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ZiXunController.class);
 	
 	@RequestMapping("index")
 	public String index(){		
-		return "anjian/index";
+		return "zixun/index";
 	}
 }
