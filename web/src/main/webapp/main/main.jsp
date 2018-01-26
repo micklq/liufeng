@@ -110,7 +110,7 @@
 
 		<dl>
 			<dt class="cl">
-				<a href="helpobjects.html">
+				<a href="<%=basePath%>/bangfu/index">
 					<span class="sidebar_icon3"></span>
 					<em>帮扶对象</em>
 					<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
@@ -121,7 +121,7 @@
 
 		<dl>
 			<dt class="cl">
-				<a href="caseshouli.html">
+				<a href="<%=basePath%>/bangfutask/index">
 					<span class="sidebar_icon4"></span>
 					<em>帮扶任务库</em>
 					<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
@@ -132,7 +132,7 @@
 
 		<dl>
 			<dt class="cl">
-				<a href="keyprotection.html">
+				<a href="<%=basePath%>/guanhu/index">
 					<span class="sidebar_icon5"></span>
 					<em>重点观护</em>
 					<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
@@ -143,7 +143,7 @@
 
 		<dl>
 			<dt class="cl">
-				<a href="alarmwarning.html">
+				<a href="<%=basePath%>/jingqing/index">
 					<span class="sidebar_icon6"></span>
 					<em>警情警讯</em>
 					<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
@@ -154,7 +154,7 @@
 
 		<dl>
 			<dt class="cl">
-				<a href="prevention.html">
+				<a href="<%=basePath%>/yufangdata/index">
 					<span class="sidebar_icon7"></span>
 					<em>预防大数据</em>
 					<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
@@ -223,8 +223,7 @@
 <script type="text/javascript" src="<%=basePath%>/lib/jquery/1.9.1/jquery.min.js"></script> 
 <script type="text/javascript" src="<%=basePath%>/lib/layer/2.4/layer.js"></script>
 <script type="text/javascript" src="<%=basePath%>/static/js/H-ui.js"></script>
-<script type="text/javascript" src="<%=basePath%>/static/js/H-ui.admin.page.js"></script> <!--/_footer 作为公共模版分离出去-->
-
-
+<script type="text/javascript" src="<%=basePath%>/static/js/H-ui.admin.page.js"></script> 
+<!--/_footer 作为公共模版分离出去-->
 </body>
 </html>
