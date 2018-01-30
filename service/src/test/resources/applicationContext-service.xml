@@ -22,12 +22,21 @@
 	http://www.springframework.org/schema/jee
 	http://www.springframework.org/schema/jee/spring-jee.xsd" 
     default-lazy-init="false" default-autowire="byName"  default-init-method="init">
+    <import resource="classpath*:applicationContext-data.xml" />
    <!--<import resource="classpath*:applicationContext-kafka.xml" />--> 
     <context:component-scan base-package="com.borry.org.service" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
         <context:include-filter type="annotation" expression="javax.annotation.Resource" />
-    </context:component-scan> 
-	
+    </context:component-scan>  
+    <!--
+	<cache:annotation-driven cache-manager="cacheManagerService" />  
+    <bean id="cacheManagerService" class="org.springframework.cache.ehcache.EhCacheCacheManager">  
+        <property name="cacheManager" ref="ehcacheService"></property>  
+    </bean>  
+    <bean id="ehcacheService" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">  
+        <property name="configLocation" value="classpath:ehcache.xml"></property>  
+    </bean> 
+	 -->
 </beans>

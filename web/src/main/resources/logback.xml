@@ -9,10 +9,10 @@
     </appender>
     <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
     <appender name="FILE"  class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>../logs/web.log</file>
+        <file>../logs/webadmin.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- rollover daily -->
-            <fileNamePattern>../logs/web%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>../logs/webadmin%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <!-- or whenever the file size reaches 15MB -->
                 <maxFileSize>15MB</maxFileSize>

@@ -29,12 +29,13 @@
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
         <context:include-filter type="annotation" expression="javax.annotation.Resource" />
     </context:component-scan>  
-	<cache:annotation-driven cache-manager="cacheManager" />  
-    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">  
-        <property name="cacheManager" ref="ehcache"></property>  
+    <!-- 
+	<cache:annotation-driven cache-manager="cacheManager1" />  
+    <bean id="cacheManager1" class="org.springframework.cache.ehcache.EhCacheCacheManager">  
+        <property name="cacheManager" ref="ehcache1"></property>  
     </bean>  
-    <bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">  
+    <bean id="ehcache1" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">  
         <property name="configLocation" value="classpath:ehcache.xml"></property>  
     </bean> 
-	
+	 -->
 </beans>
